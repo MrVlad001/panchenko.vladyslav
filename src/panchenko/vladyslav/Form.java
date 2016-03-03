@@ -170,13 +170,13 @@ public final class Form extends JFrame implements ActionListener, ChangeListener
             FiltrSplotUnsharpMask splotUM = new FiltrSplotUnsharpMask(this);
             splotUM.setVisible(true);
         } else if (evt == min) {
-            FiltrMinimum filtrMinimum = new FiltrMinimum(this);
+            FiltrMinimu filtrMinimum = new FiltrMinimu(this);
             filtrMinimum.setVisible(true);
         } else if (evt == max) {
-            FiltrMaksimum filtrMaksimum = new FiltrMaksimum(this);
+            FiltrMaksimu filtrMaksimum = new FiltrMaksimu(this);
             filtrMaksimum.setVisible(true);
         } else if (evt == mediana) {
-            FiltrMediana filtrMediana = new FiltrMediana(this);
+            FiltrMedian filtrMediana = new FiltrMedian(this);
             filtrMediana.setVisible(true);
         } else if (evt == fourierRealis) {
             FourierDialog fd = new FourierDialog(this, 0);

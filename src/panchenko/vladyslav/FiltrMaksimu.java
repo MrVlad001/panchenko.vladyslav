@@ -9,11 +9,11 @@ import javax.swing.JFrame;
  *
  * @author Vladyslav
  */
-public class FiltrMaksimum extends FiltrPanel implements KeyListener {
+public class FiltrMaksimu extends FiltrPanel implements KeyListener {
 
     private int wypelnijValue = 1;
 
-    public FiltrMaksimum(JFrame parent) {
+    public FiltrMaksimu(JFrame parent) {
         super(parent, "Filtr maksimum", 1, 0);
         polaLabels[0].setText("Wypełnij");
         polaFileds[0].setText("");
