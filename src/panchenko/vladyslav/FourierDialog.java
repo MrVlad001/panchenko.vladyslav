@@ -18,7 +18,7 @@ public class FourierDialog extends JDialog {
         setNaglowek(type);
         setSize(Image.image.getWidth() + 16, Image.image.getHeight() + 38);
         panelek = new ImageFourier();
-        ImageFourier.image = Form.duplikujObraz(Image.image);
+        ImageFourier.image = Form.duplicateImage(Image.image);
         add(panelek);
         tf.tf(type);
     }

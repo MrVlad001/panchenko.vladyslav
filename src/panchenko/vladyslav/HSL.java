@@ -48,7 +48,7 @@ public class HSL extends SlidersPanel {
     }
 
     private void konwertujDoHSL() {
-        Form.przywrocObraz();
+        Form.restoreImage();
         double rU, gU, bU, min, max, dM, l2;
         for (int x = 0; x < Image.image.getWidth(); x++) {
             for (int y = 0; y < Image.image.getHeight(); y++) {

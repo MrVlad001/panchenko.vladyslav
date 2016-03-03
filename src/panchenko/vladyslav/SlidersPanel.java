@@ -72,7 +72,7 @@ public abstract class SlidersPanel extends JDialog implements ChangeListener {
     @Override
     public void stateChanged(ChangeEvent ce) {
         if (constructorFlag) {
-            Form.przywrocObraz();
+            Form.restoreImage();
             setSliderValuesLabels();
             sliderAction();
             Form.refresh();

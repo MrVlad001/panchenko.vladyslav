@@ -233,7 +233,7 @@ public class FiltrPanel extends JDialog implements ChangeListener, ActionListene
     public void actionPerformed(ActionEvent ae) {
         Object evt = ae.getSource();
         if (evt == filtrujButton) {
-            Form.przywrocObraz();
+            Form.restoreImage();
             wartosciMaski = new double[rozmMaski][rozmMaski];
             if (wymMaski == 2) {
                 setSumaMaski2D();

@@ -29,24 +29,24 @@ public final class Form extends JFrame implements ActionListener, ChangeListener
 
     public static JPanel panel;
     private JMenuBar menu = new JMenuBar();
-    private JMenu plikMenu = new JMenu("File");
-    private JMenuItem otworz = new JMenuItem("Open");
+    private JMenu menuFile = new JMenu("File");
+    private JMenuItem open = new JMenuItem("Open");
     private JMenuItem lena = new JMenuItem("Test");
-    private JMenuItem wyjscie = new JMenuItem("Exit");
-    private JMenu kolorMenu = new JMenu("Color");
-    private JMenuItem jasKonGam = new JMenuItem("Brightness / Contrast / Gamma");
-    private JMenuItem histogramy = new JMenuItem("Histogramy");
-    private JMenu konwersjaMenu = new JMenu("Konwersja");
-    private JMenuItem konwersjaCMYK = new JMenuItem("RGB ↔ CMYK");
-    private JMenuItem konwersjaHSL = new JMenuItem("RGB ↔ HSL");
-    private JMenuItem konwersjaLab = new JMenuItem("RGB ↔ L*a*b*");
-    private JMenuItem konwersjaLuv = new JMenuItem("RGB ↔ L*u*v*");
-    private JMenu filtryMenu = new JMenu("Filtry");
+    private JMenuItem exit = new JMenuItem("Exit");
+    private JMenu colorMenu = new JMenu("Color");
+    private JMenuItem BCG = new JMenuItem("Brightness / Contrast / Gamma");
+    private JMenuItem histogram = new JMenuItem("Histogramy");
+    private JMenu menuConversion = new JMenu("Konwersja");
+    private JMenuItem CMYKconversion = new JMenuItem("RGB ↔ CMYK");
+    private JMenuItem HSLconversion = new JMenuItem("RGB ↔ HSL");
+    private JMenuItem LabConversion = new JMenuItem("RGB ↔ L*a*b*");
+    private JMenuItem LuvConversion = new JMenuItem("RGB ↔ L*u*v*");
+    private JMenu menuFiltr = new JMenu("Filtry");
     private JMenuItem splot = new JMenuItem("Splot");
     private JMenuItem gauss = new JMenuItem("Splot Gaussa");
     private JMenuItem unsharpmask = new JMenuItem("Splot Unsharp Mask");
-    private JMenuItem minimum = new JMenuItem("Minimum");
-    private JMenuItem maksimum = new JMenuItem("Maksimum");
+    private JMenuItem min = new JMenuItem("Minimum");
+    private JMenuItem max = new JMenuItem("Maksimum");
     private JMenuItem mediana = new JMenuItem("Mediana");
     private JMenu fourierMenu = new JMenu("Fourier");
     private JMenuItem fourierRealis = new JMenuItem("Realis");
@@ -62,49 +62,49 @@ public final class Form extends JFrame implements ActionListener, ChangeListener
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setJMenuBar(menu);
 
-        JMenuItem[] plikItems = new JMenuItem[3];
-        plikItems[0] = otworz;
-        plikItems[1] = lena;
-        plikItems[2] = wyjscie;
-        dodajDoMenu(plikMenu, plikItems);
+        JMenuItem[] fileItems = new JMenuItem[3];
+        fileItems[0] = open;
+        fileItems[1] = lena;
+        fileItems[2] = exit;
+        addToMenu(menuFile, fileItems);
 
-        JMenuItem[] kolorItems = new JMenuItem[2];
-        kolorItems[0] = jasKonGam;
-        kolorItems[1] = histogramy;
-        dodajDoMenu(kolorMenu, kolorItems);
+        JMenuItem[] colorItems = new JMenuItem[2];
+        colorItems[0] = BCG;
+        colorItems[1] = histogram;
+        addToMenu(colorMenu, colorItems);
 
-        JMenuItem[] konwersjaItems = new JMenuItem[4];
-        konwersjaItems[0] = konwersjaCMYK;
-        konwersjaItems[1] = konwersjaHSL;
-        konwersjaItems[2] = konwersjaLab;
-        konwersjaItems[3] = konwersjaLuv;
-        dodajDoMenu(konwersjaMenu, konwersjaItems);
+        JMenuItem[] conversionItems = new JMenuItem[4];
+        conversionItems[0] = CMYKconversion;
+        conversionItems[1] = HSLconversion;
+        conversionItems[2] = LabConversion;
+        conversionItems[3] = LuvConversion;
+        addToMenu(menuConversion, conversionItems);
 
-        JMenuItem[] filtryItems = new JMenuItem[6];
-        filtryItems[0] = splot;
-        filtryItems[1] = gauss;
-        filtryItems[2] = unsharpmask;
-        filtryItems[3] = minimum;
-        filtryItems[4] = maksimum;
-        filtryItems[5] = mediana;
-        dodajDoMenu(filtryMenu, filtryItems);
+        JMenuItem[] filtrItems = new JMenuItem[6];
+        filtrItems[0] = splot;
+        filtrItems[1] = gauss;
+        filtrItems[2] = unsharpmask;
+        filtrItems[3] = min;
+        filtrItems[4] = max;
+        filtrItems[5] = mediana;
+        addToMenu(menuFiltr, filtrItems);
 
         JMenuItem[] fourierItems = new JMenuItem[4];
         fourierItems[0] = fourierRealis;
         fourierItems[1] = fourierImaginalis;
         fourierItems[2] = fourierSpektrum;
         fourierItems[3] = fourierFaza;
-        dodajDoMenu(fourierMenu, fourierItems);
+        addToMenu(fourierMenu, fourierItems);
 
         panel = new Image();
         add(panel);
     }
 
-    private void dodajDoMenu(JMenu menu, JMenuItem[] pozycje) {
+    private void addToMenu(JMenu menu, JMenuItem[] position) {
         this.menu.add(menu);
-        for(int i = 0; i < pozycje.length; i++) {
-            menu.add(pozycje[i]);
-            pozycje[i].addActionListener(this);
+        for(int i = 0; i < position.length; i++) {
+            menu.add(position[i]);
+            position[i].addActionListener(this);
         }
     }
 
@@ -113,7 +113,7 @@ public final class Form extends JFrame implements ActionListener, ChangeListener
         Object evt = ae.getSource();
         File file;
 
-        if (evt == otworz) {
+        if (evt == open) {
             JFileChooser search = new JFileChooser();
             FileFilter imageFilter = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
             search.setFileFilter(imageFilter);
@@ -122,7 +122,7 @@ public final class Form extends JFrame implements ActionListener, ChangeListener
                 try {
                     Image.imagePath = file.getPath();
                     Image.image = ImageIO.read(file);
-                    imageOrigin = duplikujObraz(Image.image);
+                    imageOrigin = duplicateImage(Image.image);
                     setSize(Form.imageOrigin.getWidth() + 16, Form.imageOrigin.getHeight() + 61);
                     this.repaint();
                 } catch (IOException e) {
@@ -134,30 +134,30 @@ public final class Form extends JFrame implements ActionListener, ChangeListener
                 file = new File("data/lena.bmp");
                 Image.imagePath = file.getPath();
                 Image.image = ImageIO.read(file);
-                imageOrigin = duplikujObraz(Image.image);
+                imageOrigin = duplicateImage(Image.image);
                 setSize(Form.imageOrigin.getWidth() + 16, Form.imageOrigin.getHeight() + 61);
                 this.repaint();
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, "Сan't read file", "Error", 0);
         }
-        } else if (evt == wyjscie) {
+        } else if (evt == exit) {
             dispose();
-        } else if (evt == jasKonGam) {
+        } else if (evt == BCG) {
             JasnoscKontrastGamma jkg = new JasnoscKontrastGamma(this);
             jkg.setVisible(true);
-        } else if (evt == histogramy) {
+        } else if (evt == histogram) {
             HistogramDialog hist = new HistogramDialog(this);
             hist.setVisible(true);
-        } else if (evt == konwersjaCMYK) {
+        } else if (evt == CMYKconversion) {
             CMYK CMYKdialog = new CMYK(this);
             CMYKdialog.setVisible(true);
-        } else if (evt == konwersjaHSL) {
+        } else if (evt == HSLconversion) {
             HSL HSLdialog = new HSL(this);
             HSLdialog.setVisible(true);
-        } else if (evt == konwersjaLab) {
+        } else if (evt == LabConversion) {
             Lab LabDialog = new Lab(this, 0);
             LabDialog.setVisible(true);
-        } else if (evt == konwersjaLuv) {
+        } else if (evt == LuvConversion) {
             Luv LuvDialog = new Luv(this);
             LuvDialog.setVisible(true);
         } else if (evt == splot) {
@@ -169,10 +169,10 @@ public final class Form extends JFrame implements ActionListener, ChangeListener
         } else if (evt == unsharpmask) {
             FiltrSplotUnsharpMask splotUM = new FiltrSplotUnsharpMask(this);
             splotUM.setVisible(true);
-        } else if (evt == minimum) {
+        } else if (evt == min) {
             FiltrMinimum filtrMinimum = new FiltrMinimum(this);
             filtrMinimum.setVisible(true);
-        } else if (evt == maksimum) {
+        } else if (evt == max) {
             FiltrMaksimum filtrMaksimum = new FiltrMaksimum(this);
             filtrMaksimum.setVisible(true);
         } else if (evt == mediana) {
@@ -202,21 +202,21 @@ public final class Form extends JFrame implements ActionListener, ChangeListener
     public void stateChanged(ChangeEvent ce) {
         this.repaint();
     }
-
-    public static void przywrocObraz() {
+    // Przywroc obrazek
+    public static void restoreImage() {
         ColorModel model = Form.imageOrigin.getColorModel();
         boolean isAlphaPremultiplied = model.isAlphaPremultiplied();
         WritableRaster r = Form.imageOrigin.copyData(null);
         Image.image = new BufferedImage(model, r, isAlphaPremultiplied, null);
     }
-
-    public static BufferedImage duplikujObraz(BufferedImage image) {
+    // Dublikuj obrazek
+    public static BufferedImage duplicateImage(BufferedImage image) {
         ColorModel model = image.getColorModel();
         boolean isAlphaPremultiplied = model.isAlphaPremultiplied();
         WritableRaster r = image.copyData(null);
         return new BufferedImage(model, r, isAlphaPremultiplied, null);
     }
-
+    // Odśwież
     public static void refresh() {
         panel.setSize(Image.image.getWidth() + 16, Image.image.getHeight() + 61);
         panel.repaint();
