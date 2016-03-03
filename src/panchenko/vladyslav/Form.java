@@ -173,7 +173,7 @@ public final class Form extends JFrame implements ActionListener, ChangeListener
             FiltrMinimu filtrMinimum = new FiltrMinimu(this);
             filtrMinimum.setVisible(true);
         } else if (evt == max) {
-            FiltrMaksimu filtrMaksimum = new FiltrMaksimu(this);
+            Maximum filtrMaksimum = new Maximum(this);
             filtrMaksimum.setVisible(true);
         } else if (evt == mediana) {
             FiltrMedian filtrMediana = new FiltrMedian(this);
