@@ -149,7 +149,7 @@ public final class Form extends JFrame implements ActionListener, ChangeListener
             HistogramDialog hist = new HistogramDialog(this);
             hist.setVisible(true);
         } else if (evt == konwersjaCMYK) {
-            KonwersjaCMYK CMYKdialog = new KonwersjaCMYK(this);
+            CMYK CMYKdialog = new CMYK(this);
             CMYKdialog.setVisible(true);
         } else if (evt == konwersjaHSL) {
             KonwersjaHSL HSLdialog = new KonwersjaHSL(this);

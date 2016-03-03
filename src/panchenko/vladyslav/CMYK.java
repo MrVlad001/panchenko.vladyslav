@@ -7,7 +7,7 @@ import javax.swing.JFrame;
  *
  * @author Vladyslav
  */
-public class KonwersjaCMYK extends SuwakiPanel {
+public class CMYK extends SuwakiPanel {
 
     private int szerokoscObrazka = Obraz.image.getWidth();
     private int wysokoscObrazka = Obraz.image.getHeight();
@@ -16,7 +16,7 @@ public class KonwersjaCMYK extends SuwakiPanel {
     private double[][] yellow = new double[szerokoscObrazka][wysokoscObrazka];
     private double[][] black = new double[szerokoscObrazka][wysokoscObrazka];
 
-    public KonwersjaCMYK(JFrame parent) {
+    public CMYK(JFrame parent) {
         super(parent, "Konwersja CMYK", 4);
         suwakiLabels[0].setText("CYJAN");
         suwakiLabels[1].setText("MAGENTA");
