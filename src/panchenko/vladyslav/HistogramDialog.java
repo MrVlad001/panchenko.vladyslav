@@ -45,7 +45,7 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
     private int[] suwakiValues = new int[4];
     private int aktywnyHist = -1;
     private double[] daneKulminacyjne = new double[256];
-    private double stala = 255.0 / (Obraz.image.getWidth() * Obraz.image.getHeight());
+    private double stala = 255.0 / (Image.image.getWidth() * Image.image.getHeight());
 
     public HistogramDialog(Frame frame) {
         super(frame, "Histogram", false);
@@ -223,48 +223,48 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
             daneKulminacyjne[i] = Histogram.dane[i] + daneKulminacyjne[i - 1];
         }
         if (aktywnyHist == 0) {
-            for (int x = 0; x < Obraz.image.getWidth(); x++) {
-                for (int y = 0; y < Obraz.image.getHeight(); y++) {
-                    int rgb = Obraz.image.getRGB(x, y);
+            for (int x = 0; x < Image.image.getWidth(); x++) {
+                for (int y = 0; y < Image.image.getHeight(); y++) {
+                    int rgb = Image.image.getRGB(x, y);
                     Color color = new Color(rgb, true);
                     int r = obetnij256((int) (stala * daneKulminacyjne[color.getRed()]));
                     int g = color.getGreen();
                     int b = color.getBlue();
                     rgb = jrgb(r, g, b);
-                    Obraz.image.setRGB(x, y, rgb);
+                    Image.image.setRGB(x, y, rgb);
                 }
             }
             odswiezHistogram();
         } else if (aktywnyHist == 1) {
-            for (int x = 0; x < Obraz.image.getWidth(); x++) {
-                for (int y = 0; y < Obraz.image.getHeight(); y++) {
-                    int rgb = Obraz.image.getRGB(x, y);
+            for (int x = 0; x < Image.image.getWidth(); x++) {
+                for (int y = 0; y < Image.image.getHeight(); y++) {
+                    int rgb = Image.image.getRGB(x, y);
                     Color color = new Color(rgb, true);
                     int r = color.getRed();
                     int g = obetnij256((int) (stala * daneKulminacyjne[color.getGreen()]));
                     int b = color.getBlue();
                     rgb = jrgb(r, g, b);
-                    Obraz.image.setRGB(x, y, rgb);
+                    Image.image.setRGB(x, y, rgb);
                 }
             }
             odswiezHistogram();
         } else if (aktywnyHist == 2) {
-            for (int x = 0; x < Obraz.image.getWidth(); x++) {
-                for (int y = 0; y < Obraz.image.getHeight(); y++) {
-                    int rgb = Obraz.image.getRGB(x, y);
+            for (int x = 0; x < Image.image.getWidth(); x++) {
+                for (int y = 0; y < Image.image.getHeight(); y++) {
+                    int rgb = Image.image.getRGB(x, y);
                     Color color = new Color(rgb, true);
                     int r = color.getRed();
                     int g = color.getGreen();
                     int b = obetnij256((int) (stala * daneKulminacyjne[color.getBlue()]));
                     rgb = jrgb(r, g, b);
-                    Obraz.image.setRGB(x, y, rgb);
+                    Image.image.setRGB(x, y, rgb);
                 }
             }
             odswiezHistogram();
         } else if (aktywnyHist == 3) {
-            for (int x = 0; x < Obraz.image.getWidth(); x++) {
-                for (int y = 0; y < Obraz.image.getHeight(); y++) {
-                    int rgb = Obraz.image.getRGB(x, y);
+            for (int x = 0; x < Image.image.getWidth(); x++) {
+                for (int y = 0; y < Image.image.getHeight(); y++) {
+                    int rgb = Image.image.getRGB(x, y);
                     Color color = new Color(rgb, true);
                     int r = color.getRed();
                     int g = color.getGreen();
@@ -275,7 +275,7 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                     g = obetnij256((int) (wspolczynnik * g));
                     b = obetnij256((int) (wspolczynnik * b));
                     rgb = jrgb(r, g, b);
-                    Obraz.image.setRGB(x, y, rgb);
+                    Image.image.setRGB(x, y, rgb);
                 }
             }
             odswiezHistogram();
@@ -285,48 +285,48 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
 
     private void skaluj() {
         if (aktywnyHist == 0) {
-            for (int x = 0; x < Obraz.image.getWidth(); x++) {
-                for (int y = 0; y < Obraz.image.getHeight(); y++) {
-                    int rgb = Obraz.image.getRGB(x, y);
+            for (int x = 0; x < Image.image.getWidth(); x++) {
+                for (int y = 0; y < Image.image.getHeight(); y++) {
+                    int rgb = Image.image.getRGB(x, y);
                     Color color = new Color(rgb, true);
                     int r = obetnij256((int) ((color.getRed() - suwakiValues[0]) * (suwakiValues[3] - suwakiValues[2]) / (suwakiValues[1] - suwakiValues[0]) + suwakiValues[2]));
                     int g = color.getGreen();
                     int b = color.getBlue();
                     rgb = jrgb(r, g, b);
-                    Obraz.image.setRGB(x, y, rgb);
+                    Image.image.setRGB(x, y, rgb);
                 }
             }
             odswiezHistogram();
         } else if (aktywnyHist == 1) {
-            for (int x = 0; x < Obraz.image.getWidth(); x++) {
-                for (int y = 0; y < Obraz.image.getHeight(); y++) {
-                    int rgb = Obraz.image.getRGB(x, y);
+            for (int x = 0; x < Image.image.getWidth(); x++) {
+                for (int y = 0; y < Image.image.getHeight(); y++) {
+                    int rgb = Image.image.getRGB(x, y);
                     Color color = new Color(rgb, true);
                     int r = color.getRed();
                     int g = obetnij256((int) ((color.getGreen() - suwakiValues[0]) * (suwakiValues[3] - suwakiValues[2]) / (suwakiValues[1] - suwakiValues[0]) + suwakiValues[2]));
                     int b = color.getBlue();
                     rgb = jrgb(r, g, b);
-                    Obraz.image.setRGB(x, y, rgb);
+                    Image.image.setRGB(x, y, rgb);
                 }
             }
             odswiezHistogram();
         } else if (aktywnyHist == 2) {
-            for (int x = 0; x < Obraz.image.getWidth(); x++) {
-                for (int y = 0; y < Obraz.image.getHeight(); y++) {
-                    int rgb = Obraz.image.getRGB(x, y);
+            for (int x = 0; x < Image.image.getWidth(); x++) {
+                for (int y = 0; y < Image.image.getHeight(); y++) {
+                    int rgb = Image.image.getRGB(x, y);
                     Color color = new Color(rgb, true);
                     int r = color.getRed();
                     int g = color.getGreen();
                     int b = obetnij256((int) ((color.getBlue() - suwakiValues[0]) * (suwakiValues[3] - suwakiValues[2]) / (suwakiValues[1] - suwakiValues[0]) + suwakiValues[2]));
                     rgb = jrgb(r, g, b);
-                    Obraz.image.setRGB(x, y, rgb);
+                    Image.image.setRGB(x, y, rgb);
                 }
             }
             odswiezHistogram();
         } else if (aktywnyHist == 3) {
-            for (int x = 0; x < Obraz.image.getWidth(); x++) {
-                for (int y = 0; y < Obraz.image.getHeight(); y++) {
-                    int rgb = Obraz.image.getRGB(x, y);
+            for (int x = 0; x < Image.image.getWidth(); x++) {
+                for (int y = 0; y < Image.image.getHeight(); y++) {
+                    int rgb = Image.image.getRGB(x, y);
                     Color color = new Color(rgb, true);
                     int r = color.getRed();
                     int g = color.getGreen();
@@ -337,7 +337,7 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                     g = obetnij256((int) (wspolczynnik * g));
                     b = obetnij256((int) (wspolczynnik * b));
                     rgb = jrgb(r, g, b);
-                    Obraz.image.setRGB(x, y, rgb);
+                    Image.image.setRGB(x, y, rgb);
                 }
             }
             odswiezHistogram();

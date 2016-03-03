@@ -11,14 +11,14 @@ import javax.swing.JPanel;
 public class FourierDialog extends JDialog {
 
     private JPanel panelek;
-    private TransformataFouriera tf = new TransformataFouriera();
+    private Fourier tf = new Fourier();
 
     public FourierDialog(JFrame parent, int type) {
         super(parent, "Fourier", false);
         setNaglowek(type);
-        setSize(Obraz.image.getWidth() + 16, Obraz.image.getHeight() + 38);
-        panelek = new ObrazFourier();
-        ObrazFourier.image = Form.duplikujObraz(Obraz.image);
+        setSize(Image.image.getWidth() + 16, Image.image.getHeight() + 38);
+        panelek = new ImageFourier();
+        ImageFourier.image = Form.duplikujObraz(Image.image);
         add(panelek);
         tf.tf(type);
     }

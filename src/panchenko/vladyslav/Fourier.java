@@ -6,10 +6,10 @@ import java.awt.Color;
  *
  * @author Vladyslav
  */
-public class TransformataFouriera {
+public class Fourier {
 
-    private int W = Obraz.image.getWidth();
-    private int H = Obraz.image.getHeight();
+    private int W = Image.image.getWidth();
+    private int H = Image.image.getHeight();
     private Complex[] rIn = new Complex[W * H];
     private Complex[] gIn = new Complex[W * H];
     private Complex[] bIn = new Complex[W * H];
@@ -20,7 +20,7 @@ public class TransformataFouriera {
     public void tf(int type) {
         for (int x = 0; x < W; x++) {
             for (int y = 0; y < H; y++) {
-                int rgb = Obraz.image.getRGB(x, y);
+                int rgb = Image.image.getRGB(x, y);
                 Color color = new Color(rgb, true);
                 int r = color.getRed();
                 int g = color.getGreen();
@@ -54,7 +54,7 @@ public class TransformataFouriera {
                 int y = i % H;
                 int x = i / H;
                 int rgb = jrgb(erase256((int) rOut[i].re()), erase256((int) gOut[i].re()), erase256((int) bOut[i].re()));
-                ObrazFourier.image.setRGB(x, y, rgb);
+                ImageFourier.image.setRGB(x, y, rgb);
             }
         } else if (type == 1) {
             //imaginalis
@@ -62,7 +62,7 @@ public class TransformataFouriera {
                 int y = i % H;
                 int x = i / H;
                 int rgb = jrgb(erase256((int) rOut[i].im()), erase256((int) gOut[i].im()), erase256((int) bOut[i].im()));
-                ObrazFourier.image.setRGB(x, y, rgb);
+                ImageFourier.image.setRGB(x, y, rgb);
             }
         } else if (type == 2) {
             //spektrum
@@ -70,7 +70,7 @@ public class TransformataFouriera {
                 int y = i % H;
                 int x = i / H;
                 int rgb = jrgb(erase256((int) rOut[i].abs()), erase256((int) gOut[i].abs()), erase256((int) bOut[i].abs()));
-                ObrazFourier.image.setRGB(x, y, rgb);
+                ImageFourier.image.setRGB(x, y, rgb);
             }
         } else if (type == 3) {
             //faza
@@ -92,7 +92,7 @@ public class TransformataFouriera {
                 int y = i % H;
                 int x = i / H;
                 int rgb = jrgb(erase256((int) red[i]), erase256((int) green[i]), erase256((int) blue[i]));
-                ObrazFourier.image.setRGB(x, y, rgb);
+                ImageFourier.image.setRGB(x, y, rgb);
             }
         }
     }

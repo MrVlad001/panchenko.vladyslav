@@ -58,13 +58,13 @@ public class FiltrMaksimum extends FiltrPanel implements KeyListener {
                     maska[j][i].setText("" + tmp);
                 }
             }
-            for (int x = 0; x < Obraz.image.getWidth(); x++) {
-                for (int y = 0; y < Obraz.image.getHeight(); y++) {
+            for (int x = 0; x < Image.image.getWidth(); x++) {
+                for (int y = 0; y < Image.image.getHeight(); y++) {
                     obliczPixel(x, y);
                 }
             }
         } else {
-            Obraz.wypelnij(255);
+            Image.wypelnij(255);
         }
     }
     
@@ -86,7 +86,7 @@ public class FiltrMaksimum extends FiltrPanel implements KeyListener {
             }
         }
         rgb = jrgb(obetnij256(maxR), obetnij256(maxG), obetnij256(maxB));
-        Obraz.image.setRGB(x, y, rgb);
+        Image.image.setRGB(x, y, rgb);
     }
     
     public static int jrgb(int r, int g, int b) {

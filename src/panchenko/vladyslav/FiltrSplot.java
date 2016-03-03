@@ -56,8 +56,8 @@ public class FiltrSplot extends FiltrPanel {
     @Override
     protected void filtrujButton() {
         polaFileds[0].setText("");
-        for (int x = 0; x < Obraz.image.getWidth(); x++) {
-            for (int y = 0; y < Obraz.image.getHeight(); y++) {
+        for (int x = 0; x < Image.image.getWidth(); x++) {
+            for (int y = 0; y < Image.image.getHeight(); y++) {
                 obliczPixel(x, y);
             }
         }
@@ -121,6 +121,6 @@ public class FiltrSplot extends FiltrPanel {
         b /= sumaMaska;
 
         rgb = jrgb(obetnij256((int) r), obetnij256((int) g), obetnij256((int) b));
-        Obraz.image.setRGB(x, y, rgb);
+        Image.image.setRGB(x, y, rgb);
     }
 }

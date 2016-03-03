@@ -29,9 +29,9 @@ public final class Lab extends SlidersPanel {
     public Lab(JFrame parent, int type) {
         super(parent, "Konwersja Lab", 3);
         if (type == 0) {
-            lTab = new float[Obraz.image.getWidth()][Obraz.image.getHeight()];
-            aTab = new float[Obraz.image.getWidth()][Obraz.image.getHeight()];
-            bTab = new float[Obraz.image.getWidth()][Obraz.image.getHeight()];
+            lTab = new float[Image.image.getWidth()][Image.image.getHeight()];
+            aTab = new float[Image.image.getWidth()][Image.image.getHeight()];
+            bTab = new float[Image.image.getWidth()][Image.image.getHeight()];
 
             sliderLabels[0].setText("L");
             sliderLabels[1].setText("a");
@@ -61,11 +61,11 @@ public final class Lab extends SlidersPanel {
             dodajA = slider[1].getValue();
             dodajB = slider[2].getValue();
 
-            for (int x = 0; x < Obraz.image.getWidth(); x++) {
-                for (int y = 0; y < Obraz.image.getHeight(); y++) {
+            for (int x = 0; x < Image.image.getWidth(); x++) {
+                for (int y = 0; y < Image.image.getHeight(); y++) {
                     dodajDoLab(x, y);
                     rgb = xyz.konwertujDoRGB(konwertujDoXYZ());
-                    Obraz.image.setRGB(x, y, rgb);
+                    Image.image.setRGB(x, y, rgb);
                 }
             }
         }
@@ -80,9 +80,9 @@ public final class Lab extends SlidersPanel {
     public void konwertujDoLab() {
         int rgb;
         float[][] konwertujDoXYZ;
-        for (int x = 0; x < Obraz.image.getWidth(); x++) {
-            for (int y = 0; y < Obraz.image.getHeight(); y++) {
-                rgb = Obraz.image.getRGB(x, y);
+        for (int x = 0; x < Image.image.getWidth(); x++) {
+            for (int y = 0; y < Image.image.getHeight(); y++) {
+                rgb = Image.image.getRGB(x, y);
                 konwertujDoXYZ = xyz.konwertujDoXYZ(rgb);
 
                 xr = (konwertujDoXYZ[0][0] / XYZ.refX);
@@ -174,11 +174,11 @@ public final class Lab extends SlidersPanel {
     public void konwertujDoRGB() {
         int rgb;
         dodajL = dodajA = dodajB = 0;
-        for (int x = 0; x < Obraz.image.getWidth(); x++) {
-            for (int y = 0; y < Obraz.image.getHeight(); y++) {
+        for (int x = 0; x < Image.image.getWidth(); x++) {
+            for (int y = 0; y < Image.image.getHeight(); y++) {
                 dodajDoLab(x, y);
                 rgb = xyz.konwertujDoRGB(konwertujDoXYZ());
-                Obraz.image.setRGB(x, y, rgb);
+                Image.image.setRGB(x, y, rgb);
             }
         }
     }

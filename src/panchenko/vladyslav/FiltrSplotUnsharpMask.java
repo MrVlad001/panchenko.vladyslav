@@ -14,9 +14,9 @@ public class FiltrSplotUnsharpMask extends FiltrPanel implements KeyListener {
     private double wspolczynnikG = 1;
     private double odchylenie = 1;
     private double wspolczynnikUM = 1;
-    private double[][] redCopy = new double[Obraz.image.getWidth()][Obraz.image.getHeight()];
-    private double[][] greenCopy = new double[Obraz.image.getWidth()][Obraz.image.getHeight()];
-    private double[][] blueCopy = new double[Obraz.image.getWidth()][Obraz.image.getHeight()];
+    private double[][] redCopy = new double[Image.image.getWidth()][Image.image.getHeight()];
+    private double[][] greenCopy = new double[Image.image.getWidth()][Image.image.getHeight()];
+    private double[][] blueCopy = new double[Image.image.getWidth()][Image.image.getHeight()];
 
     public FiltrSplotUnsharpMask(JFrame parent) {
         super(parent, "Splot unsharpmask", 3, 1);
@@ -70,13 +70,13 @@ public class FiltrSplotUnsharpMask extends FiltrPanel implements KeyListener {
         polaFileds[1].setText("" + wspolczynnikG);
         wspolczynnikUM = getNumber(polaFileds[2].getText());
         polaFileds[2].setText("" + wspolczynnikUM);
-        for (int x = 0; x < Obraz.image.getWidth(); x++) {
-            for (int y = 0; y < Obraz.image.getHeight(); y++) {
+        for (int x = 0; x < Image.image.getWidth(); x++) {
+            for (int y = 0; y < Image.image.getHeight(); y++) {
                 obliczPixelWiersz(x, y);
             }
         }
-        for (int x = 0; x < Obraz.image.getWidth(); x++) {
-            for (int y = 0; y < Obraz.image.getHeight(); y++) {
+        for (int x = 0; x < Image.image.getWidth(); x++) {
+            for (int y = 0; y < Image.image.getHeight(); y++) {
                 obliczPixelKolumna(x, y);
             }
         }
@@ -106,7 +106,7 @@ public class FiltrSplotUnsharpMask extends FiltrPanel implements KeyListener {
         b1 = (int) (wspolczynnikUM * (blue[x][y] - ((int) b)));
 
         rgb = jrgb(obetnij256(red[x][y] + r1), obetnij256(green[x][y] + g1), obetnij256(blue[x][y] + b1));
-        Obraz.image.setRGB(x, y, rgb);
+        Image.image.setRGB(x, y, rgb);
     }
 
     private void obliczPixelWiersz(int x, int y) {
@@ -175,6 +175,6 @@ public class FiltrSplotUnsharpMask extends FiltrPanel implements KeyListener {
         b = (wspolczynnikUM * (blue[x][y] - b));
 
         rgb = jrgb(obetnij256(red[x][y] + ((int) r)), obetnij256(green[x][y] + ((int) g)), obetnij256(blue[x][y] + ((int) b)));
-        Obraz.image.setRGB(x, y, rgb);
+        Image.image.setRGB(x, y, rgb);
     }
 }

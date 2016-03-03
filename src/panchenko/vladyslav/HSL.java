@@ -9,8 +9,8 @@ import javax.swing.JFrame;
  */
 public class HSL extends SlidersPanel {
 
-    private int szerokoscObrazka = Obraz.image.getWidth();
-    private int wysokoscObrazka = Obraz.image.getHeight();
+    private int szerokoscObrazka = Image.image.getWidth();
+    private int wysokoscObrazka = Image.image.getHeight();
     private double[][] h = new double[szerokoscObrazka][wysokoscObrazka];
     private double[][] l = new double[szerokoscObrazka][wysokoscObrazka];
     private double[][] s = new double[szerokoscObrazka][wysokoscObrazka];
@@ -50,9 +50,9 @@ public class HSL extends SlidersPanel {
     private void konwertujDoHSL() {
         Form.przywrocObraz();
         double rU, gU, bU, min, max, dM, l2;
-        for (int x = 0; x < Obraz.image.getWidth(); x++) {
-            for (int y = 0; y < Obraz.image.getHeight(); y++) {
-                int rgb = Obraz.image.getRGB(x, y);
+        for (int x = 0; x < Image.image.getWidth(); x++) {
+            for (int y = 0; y < Image.image.getHeight(); y++) {
+                int rgb = Image.image.getRGB(x, y);
                 Color color = new Color(rgb, true);
                 int r = color.getRed();
                 int g = color.getGreen();
@@ -97,8 +97,8 @@ public class HSL extends SlidersPanel {
         double h2, l2, s2;
         int rgb;
 
-        for (int x = 0; x < Obraz.image.getWidth(); x++) {
-            for (int y = 0; y < Obraz.image.getHeight(); y++) {
+        for (int x = 0; x < Image.image.getWidth(); x++) {
+            for (int y = 0; y < Image.image.getHeight(); y++) {
                 h2 = h[x][y] + dodajH;
                 l2 = l[x][y] + dodajL;
                 s2 = s[x][y] + dodajS;
@@ -109,7 +109,7 @@ public class HSL extends SlidersPanel {
                 l2 = obetnij1(l2);
                 s2 = obetnij1(s2);
                 rgb = konwertujDoRGB(h2, l2, s2);
-                Obraz.image.setRGB(x, y, rgb);
+                Image.image.setRGB(x, y, rgb);
             }
         }
     }

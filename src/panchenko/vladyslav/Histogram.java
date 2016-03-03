@@ -50,27 +50,27 @@ public final class Histogram extends JPanel {
             daneNormal[i] = 0;
         }
         if (histogram == 0) {
-            for (int x = 0; x < Obraz.image.getWidth(); x++) {
-                for (int y = 0; y < Obraz.image.getHeight(); y++) {
-                    int rgb = Obraz.image.getRGB(x, y);
+            for (int x = 0; x < Image.image.getWidth(); x++) {
+                for (int y = 0; y < Image.image.getHeight(); y++) {
+                    int rgb = Image.image.getRGB(x, y);
                     Color color = new Color(rgb, true);
                     int r = color.getRed();
                     daneNormal[r] += 1;
                 }
             }
         } else if (histogram == 1) {
-            for (int x = 0; x < Obraz.image.getWidth(); x++) {
-                for (int y = 0; y < Obraz.image.getHeight(); y++) {
-                    int rgb = Obraz.image.getRGB(x, y);
+            for (int x = 0; x < Image.image.getWidth(); x++) {
+                for (int y = 0; y < Image.image.getHeight(); y++) {
+                    int rgb = Image.image.getRGB(x, y);
                     Color color = new Color(rgb, true);
                     int g = color.getGreen();
                     daneNormal[g] += 1;
                 }
             }
         } else if (histogram == 2) {
-            for (int x = 0; x < Obraz.image.getWidth(); x++) {
-                for (int y = 0; y < Obraz.image.getHeight(); y++) {
-                    int rgb = Obraz.image.getRGB(x, y);
+            for (int x = 0; x < Image.image.getWidth(); x++) {
+                for (int y = 0; y < Image.image.getHeight(); y++) {
+                    int rgb = Image.image.getRGB(x, y);
                     Color color = new Color(rgb, true);
                     int b = color.getBlue();
                     daneNormal[b] += 1;
@@ -80,9 +80,9 @@ public final class Histogram extends JPanel {
             double[] red = new double[256];
             double[] green = new double[256];
             double[] blue = new double[256];
-            for (int x = 0; x < Obraz.image.getWidth(); x++) {
-                for (int y = 0; y < Obraz.image.getHeight(); y++) {
-                    int rgb = Obraz.image.getRGB(x, y);
+            for (int x = 0; x < Image.image.getWidth(); x++) {
+                for (int y = 0; y < Image.image.getHeight(); y++) {
+                    int rgb = Image.image.getRGB(x, y);
                     Color color = new Color(rgb, true);
                     int r = color.getRed();
                     int g = color.getGreen();
@@ -105,7 +105,7 @@ public final class Histogram extends JPanel {
     }
 
     private static void maxPrawdopodobienstwo() {
-        double ilePixeli = Obraz.image.getWidth() * Obraz.image.getHeight();
+        double ilePixeli = Image.image.getWidth() * Image.image.getHeight();
         maxP = 0;
         srednia = 0;
         for (int i = 0; i < daneNormal.length; i++) {

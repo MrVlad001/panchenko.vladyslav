@@ -8,11 +8,12 @@ import javax.swing.JPanel;
  *
  * @author Vladyslav
  */
-public class ObrazFourier extends JPanel {
+public class Image extends JPanel {
 
     public static BufferedImage image;
+    public static String imagePath;
 
-    public ObrazFourier() {
+    public Image() {
         super();
     }
 
@@ -23,10 +24,10 @@ public class ObrazFourier extends JPanel {
 
     public static void wypelnij(int wartosc) {
         int rgb;
-        for (int x = 0; x < ObrazFourier.image.getWidth(); x++) {
-            for (int y = 0; y < ObrazFourier.image.getHeight(); y++) {
+        for (int x = 0; x < Image.image.getWidth(); x++) {
+            for (int y = 0; y < Image.image.getHeight(); y++) {
                 rgb = jrgb(wartosc, wartosc, wartosc);
-                ObrazFourier.image.setRGB(x, y, rgb);
+                Image.image.setRGB(x, y, rgb);
             }
         }
     }

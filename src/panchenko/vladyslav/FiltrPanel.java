@@ -53,9 +53,9 @@ public class FiltrPanel extends JDialog implements ChangeListener, ActionListene
     private SavePanel savePanel;
     private JButton filtrujButton = new JButton("Filtruj");
     private int x1filtrujButton, y1filtrujButton, x2filtrujButton, y2filtrujButton;
-    protected int[][] red = new int[Obraz.image.getWidth()][Obraz.image.getHeight()];
-    protected int[][] green = new int[Obraz.image.getWidth()][Obraz.image.getHeight()];
-    protected int[][] blue = new int[Obraz.image.getWidth()][Obraz.image.getHeight()];
+    protected int[][] red = new int[Image.image.getWidth()][Image.image.getHeight()];
+    protected int[][] green = new int[Image.image.getWidth()][Image.image.getHeight()];
+    protected int[][] blue = new int[Image.image.getWidth()][Image.image.getHeight()];
     private int wymMaski;
     protected boolean maskaNiePusta;
 
@@ -252,9 +252,9 @@ public class FiltrPanel extends JDialog implements ChangeListener, ActionListene
 
     private void wczytajDane() {
         int rgb;
-        for (int x = 0; x < Obraz.image.getWidth(); x++) {
-            for (int y = 0; y < Obraz.image.getHeight(); y++) {
-                rgb = Obraz.image.getRGB(x, y);
+        for (int x = 0; x < Image.image.getWidth(); x++) {
+            for (int y = 0; y < Image.image.getHeight(); y++) {
+                rgb = Image.image.getRGB(x, y);
                 Color color = new Color(rgb, true);
                 red[x][y] = color.getRed();
                 green[x][y] = color.getGreen();
@@ -269,9 +269,9 @@ public class FiltrPanel extends JDialog implements ChangeListener, ActionListene
         } else {
             int x;
             if (typ == 'x') {
-                x = Obraz.image.getWidth();
+                x = Image.image.getWidth();
             } else {
-                x = Obraz.image.getHeight();
+                x = Image.image.getHeight();
             }
             if (i >= x) {
                 i = 2 * x - i - 1;

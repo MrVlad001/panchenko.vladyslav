@@ -76,8 +76,8 @@ public class FiltrMediana extends FiltrPanel implements KeyListener {
             }
             setStodkowaWartoscMaski();
             if (sumaMaska == rozmMaski * rozmMaski) {
-                for (int x = 0; x < Obraz.image.getWidth(); x++) {
-                    for (int y = 0; y < Obraz.image.getHeight(); y++) {
+                for (int x = 0; x < Image.image.getWidth(); x++) {
+                    for (int y = 0; y < Image.image.getHeight(); y++) {
                         if (y == 0) {
                             obliczPierwszyPixel(x, y);
                         } else {
@@ -86,8 +86,8 @@ public class FiltrMediana extends FiltrPanel implements KeyListener {
                     }
                 }
             } else {
-                for (int x = 0; x < Obraz.image.getWidth(); x++) {
-                    for (int y = 0; y < Obraz.image.getHeight(); y++) {
+                for (int x = 0; x < Image.image.getWidth(); x++) {
+                    for (int y = 0; y < Image.image.getHeight(); y++) {
                         obliczPixel(x, y);
                     }
                 }
@@ -112,7 +112,7 @@ public class FiltrMediana extends FiltrPanel implements KeyListener {
             }
         }
         rgb = mediana();
-        Obraz.image.setRGB(x, y, rgb);
+        Image.image.setRGB(x, y, rgb);
         superZnacznik = 0;
     }
 
@@ -137,7 +137,7 @@ public class FiltrMediana extends FiltrPanel implements KeyListener {
             tabelaWartosciB[b]++;
         }
         rgb = mediana();
-        Obraz.image.setRGB(x, y, rgb);
+        Image.image.setRGB(x, y, rgb);
         superZnacznik++;
         superZnacznik %= rozmMaski;
     }
@@ -161,7 +161,7 @@ public class FiltrMediana extends FiltrPanel implements KeyListener {
             }
         }
         rgb = mediana();
-        Obraz.image.setRGB(x, y, rgb);
+        Image.image.setRGB(x, y, rgb);
         superZnacznik = 0;
     }
 

@@ -13,9 +13,9 @@ public class FiltrSplotGauss extends FiltrPanel implements KeyListener {
 
     private double wspolczynnik = 1;
     private double odchylenie = 1;
-    private double[][] redCopy = new double[Obraz.image.getWidth()][Obraz.image.getHeight()];
-    private double[][] greenCopy = new double[Obraz.image.getWidth()][Obraz.image.getHeight()];
-    private double[][] blueCopy = new double[Obraz.image.getWidth()][Obraz.image.getHeight()];
+    private double[][] redCopy = new double[Image.image.getWidth()][Image.image.getHeight()];
+    private double[][] greenCopy = new double[Image.image.getWidth()][Image.image.getHeight()];
+    private double[][] blueCopy = new double[Image.image.getWidth()][Image.image.getHeight()];
 
     public FiltrSplotGauss(JFrame parent) {
         super(parent, "Splot gaussowski", 2, 1);
@@ -68,13 +68,13 @@ public class FiltrSplotGauss extends FiltrPanel implements KeyListener {
     protected void filtrujButton() {
         polaFileds[0].setText("" + odchylenie);
         polaFileds[1].setText("" + wspolczynnik);
-        for (int x = 0; x < Obraz.image.getWidth(); x++) {
-            for (int y = 0; y < Obraz.image.getHeight(); y++) {
+        for (int x = 0; x < Image.image.getWidth(); x++) {
+            for (int y = 0; y < Image.image.getHeight(); y++) {
                 obliczPixelWiersz(x, y);
             }
         }
-        for (int x = 0; x < Obraz.image.getWidth(); x++) {
-            for (int y = 0; y < Obraz.image.getHeight(); y++) {
+        for (int x = 0; x < Image.image.getWidth(); x++) {
+            for (int y = 0; y < Image.image.getHeight(); y++) {
                 obliczPixelKolumna(x, y);
             }
         }
@@ -100,7 +100,7 @@ public class FiltrSplotGauss extends FiltrPanel implements KeyListener {
         b /= sumaMaska;
 
         rgb = jrgb(obetnij256((int) r), obetnij256((int) g), obetnij256((int) b));
-        Obraz.image.setRGB(x, y, rgb);
+        Image.image.setRGB(x, y, rgb);
     }
 
     private void obliczPixelWiersz(int x, int y) {
@@ -165,7 +165,7 @@ public class FiltrSplotGauss extends FiltrPanel implements KeyListener {
         b /= sumaMaska;
 
         rgb = jrgb(obetnij256((int) r), obetnij256((int) g), obetnij256((int) b));
-        Obraz.image.setRGB(x, y, rgb);
+        Image.image.setRGB(x, y, rgb);
     }
     
     

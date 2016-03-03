@@ -8,8 +8,8 @@ import javax.swing.JFrame;
  */
 public final class Luv extends SlidersPanel {
 
-    private int szerokoscObrazka = Obraz.image.getWidth();
-    private int wysokoscObrazka = Obraz.image.getHeight();
+    private int szerokoscObrazka = Image.image.getWidth();
+    private int wysokoscObrazka = Image.image.getHeight();
     private float e = 0.008856f;
     private float k = 903.3f;
     private float ek = e * k;
@@ -56,7 +56,7 @@ public final class Luv extends SlidersPanel {
                 for (int y = 0; y < wysokoscObrazka; y++) {
                     dodajDoLuv(x, y);
                     rgb = xyz.konwertujDoRGB(konwertujDoXYZ());
-                    Obraz.image.setRGB(x, y, rgb);
+                    Image.image.setRGB(x, y, rgb);
                 }
             }
         }
@@ -74,7 +74,7 @@ public final class Luv extends SlidersPanel {
         float tmpY;
         for (int x = 0; x < szerokoscObrazka; x++) {
             for (int y = 0; y < wysokoscObrazka; y++) {
-                rgb = Obraz.image.getRGB(x, y);
+                rgb = Image.image.getRGB(x, y);
                 konwertujDoXYZ = xyz.konwertujDoXYZ(rgb);
 
                 X = konwertujDoXYZ[0][0];

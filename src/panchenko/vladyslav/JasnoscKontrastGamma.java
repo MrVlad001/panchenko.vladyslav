@@ -59,9 +59,9 @@ public class JasnoscKontrastGamma extends SlidersPanel {
     public void jasnosc() {
         int dodajJasnosc = slider[0].getValue();
         if (dodajJasnosc != 0) {
-            for (int x = 0; x < Obraz.image.getWidth(); x++) {
-                for (int y = 0; y < Obraz.image.getHeight(); y++) {
-                    int rgb = Obraz.image.getRGB(x, y);
+            for (int x = 0; x < Image.image.getWidth(); x++) {
+                for (int y = 0; y < Image.image.getHeight(); y++) {
+                    int rgb = Image.image.getRGB(x, y);
                     Color color = new Color(rgb, true);
                     int r = color.getRed();
                     int g = color.getGreen();
@@ -73,7 +73,7 @@ public class JasnoscKontrastGamma extends SlidersPanel {
                     g = obetnij256(g);
                     b = obetnij256(b);
                     rgb = jrgb(r, g, b);
-                    Obraz.image.setRGB(x, y, rgb);
+                    Image.image.setRGB(x, y, rgb);
                 }
             }
         }
@@ -82,9 +82,9 @@ public class JasnoscKontrastGamma extends SlidersPanel {
     public void kontrast() {
         int dodajKontrast = slider[1].getValue();
         if (dodajKontrast != 0) {
-            for (int x = 0; x < Obraz.image.getWidth(); x++) {
-                for (int y = 0; y < Obraz.image.getHeight(); y++) {
-                    int rgb = Obraz.image.getRGB(x, y);
+            for (int x = 0; x < Image.image.getWidth(); x++) {
+                for (int y = 0; y < Image.image.getHeight(); y++) {
+                    int rgb = Image.image.getRGB(x, y);
                     Color color = new Color(rgb, true);
                     double r = color.getRed();
                     double g = color.getGreen();
@@ -102,7 +102,7 @@ public class JasnoscKontrastGamma extends SlidersPanel {
                     int g2 = obetnij256((int) g);
                     int b2 = obetnij256((int) b);
                     rgb = jrgb(r2, g2, b2);
-                    Obraz.image.setRGB(x, y, rgb);
+                    Image.image.setRGB(x, y, rgb);
                 }
             }
         }
@@ -113,9 +113,9 @@ public class JasnoscKontrastGamma extends SlidersPanel {
         if (dodajGamma != 0) {
             dodajGamma = wartoscSuwakaGamma(dodajGamma);
 
-            for (int x = 0; x < Obraz.image.getWidth(); x++) {
-                for (int y = 0; y < Obraz.image.getHeight(); y++) {
-                    int rgb = Obraz.image.getRGB(x, y);
+            for (int x = 0; x < Image.image.getWidth(); x++) {
+                for (int y = 0; y < Image.image.getHeight(); y++) {
+                    int rgb = Image.image.getRGB(x, y);
                     Color color = new Color(rgb, true);
                     int r = color.getRed();
                     int g = color.getGreen();
@@ -136,7 +136,7 @@ public class JasnoscKontrastGamma extends SlidersPanel {
                     g = obetnij256((int) gf);
                     b = obetnij256((int) bf);
                     rgb = jrgb(r, g, b);
-                    Obraz.image.setRGB(x, y, rgb);
+                    Image.image.setRGB(x, y, rgb);
                 }
             }
         }

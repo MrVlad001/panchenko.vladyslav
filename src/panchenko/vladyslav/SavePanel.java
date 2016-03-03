@@ -42,7 +42,7 @@ public class SavePanel extends JPanel implements ActionListener {
     }
 
     public void ok() {
-        Form.imageOrigin = Form.duplikujObraz(Obraz.image);
+        Form.imageOrigin = Form.duplikujObraz(Image.image);
         Form.panel.repaint();
         parent.dispose();
 

@@ -96,7 +96,7 @@ public final class Form extends JFrame implements ActionListener, ChangeListener
         fourierItems[3] = fourierFaza;
         dodajDoMenu(fourierMenu, fourierItems);
 
-        panel = new Obraz();
+        panel = new Image();
         add(panel);
     }
 
@@ -120,9 +120,9 @@ public final class Form extends JFrame implements ActionListener, ChangeListener
             if (search.showOpenDialog(menu) == JFileChooser.APPROVE_OPTION) {
                 file = search.getSelectedFile();
                 try {
-                    Obraz.imagePath = file.getPath();
-                    Obraz.image = ImageIO.read(file);
-                    imageOrigin = duplikujObraz(Obraz.image);
+                    Image.imagePath = file.getPath();
+                    Image.image = ImageIO.read(file);
+                    imageOrigin = duplikujObraz(Image.image);
                     setSize(Form.imageOrigin.getWidth() + 16, Form.imageOrigin.getHeight() + 61);
                     this.repaint();
                 } catch (IOException e) {
@@ -132,9 +132,9 @@ public final class Form extends JFrame implements ActionListener, ChangeListener
         } else if (evt == lena) {
             try {
                 file = new File("data/lena.bmp");
-                Obraz.imagePath = file.getPath();
-                Obraz.image = ImageIO.read(file);
-                imageOrigin = duplikujObraz(Obraz.image);
+                Image.imagePath = file.getPath();
+                Image.image = ImageIO.read(file);
+                imageOrigin = duplikujObraz(Image.image);
                 setSize(Form.imageOrigin.getWidth() + 16, Form.imageOrigin.getHeight() + 61);
                 this.repaint();
             } catch (IOException e) {
@@ -207,7 +207,7 @@ public final class Form extends JFrame implements ActionListener, ChangeListener
         ColorModel model = Form.imageOrigin.getColorModel();
         boolean isAlphaPremultiplied = model.isAlphaPremultiplied();
         WritableRaster r = Form.imageOrigin.copyData(null);
-        Obraz.image = new BufferedImage(model, r, isAlphaPremultiplied, null);
+        Image.image = new BufferedImage(model, r, isAlphaPremultiplied, null);
     }
 
     public static BufferedImage duplikujObraz(BufferedImage image) {
@@ -218,7 +218,7 @@ public final class Form extends JFrame implements ActionListener, ChangeListener
     }
 
     public static void refresh() {
-        panel.setSize(Obraz.image.getWidth() + 16, Obraz.image.getHeight() + 61);
+        panel.setSize(Image.image.getWidth() + 16, Image.image.getHeight() + 61);
         panel.repaint();
         panel.revalidate();
     }

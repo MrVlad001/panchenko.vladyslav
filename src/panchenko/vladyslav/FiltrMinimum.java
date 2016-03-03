@@ -58,13 +58,13 @@ public class FiltrMinimum extends FiltrPanel implements KeyListener {
                     maska[j][i].setText("" + tmp);
                 }
             }
-            for (int x = 0; x < Obraz.image.getWidth(); x++) {
-                for (int y = 0; y < Obraz.image.getHeight(); y++) {
+            for (int x = 0; x < Image.image.getWidth(); x++) {
+                for (int y = 0; y < Image.image.getHeight(); y++) {
                     obliczPixel(x, y);
                 }
             }
         } else {
-            Obraz.wypelnij(0);
+            Image.wypelnij(0);
         }
     }
     
@@ -98,7 +98,7 @@ public class FiltrMinimum extends FiltrPanel implements KeyListener {
             }
         }
         rgb = jrgb(obetnij256(minR), obetnij256(minG), obetnij256(minB));
-        Obraz.image.setRGB(x, y, rgb);
+        Image.image.setRGB(x, y, rgb);
     }
     
     public static double limitNumber(double number, double limitDown, double limitUp, int decimalNumber) {

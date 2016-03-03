@@ -9,8 +9,8 @@ import javax.swing.JFrame;
  */
 public class CMYK extends SlidersPanel {
 
-    private int widthPicture = Obraz.image.getWidth();
-    private int heightPicture = Obraz.image.getHeight();
+    private int widthPicture = Image.image.getWidth();
+    private int heightPicture = Image.image.getHeight();
     private double[][] cyjan = new double[widthPicture][heightPicture];
     private double[][] magenta = new double[widthPicture][heightPicture];
     private double[][] yellow = new double[widthPicture][heightPicture];
@@ -47,9 +47,9 @@ public class CMYK extends SlidersPanel {
 
     private void convertToCMYK() {
         double rU, gU, bU, k;
-        for (int x = 0; x < Obraz.image.getWidth(); x++) {
-            for (int y = 0; y < Obraz.image.getHeight(); y++) {
-                int rgb = Obraz.image.getRGB(x, y);
+        for (int x = 0; x < Image.image.getWidth(); x++) {
+            for (int y = 0; y < Image.image.getHeight(); y++) {
+                int rgb = Image.image.getRGB(x, y);
                 Color color = new Color(rgb, true);
                 int r = color.getRed();
                 int g = color.getGreen();
@@ -75,15 +75,15 @@ public class CMYK extends SlidersPanel {
         double c, m, ye, k;
         int rgb;
         if (addCyjan != 0 || addMagenta != 0 || addYellow != 0 || addBlack != 0) {
-            for (int x = 0; x < Obraz.image.getWidth(); x++) {
-                for (int y = 0; y < Obraz.image.getHeight(); y++) {
+            for (int x = 0; x < Image.image.getWidth(); x++) {
+                for (int y = 0; y < Image.image.getHeight(); y++) {
                     c = cyjan[x][y] + addCyjan;
                     m = magenta[x][y] + addMagenta;
                     ye = yellow[x][y] + addYellow;
                     k = black[x][y] + addBlack;
 
                     rgb = convertToRGB(c, m, ye, k);
-                    Obraz.image.setRGB(x, y, rgb);
+                    Image.image.setRGB(x, y, rgb);
                 }
             }
         }
