@@ -24,7 +24,6 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
     private JButton grayHist = new JButton("Gray");
     private JButton wyrownajButton = new JButton("Wyrównaj aktywny");
     private JButton skalujButton = new JButton("Skaluj aktywny");
-    private JLabel aktywnyHisLabel;
     private JLabel sredniaLabel = new JLabel("Średnia intens.: ");
     public static JLabel sredniaValueLabel = new JLabel();
     private JLabel wariancjaLabel = new JLabel("Wariancja: ");
@@ -52,13 +51,10 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
         super(frame, "Histogramy", false);
         setSize(szerokoscHistDialog, wysokoscHistDialog);
         setLayout(null);
-        aktywnyHisLabel = new JLabel("Aktywny: ");
-        aktywnyHisLabel.setHorizontalAlignment(JLabel.LEFT);
         sredniaLabel.setHorizontalAlignment(JLabel.LEFT);
         wariancjaLabel.setHorizontalAlignment(JLabel.LEFT);
         sredniaValueLabel.setHorizontalAlignment(JLabel.RIGHT);
         wariancjaValueLabel.setHorizontalAlignment(JLabel.RIGHT);
-        aktywnyHisLabel.setBounds(x1, y1, x2, y2);
         y1 += odstep;
         redHist.setBounds(x1, y1, x2, y2);
         y1 += odstep;
@@ -86,7 +82,6 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
         wyrownajButton.addActionListener(this);
         skalujButton.setEnabled(false);
         wyrownajButton.setEnabled(false);
-        add(aktywnyHisLabel);
         add(redHist);
         add(greenHist);
         add(blueHist);
@@ -160,28 +155,24 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
         if (evt == redHist) {
             remove(histogramPanel);
             histogramPanel = new Histogram(0);
-            aktywnyHisLabel.setText("Aktywny: " + redHist.getText());
             aktywnyHist = 0;
             skalujButton.setEnabled(true);
             wyrownajButton.setEnabled(true);
         } else if (evt == greenHist) {
             remove(histogramPanel);
             histogramPanel = new Histogram(1);
-            aktywnyHisLabel.setText("Aktywny: " + greenHist.getText());
             aktywnyHist = 1;
             skalujButton.setEnabled(true);
             wyrownajButton.setEnabled(true);
         } else if (evt == blueHist) {
             remove(histogramPanel);
             histogramPanel = new Histogram(2);
-            aktywnyHisLabel.setText("Aktywny: " + blueHist.getText());
             aktywnyHist = 2;
             skalujButton.setEnabled(true);
             wyrownajButton.setEnabled(true);
         } else if (evt == grayHist) {
             remove(histogramPanel);
             histogramPanel = new Histogram(3);
-            aktywnyHisLabel.setText("Aktywny: " + grayHist.getText());
             aktywnyHist = 3;
             skalujButton.setEnabled(true);
             wyrownajButton.setEnabled(true);
@@ -230,10 +221,10 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                 for (int y = 0; y < Obraz.image.getHeight(); y++) {
                     int rgb = Obraz.image.getRGB(x, y);
                     Color color = new Color(rgb, true);
-                    int r = Fje.obetnij256((int) (stala * daneKulminacyjne[color.getRed()]));
+                    int r = obetnij256((int) (stala * daneKulminacyjne[color.getRed()]));
                     int g = color.getGreen();
                     int b = color.getBlue();
-                    rgb = Fje.jrgb(r, g, b);
+                    rgb = jrgb(r, g, b);
                     Obraz.image.setRGB(x, y, rgb);
                 }
             }
@@ -244,9 +235,9 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                     int rgb = Obraz.image.getRGB(x, y);
                     Color color = new Color(rgb, true);
                     int r = color.getRed();
-                    int g = Fje.obetnij256((int) (stala * daneKulminacyjne[color.getGreen()]));
+                    int g = obetnij256((int) (stala * daneKulminacyjne[color.getGreen()]));
                     int b = color.getBlue();
-                    rgb = Fje.jrgb(r, g, b);
+                    rgb = jrgb(r, g, b);
                     Obraz.image.setRGB(x, y, rgb);
                 }
             }
@@ -258,8 +249,8 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                     Color color = new Color(rgb, true);
                     int r = color.getRed();
                     int g = color.getGreen();
-                    int b = Fje.obetnij256((int) (stala * daneKulminacyjne[color.getBlue()]));
-                    rgb = Fje.jrgb(r, g, b);
+                    int b = obetnij256((int) (stala * daneKulminacyjne[color.getBlue()]));
+                    rgb = jrgb(r, g, b);
                     Obraz.image.setRGB(x, y, rgb);
                 }
             }
@@ -272,12 +263,12 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                     int r = color.getRed();
                     int g = color.getGreen();
                     int b = color.getBlue();
-                    int gray = Fje.obetnij256((int) (Math.round(Histogram.konwertuj(r, g, b))));
+                    int gray = obetnij256((int) (Math.round(Histogram.konwertuj(r, g, b))));
                     double wspolczynnik = (stala * daneKulminacyjne[gray]) / gray;
-                    r = Fje.obetnij256((int) (wspolczynnik * r));
-                    g = Fje.obetnij256((int) (wspolczynnik * g));
-                    b = Fje.obetnij256((int) (wspolczynnik * b));
-                    rgb = Fje.jrgb(r, g, b);
+                    r = obetnij256((int) (wspolczynnik * r));
+                    g = obetnij256((int) (wspolczynnik * g));
+                    b = obetnij256((int) (wspolczynnik * b));
+                    rgb = jrgb(r, g, b);
                     Obraz.image.setRGB(x, y, rgb);
                 }
             }
@@ -292,10 +283,10 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                 for (int y = 0; y < Obraz.image.getHeight(); y++) {
                     int rgb = Obraz.image.getRGB(x, y);
                     Color color = new Color(rgb, true);
-                    int r = Fje.obetnij256((int) ((color.getRed() - suwakiValues[0]) * (suwakiValues[3] - suwakiValues[2]) / (suwakiValues[1] - suwakiValues[0]) + suwakiValues[2]));
+                    int r = obetnij256((int) ((color.getRed() - suwakiValues[0]) * (suwakiValues[3] - suwakiValues[2]) / (suwakiValues[1] - suwakiValues[0]) + suwakiValues[2]));
                     int g = color.getGreen();
                     int b = color.getBlue();
-                    rgb = Fje.jrgb(r, g, b);
+                    rgb = jrgb(r, g, b);
                     Obraz.image.setRGB(x, y, rgb);
                 }
             }
@@ -306,9 +297,9 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                     int rgb = Obraz.image.getRGB(x, y);
                     Color color = new Color(rgb, true);
                     int r = color.getRed();
-                    int g = Fje.obetnij256((int) ((color.getGreen() - suwakiValues[0]) * (suwakiValues[3] - suwakiValues[2]) / (suwakiValues[1] - suwakiValues[0]) + suwakiValues[2]));
+                    int g = obetnij256((int) ((color.getGreen() - suwakiValues[0]) * (suwakiValues[3] - suwakiValues[2]) / (suwakiValues[1] - suwakiValues[0]) + suwakiValues[2]));
                     int b = color.getBlue();
-                    rgb = Fje.jrgb(r, g, b);
+                    rgb = jrgb(r, g, b);
                     Obraz.image.setRGB(x, y, rgb);
                 }
             }
@@ -320,8 +311,8 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                     Color color = new Color(rgb, true);
                     int r = color.getRed();
                     int g = color.getGreen();
-                    int b = Fje.obetnij256((int) ((color.getBlue() - suwakiValues[0]) * (suwakiValues[3] - suwakiValues[2]) / (suwakiValues[1] - suwakiValues[0]) + suwakiValues[2]));
-                    rgb = Fje.jrgb(r, g, b);
+                    int b = obetnij256((int) ((color.getBlue() - suwakiValues[0]) * (suwakiValues[3] - suwakiValues[2]) / (suwakiValues[1] - suwakiValues[0]) + suwakiValues[2]));
+                    rgb = jrgb(r, g, b);
                     Obraz.image.setRGB(x, y, rgb);
                 }
             }
@@ -336,16 +327,29 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                     int b = color.getBlue();
                     double gray = Histogram.konwertuj(r, g, b);
                     double wspolczynnik = ((gray - suwakiValues[0]) * (suwakiValues[3] - suwakiValues[2]) / (suwakiValues[1] - suwakiValues[0]) + suwakiValues[2]) / gray;
-                    r = Fje.obetnij256((int) (wspolczynnik * r));
-                    g = Fje.obetnij256((int) (wspolczynnik * g));
-                    b = Fje.obetnij256((int) (wspolczynnik * b));
-                    rgb = Fje.jrgb(r, g, b);
+                    r = obetnij256((int) (wspolczynnik * r));
+                    g = obetnij256((int) (wspolczynnik * g));
+                    b = obetnij256((int) (wspolczynnik * b));
+                    rgb = jrgb(r, g, b);
                     Obraz.image.setRGB(x, y, rgb);
                 }
             }
             odswiezHistogram();
         }
         Form.refresh();
+    }
+    
+    public static int jrgb(int r, int g, int b) {
+        return (r << 16) + (g << 8) + b;
+    }
+
+    public static int obetnij256(int color) {
+        if (color > 255) {
+            color = 255;
+        } else if (color < 0) {
+            color = 0;
+        }
+        return color;
     }
 
     public void odswiezHistogram() {
@@ -355,4 +359,5 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
         Form.refresh();
         this.repaint();
     }
+    
 }

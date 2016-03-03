@@ -57,7 +57,7 @@ public final class Form extends JFrame implements ActionListener, ChangeListener
     public static BufferedImage imageOrigin;
 
     public Form() {
-        setTitle("Przetwarzanie obrazów cyfrowych - Vladyslav Panchenko");
+        setTitle("POC - Vladyslav Panchenko");
         setSize(600, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setJMenuBar(menu);
