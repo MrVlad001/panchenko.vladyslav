@@ -9,7 +9,7 @@ import javax.swing.JFrame;
  *
  * @author Vladyslav
  */
-public class FiltrMedian extends FiltrPanel implements KeyListener {
+public class Median extends FiltrPanel implements KeyListener {
 
     private int wypelnijValue = 1;
     private int[] tabelaWartosciR = new int[256];
@@ -21,7 +21,7 @@ public class FiltrMedian extends FiltrPanel implements KeyListener {
     private int[][] bMaskaValue;
     private int superZnacznik = 0;
 
-    public FiltrMedian(JFrame parent) {
+    public Median(JFrame parent) {
         super(parent, "Filtr mediana", 1, 0);
         polaLabels[0].setText("Wypełnij");
         polaFileds[0].setText("");

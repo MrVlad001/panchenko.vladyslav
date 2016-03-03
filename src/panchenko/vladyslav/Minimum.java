@@ -9,11 +9,11 @@ import javax.swing.JFrame;
  *
  * @author Vladyslav
  */
-public class FiltrMinimu extends FiltrPanel implements KeyListener {
+public class Minimum extends FiltrPanel implements KeyListener {
 
     private int wypelnijValue = 1;
 
-    public FiltrMinimu(JFrame parent) {
+    public Minimum(JFrame parent) {
         super(parent, "Filtr minimum", 1, 0);
         polaLabels[0].setText("Wypełnij");
         polaFileds[0].setText("");

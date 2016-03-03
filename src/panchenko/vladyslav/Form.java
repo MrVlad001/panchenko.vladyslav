@@ -36,7 +36,7 @@ public final class Form extends JFrame implements ActionListener, ChangeListener
     private JMenu colorMenu = new JMenu("Color");
     private JMenuItem BCG = new JMenuItem("Brightness / Contrast / Gamma");
     private JMenuItem histogram = new JMenuItem("Histogramy");
-    private JMenu menuConversion = new JMenu("Konwersja");
+    private JMenu menuConversion = new JMenu("Сonversion");
     private JMenuItem CMYKconversion = new JMenuItem("RGB ↔ CMYK");
     private JMenuItem HSLconversion = new JMenuItem("RGB ↔ HSL");
     private JMenuItem LabConversion = new JMenuItem("RGB ↔ L*a*b*");
@@ -170,13 +170,13 @@ public final class Form extends JFrame implements ActionListener, ChangeListener
             FiltrSplotUnsharpMask splotUM = new FiltrSplotUnsharpMask(this);
             splotUM.setVisible(true);
         } else if (evt == min) {
-            FiltrMinimu filtrMinimum = new FiltrMinimu(this);
+            Minimum filtrMinimum = new Minimum(this);
             filtrMinimum.setVisible(true);
         } else if (evt == max) {
             Maximum filtrMaksimum = new Maximum(this);
             filtrMaksimum.setVisible(true);
         } else if (evt == mediana) {
-            FiltrMedian filtrMediana = new FiltrMedian(this);
+            Median filtrMediana = new Median(this);
             filtrMediana.setVisible(true);
         } else if (evt == fourierRealis) {
             FourierDialog fd = new FourierDialog(this, 0);
