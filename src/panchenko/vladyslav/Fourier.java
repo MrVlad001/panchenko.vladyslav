@@ -122,7 +122,7 @@ public class Fourier {
         double c = k * min;
 
         for (int i = 0; i < color.length; i++) {
-            color[i] = eraseCustom(k * color[i] - c, 0, 255);
+            color[i] = eraseCustom(k*color[i]-c, 0, 255);
         }
 
         return color;
@@ -141,7 +141,7 @@ public class Fourier {
         double c = k * min;
 
         for (int i = 0; i < color.length; i++) {
-            color[i] = new Complex(eraseCustom(k * color[i].re() - c, 0, 255), eraseCustom(k * color[i].im() - c, 0, 255));
+            color[i] = new Complex(eraseCustom(k*color[i].re()-c, 0, 255), eraseCustom(k*color[i].im()-c, 0, 255));
         }
 
         return color;
