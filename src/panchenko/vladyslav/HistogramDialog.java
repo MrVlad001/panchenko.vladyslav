@@ -48,13 +48,15 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
     private double stala = 255.0 / (Obraz.image.getWidth() * Obraz.image.getHeight());
 
     public HistogramDialog(Frame frame) {
-        super(frame, "Histogramy", false);
+        super(frame, "Histogram", false);
         setSize(szerokoscHistDialog, wysokoscHistDialog);
         setLayout(null);
+        
         sredniaLabel.setHorizontalAlignment(JLabel.LEFT);
         wariancjaLabel.setHorizontalAlignment(JLabel.LEFT);
         sredniaValueLabel.setHorizontalAlignment(JLabel.RIGHT);
         wariancjaValueLabel.setHorizontalAlignment(JLabel.RIGHT);
+        
         y1 += odstep;
         redHist.setBounds(x1, y1, x2, y2);
         y1 += odstep;
@@ -74,6 +76,7 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
         y1 += 4 * odstep - 13;
         wyrownajButton.setBounds(x1, y1, x2, y2);
         y1 += odstep;
+        
         redHist.addActionListener(this);
         greenHist.addActionListener(this);
         blueHist.addActionListener(this);
@@ -82,6 +85,7 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
         wyrownajButton.addActionListener(this);
         skalujButton.setEnabled(false);
         wyrownajButton.setEnabled(false);
+        
         add(redHist);
         add(greenHist);
         add(blueHist);
@@ -95,6 +99,7 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
         add(histogramPanel);
         maxValueOfHistogram.setBounds(0, margines - 11, margines, y2);
         add(maxValueOfHistogram);
+        
         suwakiText[0] = "a = ";
         suwakiText[1] = "b = ";
         suwakiText[2] = "c = ";
@@ -103,6 +108,7 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
         suwakiValues[1] = 255;
         suwakiValues[2] = 0;
         suwakiValues[3] = 255;
+        
         for (int i = 0; i < 2; i++) {
             suwaki[i] = new JSlider(0, 255, suwakiValues[i]);
             suwakiPanel.add(suwaki[i]);

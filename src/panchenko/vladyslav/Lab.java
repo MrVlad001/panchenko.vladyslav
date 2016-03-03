@@ -72,9 +72,9 @@ public final class Lab extends SlidersPanel {
     }
 
     private void dodajDoLab(int x, int y) {
-        L = Fje.obetnijCustomFloat((lTab[x][y] + dodajL), 0, 100);
-        a = Fje.obetnijDoByte(aTab[x][y] + dodajA);
-        b = Fje.obetnijDoByte(bTab[x][y] + dodajB);
+        L = obetnijCustomFloat((lTab[x][y] + dodajL), 0, 100);
+        a = obetnijDoByte(aTab[x][y] + dodajA);
+        b = obetnijDoByte(bTab[x][y] + dodajB);
     }
 
     public void konwertujDoLab() {
@@ -111,6 +111,26 @@ public final class Lab extends SlidersPanel {
             }
         }
     }
+    
+     public static float obetnijCustomFloat(float color, float limitDown, float limitUp) {
+        if (color > limitUp) {
+            color = limitUp;
+        } else if (color < limitDown) {
+            color = limitDown;
+        }
+        return color;
+    }
+     
+    public static byte obetnijDoByte(double color) {
+        byte limitUp = 127;
+        byte limitDown = -128;
+        if (color > limitUp) {
+            color = limitUp;
+        } else if (color < limitDown) {
+            color = limitDown;
+        }
+        return (byte) color;
+    } 
 
     private float[][] konwertujDoXYZ() {
         float[][] xyzMatrix = new float[1][3];

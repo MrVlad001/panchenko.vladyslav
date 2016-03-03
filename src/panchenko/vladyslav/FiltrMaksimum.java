@@ -34,8 +34,8 @@ public class FiltrMaksimum extends FiltrPanel implements KeyListener {
             double prev;
             tmp = polaFileds[0].getText();
             if (!tmp.equals("")) {
-                prev = Fje.getNumber(tmp);
-                wypelnijValue = (int) Fje.limitNumber(prev, 0, 1, 0);
+                prev = getNumber(tmp);
+                wypelnijValue = (int) limitNumber(prev, 0, 1, 0);
                 if (prev != wypelnijValue) {
                     polaFileds[0].setText("" + wypelnijValue);
                 }
@@ -53,7 +53,7 @@ public class FiltrMaksimum extends FiltrPanel implements KeyListener {
             int tmp = 0;
             for (int i = 0; i < rozmMaski; i++) {
                 for (int j = 0; j < rozmMaski; j++) {
-                    tmp = (int) Fje.limitNumber(wartosciMaski[i][j], 0, 1, 0);
+                    tmp = (int) limitNumber(wartosciMaski[i][j], 0, 1, 0);
                     wartosciMaski[i][j] = tmp;
                     maska[j][i].setText("" + tmp);
                 }
@@ -67,6 +67,7 @@ public class FiltrMaksimum extends FiltrPanel implements KeyListener {
             Obraz.wypelnij(255);
         }
     }
+    
 
     private void obliczPixel(int x, int y) {
         int r = 0, g = 0, b = 0, m, n, rgb, maxR = 0, maxG = 0, maxB = 0;
@@ -84,7 +85,45 @@ public class FiltrMaksimum extends FiltrPanel implements KeyListener {
                 }
             }
         }
-        rgb = Fje.jrgb(Fje.obetnij256(maxR), Fje.obetnij256(maxG), Fje.obetnij256(maxB));
+        rgb = jrgb(obetnij256(maxR), obetnij256(maxG), obetnij256(maxB));
         Obraz.image.setRGB(x, y, rgb);
+    }
+    
+    public static int jrgb(int r, int g, int b) {
+        return (r << 16) + (g << 8) + b;
+    }
+    
+    public static int obetnij256(int color) {
+        if (color > 255) {
+            color = 255;
+        } else if (color < 0) {
+            color = 0;
+        }
+        return color;
+    }
+    
+    public static double limitNumber(double number, double limitDown, double limitUp, int decimalNumber) {
+        if (number > limitUp) {
+            number = limitUp;
+        } else if (number < limitDown) {
+            number = limitDown;
+        } else {
+            double tmp = Math.pow(10, decimalNumber);
+            number = Math.round(number * tmp) / tmp;
+        }
+        return number;
+    }
+    
+      public static double getNumber(String text) {
+        double result = 0;
+        if (!text.equals("")) {
+            text = text.replace(",", ".");
+            if (text.equals("-")) {
+                result = 0;
+            } else {
+                result = Double.parseDouble(text);
+            }
+        }
+        return result;
     }
 }

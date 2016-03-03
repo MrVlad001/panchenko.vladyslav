@@ -26,9 +26,13 @@ public class Obraz extends JPanel {
         int rgb;
         for (int x = 0; x < Obraz.image.getWidth(); x++) {
             for (int y = 0; y < Obraz.image.getHeight(); y++) {
-                rgb = Fje.jrgb(wartosc, wartosc, wartosc);
+                rgb = jrgb(wartosc, wartosc, wartosc);
                 Obraz.image.setRGB(x, y, rgb);
             }
         }
+    }
+    
+    public static int jrgb(int r, int g, int b) {
+        return (r << 16) + (g << 8) + b;
     }
 }

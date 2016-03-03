@@ -88,15 +88,28 @@ public class CMYK extends SlidersPanel {
             }
         }
     }
-
+    
+    public static int jrgb(int r, int g, int b) {
+        return (r << 16) + (g << 8) + b;
+    }
+    
+    public static int obetnij256(int color) {
+        if (color > 255) {
+            color = 255;
+        } else if (color < 0) {
+            color = 0;
+        }
+        return color;
+    }
+    
     public int convertToRGB(double c, double m, double y, double k) {
         double r = (1 - (c * (1 - k) + k)) * 255.0;
         double g = (1 - (m * (1 - k) + k)) * 255.0;
         double b = (1 - (y * (1 - k) + k)) * 255.0;
 
-        int r1 = Fje.obetnij256((int)Math.round(r));
-        int g1 = Fje.obetnij256((int)Math.round(g));
-        int b1 = Fje.obetnij256((int)Math.round(b));
-        return Fje.jrgb(r1, g1, b1);
+        int r1 = obetnij256((int)Math.round(r));
+        int g1 = obetnij256((int)Math.round(g));
+        int b1 = obetnij256((int)Math.round(b));
+        return jrgb(r1, g1, b1);
     }
 }

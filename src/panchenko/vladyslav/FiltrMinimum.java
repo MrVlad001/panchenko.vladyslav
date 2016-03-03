@@ -34,8 +34,8 @@ public class FiltrMinimum extends FiltrPanel implements KeyListener {
             double prev;
             tmp = polaFileds[0].getText();
             if (!tmp.equals("")) {
-                prev = Fje.getNumber(tmp);
-                wypelnijValue = (int) Fje.limitNumber(prev, 0, 1, 0);
+                prev = getNumber(tmp);
+                wypelnijValue = (int) limitNumber(prev, 0, 1, 0);
                 if (prev != wypelnijValue) {
                     polaFileds[0].setText("" + wypelnijValue);
                 }
@@ -53,7 +53,7 @@ public class FiltrMinimum extends FiltrPanel implements KeyListener {
             int tmp;
             for (int i = 0; i < rozmMaski; i++) {
                 for (int j = 0; j < rozmMaski; j++) {
-                    tmp = (int) Fje.limitNumber(wartosciMaski[i][j], 0, 1, 0);
+                    tmp = (int) limitNumber(wartosciMaski[i][j], 0, 1, 0);
                     wartosciMaski[i][j] = tmp;
                     maska[j][i].setText("" + tmp);
                 }
@@ -67,7 +67,20 @@ public class FiltrMinimum extends FiltrPanel implements KeyListener {
             Obraz.wypelnij(0);
         }
     }
-
+    
+     public static int jrgb(int r, int g, int b) {
+        return (r << 16) + (g << 8) + b;
+    }
+     
+    public static int obetnij256(int color) {
+        if (color > 255) {
+            color = 255;
+        } else if (color < 0) {
+            color = 0;
+        }
+        return color;
+    } 
+     
     private void obliczPixel(int x, int y) {
         int r = 0, g = 0, b = 0, m, n, rgb, minR = 255, minG = 255, minB = 255;
         for (int i = 0; i < rozmMaski; i++) {
@@ -84,7 +97,33 @@ public class FiltrMinimum extends FiltrPanel implements KeyListener {
                 }
             }
         }
-        rgb = Fje.jrgb(Fje.obetnij256(minR), Fje.obetnij256(minG), Fje.obetnij256(minB));
+        rgb = jrgb(obetnij256(minR), obetnij256(minG), obetnij256(minB));
         Obraz.image.setRGB(x, y, rgb);
     }
+    
+    public static double limitNumber(double number, double limitDown, double limitUp, int decimalNumber) {
+        if (number > limitUp) {
+            number = limitUp;
+        } else if (number < limitDown) {
+            number = limitDown;
+        } else {
+            double tmp = Math.pow(10, decimalNumber);
+            number = Math.round(number * tmp) / tmp;
+        }
+        return number;
+    }
+    
+      public static double getNumber(String text) {
+        double result = 0;
+        if (!text.equals("")) {
+            text = text.replace(",", ".");
+            if (text.equals("-")) {
+                result = 0;
+            } else {
+                result = Double.parseDouble(text);
+            }
+        }
+        return result;
+    }
+    
 }

@@ -48,7 +48,7 @@ public class FiltrSplotUnsharpMask extends FiltrPanel implements KeyListener {
         if (evt == polaFileds[0]) {
             tmp = polaFileds[0].getText();
             if (!tmp.equals("")) {
-                odchylenie = Fje.getNumber(tmp);
+                odchylenie = getNumber(tmp);
                 rysujMaske();
             } else {
                 odchylenie = 1;
@@ -56,7 +56,7 @@ public class FiltrSplotUnsharpMask extends FiltrPanel implements KeyListener {
         } else if (evt == polaFileds[1]) {
             tmp = polaFileds[1].getText();
             if (!tmp.equals("")) {
-                wspolczynnikG = Fje.getNumber(tmp);
+                wspolczynnikG = getNumber(tmp);
                 rysujMaske();
             } else {
                 wspolczynnikG = 1;
@@ -68,7 +68,7 @@ public class FiltrSplotUnsharpMask extends FiltrPanel implements KeyListener {
     protected void filtrujButton() {
         polaFileds[0].setText("" + odchylenie);
         polaFileds[1].setText("" + wspolczynnikG);
-        wspolczynnikUM = Fje.getNumber(polaFileds[2].getText());
+        wspolczynnikUM = getNumber(polaFileds[2].getText());
         polaFileds[2].setText("" + wspolczynnikUM);
         for (int x = 0; x < Obraz.image.getWidth(); x++) {
             for (int y = 0; y < Obraz.image.getHeight(); y++) {
@@ -105,7 +105,7 @@ public class FiltrSplotUnsharpMask extends FiltrPanel implements KeyListener {
         g1 = (int) (wspolczynnikUM * (green[x][y] - ((int) g)));
         b1 = (int) (wspolczynnikUM * (blue[x][y] - ((int) b)));
 
-        rgb = Fje.jrgb(Fje.obetnij256(red[x][y] + r1), Fje.obetnij256(green[x][y] + g1), Fje.obetnij256(blue[x][y] + b1));
+        rgb = jrgb(obetnij256(red[x][y] + r1), obetnij256(green[x][y] + g1), obetnij256(blue[x][y] + b1));
         Obraz.image.setRGB(x, y, rgb);
     }
 
@@ -128,6 +128,32 @@ public class FiltrSplotUnsharpMask extends FiltrPanel implements KeyListener {
         greenCopy[x][y] = g;
         blueCopy[x][y] = b;
     }
+    
+    public static int jrgb(int r, int g, int b) {
+        return (r << 16) + (g << 8) + b;
+    }
+    
+    public static int obetnij256(int color) {
+        if (color > 255) {
+            color = 255;
+        } else if (color < 0) {
+            color = 0;
+        }
+        return color;
+    }
+    
+    public static double getNumber(String text) {
+        double result = 0;
+        if (!text.equals("")) {
+            text = text.replace(",", ".");
+            if (text.equals("-")) {
+                result = 0;
+            } else {
+                result = Double.parseDouble(text);
+            }
+        }
+        return result;
+    }
 
     private void obliczPixelKolumna(int x, int y) {
         double r = 0;
@@ -148,7 +174,7 @@ public class FiltrSplotUnsharpMask extends FiltrPanel implements KeyListener {
         g = (wspolczynnikUM * (green[x][y] - g));
         b = (wspolczynnikUM * (blue[x][y] - b));
 
-        rgb = Fje.jrgb(Fje.obetnij256(red[x][y] + ((int) r)), Fje.obetnij256(green[x][y] + ((int) g)), Fje.obetnij256(blue[x][y] + ((int) b)));
+        rgb = jrgb(obetnij256(red[x][y] + ((int) r)), obetnij256(green[x][y] + ((int) g)), obetnij256(blue[x][y] + ((int) b)));
         Obraz.image.setRGB(x, y, rgb);
     }
 }

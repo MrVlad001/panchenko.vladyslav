@@ -44,16 +44,16 @@ public class TransformataFouriera {
                 bOut[i] = new Complex(Math.log(Math.abs(bOut[i].re()) + 1), Math.log(Math.abs(bOut[i].im()) + 1));
             }
 
-            rOut = Fje.przeskalujComplex256(rOut);
-            gOut = Fje.przeskalujComplex256(gOut);
-            bOut = Fje.przeskalujComplex256(bOut);
+            rOut = przeskalujComplex256(rOut);
+            gOut = przeskalujComplex256(gOut);
+            bOut = przeskalujComplex256(bOut);
         }
         if (type == 0) {
             //realis
             for (int i = 0; i < W * H; i++) {
                 int y = i % H;
                 int x = i / H;
-                int rgb = Fje.jrgb(Fje.obetnij256((int) rOut[i].re()), Fje.obetnij256((int) gOut[i].re()), Fje.obetnij256((int) bOut[i].re()));
+                int rgb = jrgb(obetnij256((int) rOut[i].re()), obetnij256((int) gOut[i].re()), obetnij256((int) bOut[i].re()));
                 ObrazFourier.image.setRGB(x, y, rgb);
             }
         } else if (type == 1) {
@@ -61,7 +61,7 @@ public class TransformataFouriera {
             for (int i = 0; i < W * H; i++) {
                 int y = i % H;
                 int x = i / H;
-                int rgb = Fje.jrgb(Fje.obetnij256((int) rOut[i].im()), Fje.obetnij256((int) gOut[i].im()), Fje.obetnij256((int) bOut[i].im()));
+                int rgb = jrgb(obetnij256((int) rOut[i].im()), obetnij256((int) gOut[i].im()), obetnij256((int) bOut[i].im()));
                 ObrazFourier.image.setRGB(x, y, rgb);
             }
         } else if (type == 2) {
@@ -69,7 +69,7 @@ public class TransformataFouriera {
             for (int i = 0; i < W * H; i++) {
                 int y = i % H;
                 int x = i / H;
-                int rgb = Fje.jrgb(Fje.obetnij256((int) rOut[i].abs()), Fje.obetnij256((int) gOut[i].abs()), Fje.obetnij256((int) bOut[i].abs()));
+                int rgb = jrgb(obetnij256((int) rOut[i].abs()), obetnij256((int) gOut[i].abs()), obetnij256((int) bOut[i].abs()));
                 ObrazFourier.image.setRGB(x, y, rgb);
             }
         } else if (type == 3) {
@@ -84,19 +84,78 @@ public class TransformataFouriera {
                 blue[i] = Math.log(Math.abs(bOut[i].arctanSpecial()) + 1);
             }
 
-            red = Fje.przeskaluj256(red);
-            green = Fje.przeskaluj256(green);
-            blue = Fje.przeskaluj256(blue);
+            red = przeskaluj256(red);
+            green = przeskaluj256(green);
+            blue = przeskaluj256(blue);
 
             for (int i = 0; i < W * H; i++) {
                 int y = i % H;
                 int x = i / H;
-                int rgb = Fje.jrgb(Fje.obetnij256((int) red[i]), Fje.obetnij256((int) green[i]), Fje.obetnij256((int) blue[i]));
+                int rgb = jrgb(obetnij256((int) red[i]), obetnij256((int) green[i]), obetnij256((int) blue[i]));
                 ObrazFourier.image.setRGB(x, y, rgb);
             }
         }
     }
+    
+    public static int jrgb(int r, int g, int b) {
+        return (r << 16) + (g << 8) + b;
+    }
+    
+    public static int obetnij256(int color) {
+        if (color > 255) {
+            color = 255;
+        } else if (color < 0) {
+            color = 0;
+        }
+        return color;
+    }
+    
+    public static double[] przeskaluj256(double[] color) {
+        double max = 0, min = 0, tmp;
+        for (int i = 0; i < color.length; i++) {
+            tmp = color[i];
+            max = Math.max(max, tmp);
+            min = Math.min(min, tmp);
+        }
+        double dlugoscPrzedzialu = max - min;
+        double k = 255 / dlugoscPrzedzialu;
+        double c = k * min;
 
+        for (int i = 0; i < color.length; i++) {
+            color[i] = obetnijCustom(k * color[i] - c, 0, 255);
+        }
+
+        return color;
+    }
+        
+    public static Complex[] przeskalujComplex256(Complex[] color) {
+        double max = 0, min = 0, tmp, tmp1;
+        for (int i = 0; i < color.length; i++) {
+            tmp = color[i].re();
+            tmp1 = color[i].im();
+            max = Math.max(max, Math.max(tmp, tmp1));
+            min = Math.min(min, Math.max(tmp, tmp1));
+        }
+        double dlugoscPrzedzialu = max - min;
+        double k = 255 / dlugoscPrzedzialu;
+        double c = k * min;
+
+        for (int i = 0; i < color.length; i++) {
+            color[i] = new Complex(obetnijCustom(k * color[i].re() - c, 0, 255), obetnijCustom(k * color[i].im() - c, 0, 255));
+        }
+
+        return color;
+    }
+    
+      public static double obetnijCustom(double color, double limitDown, double limitUp) {
+        if (color > limitUp) {
+            color = limitUp;
+        } else if (color < limitDown) {
+            color = limitDown;
+        }
+        return color;
+    }
+    
     public Complex[] zmienCwiartki(Complex[] tab) {
         int n = tab.length / 4;
         Complex[] tab1 = new Complex[n];

@@ -39,8 +39,8 @@ public class FiltrSplot extends FiltrPanel {
                 refresh = true;
             }
             if (!tmp.equals("") && !tmp.equals("-")) {
-                prev = Fje.getNumber(tmp);
-                wypelnijValue = Fje.limitNumber(prev, -1000, 1000, 1);
+                prev = getNumber(tmp);
+                wypelnijValue = limitNumber(prev, -1000, 1000, 1);
                 tmp = "" + wypelnijValue;
                 wypelnijToPrint = tmp.replace(".", ",");
                 if (prev != wypelnijValue || refresh) {
@@ -62,6 +62,44 @@ public class FiltrSplot extends FiltrPanel {
             }
         }
     }
+    
+    public static int jrgb(int r, int g, int b) {
+        return (r << 16) + (g << 8) + b;
+    }
+    
+    public static int obetnij256(int color) {
+        if (color > 255) {
+            color = 255;
+        } else if (color < 0) {
+            color = 0;
+        }
+        return color;
+    }
+    
+    public static double limitNumber(double number, double limitDown, double limitUp, int decimalNumber) {
+        if (number > limitUp) {
+            number = limitUp;
+        } else if (number < limitDown) {
+            number = limitDown;
+        } else {
+            double tmp = Math.pow(10, decimalNumber);
+            number = Math.round(number * tmp) / tmp;
+        }
+        return number;
+    }
+    
+      public static double getNumber(String text) {
+        double result = 0;
+        if (!text.equals("")) {
+            text = text.replace(",", ".");
+            if (text.equals("-")) {
+                result = 0;
+            } else {
+                result = Double.parseDouble(text);
+            }
+        }
+        return result;
+    }
 
     private void obliczPixel(int x, int y) {
         double r = 0;
@@ -82,7 +120,7 @@ public class FiltrSplot extends FiltrPanel {
         g /= sumaMaska;
         b /= sumaMaska;
 
-        rgb = Fje.jrgb(Fje.obetnij256((int) r), Fje.obetnij256((int) g), Fje.obetnij256((int) b));
+        rgb = jrgb(obetnij256((int) r), obetnij256((int) g), obetnij256((int) b));
         Obraz.image.setRGB(x, y, rgb);
     }
 }

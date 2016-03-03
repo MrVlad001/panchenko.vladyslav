@@ -63,9 +63,9 @@ public final class Luv extends SlidersPanel {
     }
 
     private void dodajDoLuv(int x, int y) {
-        L = Fje.obetnijCustomFloat((lTab[x][y] + dodajL), 0, 100);
-        u = Fje.obetnijCustomFloat((uTab[x][y] + dodajU), -134, 220);
-        v = Fje.obetnijCustomFloat((vTab[x][y] + dodajV), -140, 122);
+        L = obetnijCustomFloat((lTab[x][y] + dodajL), 0, 100);
+        u = obetnijCustomFloat((uTab[x][y] + dodajU), -134, 220);
+        v = obetnijCustomFloat((vTab[x][y] + dodajV), -140, 122);
     }
 
     private void konwertujDoLuv() {
@@ -96,6 +96,15 @@ public final class Luv extends SlidersPanel {
                 vTab[x][y] = tmpL * (vi - vn);
             }
         }
+    }
+    
+     public static float obetnijCustomFloat(float color, float limitDown, float limitUp) {
+        if (color > limitUp) {
+            color = limitUp;
+        } else if (color < limitDown) {
+            color = limitDown;
+        }
+        return color;
     }
 
     private float[][] konwertujDoXYZ() {

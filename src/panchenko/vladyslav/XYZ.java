@@ -32,19 +32,19 @@ public class XYZ {
         rgbMatrix[0][1] = tabWartosci[g];
         rgbMatrix[0][2] = tabWartosci[b];
 
-        return Fje.wymnozMacierze(rgbMatrix, mMatrix);
+        return wymnozMacierze(rgbMatrix, mMatrix);
     }
 
     public int konwertujDoRGB(float[][] xyzMatrix) {
-        float[][] rgbMatrix = Fje.wymnozMacierze(xyzMatrix, mMatrix2);
+        float[][] rgbMatrix = wymnozMacierze(xyzMatrix, mMatrix2);
         float gamma = 1 / 2.2f;
         int r, g, b;
 
-        r = Fje.konwertuj256(Math.pow(rgbMatrix[0][0], gamma));
-        g = Fje.konwertuj256(Math.pow(rgbMatrix[0][1], gamma));
-        b = Fje.konwertuj256(Math.pow(rgbMatrix[0][2], gamma));
+        r = konwertuj256(Math.pow(rgbMatrix[0][0], gamma));
+        g = konwertuj256(Math.pow(rgbMatrix[0][1], gamma));
+        b = konwertuj256(Math.pow(rgbMatrix[0][2], gamma));
 
-        return Fje.jrgb(r, g, b);
+        return jrgb(r, g, b);
     }
 
     public static float[][] genMmatrix() {
@@ -81,4 +81,40 @@ public class XYZ {
             tabWartosci[i] = (float) Math.pow(i / 255.0, gamma);
         }
     }
+    
+    public static int jrgb(int r, int g, int b) {
+        return (r << 16) + (g << 8) + b;
+    }
+    
+       public static int konwertuj256(double color) {
+        return obetnij256((int) (color * 255.0));
+    }
+       
+      public static int obetnij256(int color) {
+        if (color > 255) {
+            color = 255;
+        } else if (color < 0) {
+            color = 0;
+        }
+        return color;
+    }  
+ 
+      public static float[][] wymnozMacierze(float[][] tab1, float[][] tab2) {
+        float[][] macierzPomnozona = new float[tab1.length][tab2[0].length];
+        if (tab1[0].length == tab2.length) {
+            for (int i = 0; i < tab1.length; i++) {//ilosc wierszy tab1
+                for (int j = 0; j < tab2[0].length; j++) { //ilosc kolumn tab2
+                    double temp = 0;
+                    for (int w = 0; w < tab2.length; w++) { //ilosc wierszy tab2
+                        temp += tab1[i][w] * tab2[w][j];
+                    }
+                    macierzPomnozona[i][j] = (float) temp;
+                }
+            }
+        } else {
+            throw new RuntimeException("Podane tablice mają niewłasciwe wymiary");
+        }
+        return macierzPomnozona;
+    }
+    
 }

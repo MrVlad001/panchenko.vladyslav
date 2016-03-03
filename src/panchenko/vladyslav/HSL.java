@@ -106,14 +106,36 @@ public class HSL extends SlidersPanel {
                     h2 = 720 + h2;
                 }
                 h2 %= 360.0;
-                l2 = Fje.obetnij1(l2);
-                s2 = Fje.obetnij1(s2);
+                l2 = obetnij1(l2);
+                s2 = obetnij1(s2);
                 rgb = konwertujDoRGB(h2, l2, s2);
                 Obraz.image.setRGB(x, y, rgb);
             }
         }
     }
-
+    
+    public static int jrgb(int r, int g, int b) {
+        return (r << 16) + (g << 8) + b;
+    }
+    
+    public static int obetnij256(int color) {
+        if (color > 255) {
+            color = 255;
+        } else if (color < 0) {
+            color = 0;
+        }
+        return color;
+    }
+    
+     public static double obetnij1(double color) {
+        if (color > 1) {
+            color = 1.0;
+        } else if (color < 0) {
+            color = 0.0;
+        }
+        return color;
+    }
+    
     public int konwertujDoRGB(double h2, double l2, double s2) {
         double r, g, b;
         int r1, g1, b1;
@@ -162,10 +184,11 @@ public class HSL extends SlidersPanel {
             g = Math.round(Crgb[1]);
             b = Math.round(Crgb[2]);
         }
-        r1 = Fje.obetnij256((int) r);
-        g1 = Fje.obetnij256((int) g);
-        b1 = Fje.obetnij256((int) b);
+        r1 = obetnij256((int) r);
+        g1 = obetnij256((int) g);
+        b1 = obetnij256((int) b);
 
-        return Fje.jrgb(r1, g1, b1);
+        return jrgb(r1, g1, b1);
     }
+    
 }
