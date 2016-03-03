@@ -32,8 +32,8 @@ public class CMYK extends SlidersPanel {
 
     @Override
     public void sliderAction() {
-        konwertujDoCMYK();
-        dodajDoCMYK();
+        convertToCMYK();
+        addToCMYK();
     }
 
     @Override
@@ -45,7 +45,7 @@ public class CMYK extends SlidersPanel {
         }
     }
 
-    private void konwertujDoCMYK() {
+    private void convertToCMYK() {
         double rU, gU, bU, k;
         for (int x = 0; x < Obraz.image.getWidth(); x++) {
             for (int y = 0; y < Obraz.image.getHeight(); y++) {
@@ -67,36 +67,36 @@ public class CMYK extends SlidersPanel {
         }
     }
 
-    private void dodajDoCMYK() {
-        double dodajCyjan = slider[0].getValue() / 100.0;
-        double dodajMagenta = slider[1].getValue() / 100.0;
-        double dodajYellow = slider[2].getValue() / 100.0;
-        double dodajBlack = slider[3].getValue() / 100.0;
+    private void addToCMYK() {
+        double addCyjan = slider[0].getValue() / 100.0;
+        double addMagenta = slider[1].getValue() / 100.0;
+        double addYellow = slider[2].getValue() / 100.0;
+        double addBlack = slider[3].getValue() / 100.0;
         double c, m, ye, k;
         int rgb;
-        if (dodajCyjan != 0 || dodajMagenta != 0 || dodajYellow != 0 || dodajBlack != 0) {
+        if (addCyjan != 0 || addMagenta != 0 || addYellow != 0 || addBlack != 0) {
             for (int x = 0; x < Obraz.image.getWidth(); x++) {
                 for (int y = 0; y < Obraz.image.getHeight(); y++) {
-                    c = cyjan[x][y] + dodajCyjan;
-                    m = magenta[x][y] + dodajMagenta;
-                    ye = yellow[x][y] + dodajYellow;
-                    k = black[x][y] + dodajBlack;
+                    c = cyjan[x][y] + addCyjan;
+                    m = magenta[x][y] + addMagenta;
+                    ye = yellow[x][y] + addYellow;
+                    k = black[x][y] + addBlack;
 
-                    rgb = konwertujDoRGB(c, m, ye, k);
+                    rgb = convertToRGB(c, m, ye, k);
                     Obraz.image.setRGB(x, y, rgb);
                 }
             }
         }
     }
 
-    public int konwertujDoRGB(double c, double m, double y, double k) {
+    public int convertToRGB(double c, double m, double y, double k) {
         double r = (1 - (c * (1 - k) + k)) * 255.0;
         double g = (1 - (m * (1 - k) + k)) * 255.0;
         double b = (1 - (y * (1 - k) + k)) * 255.0;
 
-        int r1 = Fje.obetnij256((int) Math.round(r));
-        int g1 = Fje.obetnij256((int) Math.round(g));
-        int b1 = Fje.obetnij256((int) Math.round(b));
+        int r1 = Fje.obetnij256((int)Math.round(r));
+        int g1 = Fje.obetnij256((int)Math.round(g));
+        int b1 = Fje.obetnij256((int)Math.round(b));
         return Fje.jrgb(r1, g1, b1);
     }
 }
