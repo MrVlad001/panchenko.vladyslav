@@ -34,9 +34,9 @@ public class TransformataFouriera {
         gOut = FFT.fft(gIn);
         bOut = FFT.fft(bIn);
 
-        rOut = zmienCwiartki(rOut);
-        gOut = zmienCwiartki(gOut);
-        bOut = zmienCwiartki(bOut);
+        rOut = changeSectors(rOut);
+        gOut = changeSectors(gOut);
+        bOut = changeSectors(bOut);
         if (type != 3) {
             for (int i = 0; i < rOut.length; i++) {
                 rOut[i] = new Complex(Math.log(Math.abs(rOut[i].re()) + 1), Math.log(Math.abs(rOut[i].im()) + 1));
@@ -44,16 +44,16 @@ public class TransformataFouriera {
                 bOut[i] = new Complex(Math.log(Math.abs(bOut[i].re()) + 1), Math.log(Math.abs(bOut[i].im()) + 1));
             }
 
-            rOut = przeskalujComplex256(rOut);
-            gOut = przeskalujComplex256(gOut);
-            bOut = przeskalujComplex256(bOut);
+            rOut = scanComplex256(rOut);
+            gOut = scanComplex256(gOut);
+            bOut = scanComplex256(bOut);
         }
         if (type == 0) {
             //realis
             for (int i = 0; i < W * H; i++) {
                 int y = i % H;
                 int x = i / H;
-                int rgb = jrgb(obetnij256((int) rOut[i].re()), obetnij256((int) gOut[i].re()), obetnij256((int) bOut[i].re()));
+                int rgb = jrgb(erase256((int) rOut[i].re()), erase256((int) gOut[i].re()), erase256((int) bOut[i].re()));
                 ObrazFourier.image.setRGB(x, y, rgb);
             }
         } else if (type == 1) {
@@ -61,7 +61,7 @@ public class TransformataFouriera {
             for (int i = 0; i < W * H; i++) {
                 int y = i % H;
                 int x = i / H;
-                int rgb = jrgb(obetnij256((int) rOut[i].im()), obetnij256((int) gOut[i].im()), obetnij256((int) bOut[i].im()));
+                int rgb = jrgb(erase256((int) rOut[i].im()), erase256((int) gOut[i].im()), erase256((int) bOut[i].im()));
                 ObrazFourier.image.setRGB(x, y, rgb);
             }
         } else if (type == 2) {
@@ -69,7 +69,7 @@ public class TransformataFouriera {
             for (int i = 0; i < W * H; i++) {
                 int y = i % H;
                 int x = i / H;
-                int rgb = jrgb(obetnij256((int) rOut[i].abs()), obetnij256((int) gOut[i].abs()), obetnij256((int) bOut[i].abs()));
+                int rgb = jrgb(erase256((int) rOut[i].abs()), erase256((int) gOut[i].abs()), erase256((int) bOut[i].abs()));
                 ObrazFourier.image.setRGB(x, y, rgb);
             }
         } else if (type == 3) {
@@ -84,14 +84,14 @@ public class TransformataFouriera {
                 blue[i] = Math.log(Math.abs(bOut[i].arctanSpecial()) + 1);
             }
 
-            red = przeskaluj256(red);
-            green = przeskaluj256(green);
-            blue = przeskaluj256(blue);
+            red = scan256(red);
+            green = scan256(green);
+            blue = scan256(blue);
 
             for (int i = 0; i < W * H; i++) {
                 int y = i % H;
                 int x = i / H;
-                int rgb = jrgb(obetnij256((int) red[i]), obetnij256((int) green[i]), obetnij256((int) blue[i]));
+                int rgb = jrgb(erase256((int) red[i]), erase256((int) green[i]), erase256((int) blue[i]));
                 ObrazFourier.image.setRGB(x, y, rgb);
             }
         }
@@ -101,7 +101,7 @@ public class TransformataFouriera {
         return (r << 16) + (g << 8) + b;
     }
     
-    public static int obetnij256(int color) {
+    public static int erase256(int color) {
         if (color > 255) {
             color = 255;
         } else if (color < 0) {
@@ -110,7 +110,7 @@ public class TransformataFouriera {
         return color;
     }
     
-    public static double[] przeskaluj256(double[] color) {
+    public static double[] scan256(double[] color) {
         double max = 0, min = 0, tmp;
         for (int i = 0; i < color.length; i++) {
             tmp = color[i];
@@ -122,13 +122,13 @@ public class TransformataFouriera {
         double c = k * min;
 
         for (int i = 0; i < color.length; i++) {
-            color[i] = obetnijCustom(k * color[i] - c, 0, 255);
+            color[i] = eraseCustom(k * color[i] - c, 0, 255);
         }
 
         return color;
     }
         
-    public static Complex[] przeskalujComplex256(Complex[] color) {
+    public static Complex[] scanComplex256(Complex[] color) {
         double max = 0, min = 0, tmp, tmp1;
         for (int i = 0; i < color.length; i++) {
             tmp = color[i].re();
@@ -141,13 +141,13 @@ public class TransformataFouriera {
         double c = k * min;
 
         for (int i = 0; i < color.length; i++) {
-            color[i] = new Complex(obetnijCustom(k * color[i].re() - c, 0, 255), obetnijCustom(k * color[i].im() - c, 0, 255));
+            color[i] = new Complex(eraseCustom(k * color[i].re() - c, 0, 255), eraseCustom(k * color[i].im() - c, 0, 255));
         }
 
         return color;
     }
     
-      public static double obetnijCustom(double color, double limitDown, double limitUp) {
+      public static double eraseCustom(double color, double limitDown, double limitUp) {
         if (color > limitUp) {
             color = limitUp;
         } else if (color < limitDown) {
@@ -156,13 +156,13 @@ public class TransformataFouriera {
         return color;
     }
     
-    public Complex[] zmienCwiartki(Complex[] tab) {
-        int n = tab.length / 4;
-        Complex[] tab1 = new Complex[n];
-        Complex[] tab2 = new Complex[n];
-        Complex[] tab3 = new Complex[n];
-        Complex[] tab4 = new Complex[n];
-        Complex[] tabr = new Complex[tab.length];
+    public Complex[] changeSectors(Complex[] array) {
+        int n = array.length / 4;
+        Complex[] arr1 = new Complex[n];
+        Complex[] arr2 = new Complex[n];
+        Complex[] arr3 = new Complex[n];
+        Complex[] arr4 = new Complex[n];
+        Complex[] resultArr = new Complex[array.length];
         int a, b, c, d;
         a = b = c = d = 0;
 
@@ -170,22 +170,18 @@ public class TransformataFouriera {
             for (int y = 0; y < H; y++) {
                 if (x < H / 2) {
                     if (y < W / 2) {
-                        //pierwsza ćwiartka
-                        tab1[a] = tab[H * x + y];
+                        arr1[a] = array[H * x + y];
                         a++;
                     } else {
-                        //czwarta ćwiartka
-                        tab4[b] = tab[H * x + y];
+                        arr4[b] = array[H * x + y];
                         b++;
                     }
                 } else {
                     if (y < W / 2) {
-                        //druga ćwiartka
-                        tab2[d] = tab[H * x + y];
+                        arr2[d] = array[H * x + y];
                         d++;
                     } else {
-                        //trzecia ćwiartka
-                        tab3[c] = tab[H * x + y];
+                        arr3[c] = array[H * x + y];
                         c++;
                     }
                 }
@@ -197,27 +193,23 @@ public class TransformataFouriera {
             for (int y = 0; y < H; y++) {
                 if (x < H / 2) {
                     if (y < W / 2) {
-                        //pierwsza ćwiartka
-                        tabr[H * x + y] = tab3[a];
+                        resultArr[H * x + y] = arr3[a];
                         a++;
                     } else {
-                        //czwarta ćwiartka
-                        tabr[H * x + y] = tab2[b];
+                        resultArr[H * x + y] = arr2[b];
                         b++;
                     }
                 } else {
                     if (y < W / 2) {
-                        //druga ćwiartka
-                        tabr[H * x + y] = tab4[d];
+                        resultArr[H * x + y] = arr4[d];
                         d++;
                     } else {
-                        //trzecia ćwiartka
-                        tabr[H * x + y] = tab1[c];
+                        resultArr[H * x + y] = arr1[c];
                         c++;
                     }
                 }
             }
         }
-        return tabr;
+        return resultArr;
     }
 }

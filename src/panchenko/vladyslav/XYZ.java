@@ -13,12 +13,12 @@ public class XYZ {
     public static float refZ = 1.0891f;
     public static float[][] mMatrix;
     public static float[][] mMatrix2;
-    private float[] tabWartosci = new float[256];
+    private float[] arrValue = new float[256];
 
     public XYZ() {
         mMatrix = genMmatrix();
         mMatrix2 = genMmatrix2();
-        genTabWartosci();
+        genArrValue();
     }
 
     public float[][] konwertujDoXYZ(int rgb) {
@@ -28,21 +28,21 @@ public class XYZ {
         int b = color.getBlue();
 
         float[][] rgbMatrix = new float[1][3];
-        rgbMatrix[0][0] = tabWartosci[r];
-        rgbMatrix[0][1] = tabWartosci[g];
-        rgbMatrix[0][2] = tabWartosci[b];
+        rgbMatrix[0][0] = arrValue[r];
+        rgbMatrix[0][1] = arrValue[g];
+        rgbMatrix[0][2] = arrValue[b];
 
-        return wymnozMacierze(rgbMatrix, mMatrix);
+        return matrixMultiplication(rgbMatrix, mMatrix);
     }
 
     public int konwertujDoRGB(float[][] xyzMatrix) {
-        float[][] rgbMatrix = wymnozMacierze(xyzMatrix, mMatrix2);
+        float[][] rgbMatrix = matrixMultiplication(xyzMatrix, mMatrix2);
         float gamma = 1 / 2.2f;
         int r, g, b;
 
-        r = konwertuj256(Math.pow(rgbMatrix[0][0], gamma));
-        g = konwertuj256(Math.pow(rgbMatrix[0][1], gamma));
-        b = konwertuj256(Math.pow(rgbMatrix[0][2], gamma));
+        r = convert256(Math.pow(rgbMatrix[0][0], gamma));
+        g = convert256(Math.pow(rgbMatrix[0][1], gamma));
+        b = convert256(Math.pow(rgbMatrix[0][2], gamma));
 
         return jrgb(r, g, b);
     }
@@ -75,10 +75,10 @@ public class XYZ {
         return matrix;
     }
 
-    private void genTabWartosci() {
+    private void genArrValue() {
         float gamma = 2.2f;
-        for (int i = 0; i < tabWartosci.length; i++) {
-            tabWartosci[i] = (float) Math.pow(i / 255.0, gamma);
+        for (int i = 0; i < arrValue.length; i++) {
+            arrValue[i] = (float) Math.pow(i / 255.0, gamma);
         }
     }
     
@@ -86,11 +86,11 @@ public class XYZ {
         return (r << 16) + (g << 8) + b;
     }
     
-       public static int konwertuj256(double color) {
-        return obetnij256((int) (color * 255.0));
+    public static int convert256(double color) {
+        return erase256((int) (color * 255.0));
     }
        
-      public static int obetnij256(int color) {
+    public static int erase256(int color) {
         if (color > 255) {
             color = 255;
         } else if (color < 0) {
@@ -99,22 +99,22 @@ public class XYZ {
         return color;
     }  
  
-      public static float[][] wymnozMacierze(float[][] tab1, float[][] tab2) {
-        float[][] macierzPomnozona = new float[tab1.length][tab2[0].length];
+      public static float[][] matrixMultiplication(float[][] tab1, float[][] tab2) {
+        float[][] newMatrix = new float[tab1.length][tab2[0].length];
         if (tab1[0].length == tab2.length) {
-            for (int i = 0; i < tab1.length; i++) {//ilosc wierszy tab1
-                for (int j = 0; j < tab2[0].length; j++) { //ilosc kolumn tab2
+            for (int i = 0; i < tab1.length; i++) {
+                for (int j = 0; j < tab2[0].length; j++) {
                     double temp = 0;
-                    for (int w = 0; w < tab2.length; w++) { //ilosc wierszy tab2
+                    for (int w = 0; w < tab2.length; w++) {
                         temp += tab1[i][w] * tab2[w][j];
                     }
-                    macierzPomnozona[i][j] = (float) temp;
+                    newMatrix[i][j] = (float) temp;
                 }
             }
         } else {
             throw new RuntimeException("Podane tablice mają niewłasciwe wymiary");
         }
-        return macierzPomnozona;
+        return newMatrix;
     }
     
 }
