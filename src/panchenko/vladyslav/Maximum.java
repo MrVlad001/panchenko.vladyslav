@@ -15,10 +15,10 @@ public class Maximum extends FiltrPanel implements KeyListener {
 
     public Maximum(JFrame parent) {
         super(parent, "Filtr maksimum", 1, 0);
-        polaLabels[0].setText("Wypełnij");
-        polaFileds[0].setText("");
-        polaFileds[0].addKeyListener((KeyListener) this);
-        rysujMaske();
+        fieldLabels[0].setText("Wypełnij");
+        fields[0].setText("");
+        fields[0].addKeyListener((KeyListener) this);
+        printMask();
     }
 
     @Override
@@ -29,33 +29,33 @@ public class Maximum extends FiltrPanel implements KeyListener {
     @Override
     public void keyReleased(KeyEvent ke) {
         Object evt = ke.getSource();
-        if (evt == polaFileds[0]) {
+        if (evt == fields[0]) {
             String tmp;
             double prev;
-            tmp = polaFileds[0].getText();
+            tmp = fields[0].getText();
             if (!tmp.equals("")) {
                 prev = getNumber(tmp);
                 wypelnijValue = (int) limitNumber(prev, 0, 1, 0);
                 if (prev != wypelnijValue) {
-                    polaFileds[0].setText("" + wypelnijValue);
+                    fields[0].setText("" + wypelnijValue);
                 }
             } else {
                 wypelnijValue = 0;
             }
-            rysujMaske();
+            printMask();
         }
     }
 
     @Override
     protected void filtrujButton() {
-        polaFileds[0].setText("");
-        if (maskaNiePusta) {
+        fields[0].setText("");
+        if (notFullMask) {
             int tmp = 0;
-            for (int i = 0; i < rozmMaski; i++) {
-                for (int j = 0; j < rozmMaski; j++) {
-                    tmp = (int) limitNumber(wartosciMaski[i][j], 0, 1, 0);
-                    wartosciMaski[i][j] = tmp;
-                    maska[j][i].setText("" + tmp);
+            for (int i = 0; i < sizeMask; i++) {
+                for (int j = 0; j < sizeMask; j++) {
+                    tmp = (int) limitNumber(valueMask[i][j], 0, 1, 0);
+                    valueMask[i][j] = tmp;
+                    mask[j][i].setText("" + tmp);
                 }
             }
             for (int x = 0; x < Image.image.getWidth(); x++) {
@@ -71,11 +71,11 @@ public class Maximum extends FiltrPanel implements KeyListener {
 
     private void obliczPixel(int x, int y) {
         int r = 0, g = 0, b = 0, m, n, rgb, maxR = 0, maxG = 0, maxB = 0;
-        for (int i = 0; i < rozmMaski; i++) {
-            for (int j = 0; j < rozmMaski; j++) {
-                if (wartosciMaski[i][j] != 0) {
-                    m = odbicieLustrzane(x + i - nrMaski, 'x');
-                    n = odbicieLustrzane(y + j - nrMaski, 'y');
+        for (int i = 0; i < sizeMask; i++) {
+            for (int j = 0; j < sizeMask; j++) {
+                if (valueMask[i][j] != 0) {
+                    m = odbicieLustrzane(x + i - numMask, 'x');
+                    n = odbicieLustrzane(y + j - numMask, 'y');
                     r = red[m][n];
                     g = green[m][n];
                     b = blue[m][n];

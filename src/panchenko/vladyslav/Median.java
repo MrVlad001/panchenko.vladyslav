@@ -23,10 +23,10 @@ public class Median extends FiltrPanel implements KeyListener {
 
     public Median(JFrame parent) {
         super(parent, "Filtr mediana", 1, 0);
-        polaLabels[0].setText("Wypełnij");
-        polaFileds[0].setText("");
-        polaFileds[0].addKeyListener((KeyListener) this);
-        rysujMaske();
+        fieldLabels[0].setText("Wypełnij");
+        fields[0].setText("");
+        fields[0].addKeyListener((KeyListener) this);
+        printMask();
     }
 
     @Override
@@ -37,45 +37,45 @@ public class Median extends FiltrPanel implements KeyListener {
     @Override
     public void keyReleased(KeyEvent ke) {
         Object evt = ke.getSource();
-        if (evt == polaFileds[0]) {
+        if (evt == fields[0]) {
             String tmp;
             double prev;
-            tmp = polaFileds[0].getText();
+            tmp = fields[0].getText();
             if (!tmp.equals("")) {
                 prev = getNumber(tmp);
                 wypelnijValue = (int) limitNumber(prev, 0, 1, 0);
                 if (prev != wypelnijValue) {
-                    polaFileds[0].setText("" + wypelnijValue);
+                    fields[0].setText("" + wypelnijValue);
                 }
             } else {
                 wypelnijValue = 0;
             }
-            rysujMaske();
+            printMask();
         }
     }
 
     @Override
     protected void filtrujButton() {
-        polaFileds[0].setText("");
-        if (maskaNiePusta) {
+        fields[0].setText("");
+        if (notFullMask) {
             int tmp;
-            rMaskaValue = new int[rozmMaski][rozmMaski];
-            gMaskaValue = new int[rozmMaski][rozmMaski];
-            bMaskaValue = new int[rozmMaski][rozmMaski];
-            sumaMaska = 0;
-            for (int i = 0; i < rozmMaski; i++) {
-                rMaskaValue[i] = new int[rozmMaski];
-                gMaskaValue[i] = new int[rozmMaski];
-                bMaskaValue[i] = new int[rozmMaski];
-                for (int j = 0; j < rozmMaski; j++) {
-                    tmp = (int) limitNumber(wartosciMaski[i][j], 0, 1, 0);
-                    wartosciMaski[i][j] = tmp;
-                    maska[j][i].setText("" + tmp);
-                    sumaMaska += tmp;
+            rMaskaValue = new int[sizeMask][sizeMask];
+            gMaskaValue = new int[sizeMask][sizeMask];
+            bMaskaValue = new int[sizeMask][sizeMask];
+            sumMask = 0;
+            for (int i = 0; i < sizeMask; i++) {
+                rMaskaValue[i] = new int[sizeMask];
+                gMaskaValue[i] = new int[sizeMask];
+                bMaskaValue[i] = new int[sizeMask];
+                for (int j = 0; j < sizeMask; j++) {
+                    tmp = (int) limitNumber(valueMask[i][j], 0, 1, 0);
+                    valueMask[i][j] = tmp;
+                    mask[j][i].setText("" + tmp);
+                    sumMask += tmp;
                 }
             }
             setStodkowaWartoscMaski();
-            if (sumaMaska == rozmMaski * rozmMaski) {
+            if (sumMask == sizeMask * sizeMask) {
                 for (int x = 0; x < Image.image.getWidth(); x++) {
                     for (int y = 0; y < Image.image.getHeight(); y++) {
                         if (y == 0) {
@@ -99,10 +99,10 @@ public class Median extends FiltrPanel implements KeyListener {
         int r, g, b, m, n, rgb;
         zerujTabeleWartosci();
 
-        for (int i = 0; i < rozmMaski; i++) {
-            for (int j = 0; j < rozmMaski; j++) {
-                m = odbicieLustrzane(x + i - nrMaski, 'x');
-                n = odbicieLustrzane(y + j - nrMaski, 'y');
+        for (int i = 0; i < sizeMask; i++) {
+            for (int j = 0; j < sizeMask; j++) {
+                m = odbicieLustrzane(x + i - numMask, 'x');
+                n = odbicieLustrzane(y + j - numMask, 'y');
                 rMaskaValue[i][j] = r = red[m][n];
                 gMaskaValue[i][j] = g = green[m][n];
                 bMaskaValue[i][j] = b = blue[m][n];
@@ -118,17 +118,17 @@ public class Median extends FiltrPanel implements KeyListener {
 
     private void obliczPixelOptimal(int x, int y) {
         int r, g, b, m, n, rgb;
-        int i = rozmMaski - 1;
-        n = odbicieLustrzane(y + i - nrMaski, 'y');
+        int i = sizeMask - 1;
+        n = odbicieLustrzane(y + i - numMask, 'y');
 
-        for (int j = 0; j < rozmMaski; j++) {
+        for (int j = 0; j < sizeMask; j++) {
             r = rMaskaValue[j][superZnacznik];
             g = gMaskaValue[j][superZnacznik];
             b = bMaskaValue[j][superZnacznik];
             tabelaWartosciR[r]--;
             tabelaWartosciG[g]--;
             tabelaWartosciB[b]--;
-            m = odbicieLustrzane(x + j - nrMaski, 'x');
+            m = odbicieLustrzane(x + j - numMask, 'x');
             rMaskaValue[j][superZnacznik] = r = red[m][n];
             gMaskaValue[j][superZnacznik] = g = green[m][n];
             bMaskaValue[j][superZnacznik] = b = blue[m][n];
@@ -139,18 +139,18 @@ public class Median extends FiltrPanel implements KeyListener {
         rgb = mediana();
         Image.image.setRGB(x, y, rgb);
         superZnacznik++;
-        superZnacznik %= rozmMaski;
+        superZnacznik %= sizeMask;
     }
 
     private void obliczPixel(int x, int y) {
         int r, g, b, m, n, rgb;
         zerujTabeleWartosci();
 
-        for (int i = 0; i < rozmMaski; i++) {
-            for (int j = 0; j < rozmMaski; j++) {
-                if (wartosciMaski[i][j] != 0) {
-                    m = odbicieLustrzane(x + i - nrMaski, 'x');
-                    n = odbicieLustrzane(y + j - nrMaski, 'y');
+        for (int i = 0; i < sizeMask; i++) {
+            for (int j = 0; j < sizeMask; j++) {
+                if (valueMask[i][j] != 0) {
+                    m = odbicieLustrzane(x + i - numMask, 'x');
+                    n = odbicieLustrzane(y + j - numMask, 'y');
                     r = red[m][n];
                     g = green[m][n];
                     b = blue[m][n];
@@ -200,10 +200,10 @@ public class Median extends FiltrPanel implements KeyListener {
     }
 
     private void setStodkowaWartoscMaski() {
-        if (sumaMaska % 2 == 1) {
-            srodkowaWartoscMaski = (int) Math.floor(sumaMaska / 2.0) + 1;
+        if (sumMask % 2 == 1) {
+            srodkowaWartoscMaski = (int) Math.floor(sumMask / 2.0) + 1;
         } else {
-            srodkowaWartoscMaski = (int) Math.floor(sumaMaska / 2.0);
+            srodkowaWartoscMaski = (int) Math.floor(sumMask / 2.0);
         }
 
     }

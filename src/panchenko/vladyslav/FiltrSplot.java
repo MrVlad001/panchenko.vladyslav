@@ -16,10 +16,10 @@ public class FiltrSplot extends FiltrPanel {
 
     public FiltrSplot(JFrame parent) {
         super(parent, "Funkcja splotu", 1, 2);
-        polaLabels[0].setText("Wypełnij");
-        polaFileds[0].setText("");
-        polaFileds[0].addKeyListener((KeyListener) this);
-        rysujMaske();
+        fieldLabels[0].setText("Wypełnij");
+        fields[0].setText("");
+        fields[0].addKeyListener((KeyListener) this);
+        printMask();
     }
 
     @Override
@@ -33,8 +33,8 @@ public class FiltrSplot extends FiltrPanel {
         String tmp;
         double prev;
         boolean refresh = false;
-        if (evt == polaFileds[0]) {
-            tmp = polaFileds[0].getText();
+        if (evt == fields[0]) {
+            tmp = fields[0].getText();
             if (tmp.contains(".") && tmp.substring(tmp.lastIndexOf(".")).length() > 1) {
                 refresh = true;
             }
@@ -46,16 +46,16 @@ public class FiltrSplot extends FiltrPanel {
                 if (prev != wypelnijValue || refresh) {
                     tmp = "" + wypelnijValue;
                     wypelnijToPrint = tmp.replace(".", ",");
-                    polaFileds[0].setText(wypelnijToPrint);
+                    fields[0].setText(wypelnijToPrint);
                 }
-                rysujMaske();
+                printMask();
             }
         }
     }
 
     @Override
     protected void filtrujButton() {
-        polaFileds[0].setText("");
+        fields[0].setText("");
         for (int x = 0; x < Image.image.getWidth(); x++) {
             for (int y = 0; y < Image.image.getHeight(); y++) {
                 obliczPixel(x, y);
@@ -106,19 +106,19 @@ public class FiltrSplot extends FiltrPanel {
         double g = 0;
         double b = 0;
         int m, n, rgb;
-        for (int i = 0; i < rozmMaski; i++) {
-            for (int j = 0; j < rozmMaski; j++) {
-                m = odbicieLustrzane(x + i - nrMaski, 'x');
-                n = odbicieLustrzane(y + j - nrMaski, 'y');
+        for (int i = 0; i < sizeMask; i++) {
+            for (int j = 0; j < sizeMask; j++) {
+                m = odbicieLustrzane(x + i - numMask, 'x');
+                n = odbicieLustrzane(y + j - numMask, 'y');
 
-                r += red[m][n] * wartosciMaski[i][j];
-                g += green[m][n] * wartosciMaski[i][j];
-                b += blue[m][n] * wartosciMaski[i][j];
+                r += red[m][n] * valueMask[i][j];
+                g += green[m][n] * valueMask[i][j];
+                b += blue[m][n] * valueMask[i][j];
             }
         }
-        r /= sumaMaska;
-        g /= sumaMaska;
-        b /= sumaMaska;
+        r /= sumMask;
+        g /= sumMask;
+        b /= sumMask;
 
         rgb = jrgb(obetnij256((int) r), obetnij256((int) g), obetnij256((int) b));
         Image.image.setRGB(x, y, rgb);

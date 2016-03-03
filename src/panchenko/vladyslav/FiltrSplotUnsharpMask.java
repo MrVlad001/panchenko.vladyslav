@@ -20,21 +20,21 @@ public class FiltrSplotUnsharpMask extends FiltrPanel implements KeyListener {
 
     public FiltrSplotUnsharpMask(JFrame parent) {
         super(parent, "Splot unsharpmask", 3, 1);
-        polaLabels[0].setText("Odchylenie st.");
-        polaLabels[1].setText("Współczynik");
-        polaLabels[2].setText("Współ. użycia");
-        polaFileds[0].setText("" + wspolczynnikG);
-        polaFileds[1].setText("" + odchylenie);
-        polaFileds[2].setText("" + wspolczynnikUM);
-        polaFileds[0].addKeyListener((KeyListener) this);
-        polaFileds[1].addKeyListener((KeyListener) this);
-        rysujMaske();
+        fieldLabels[0].setText("Odchylenie st.");
+        fieldLabels[1].setText("Współczynik");
+        fieldLabels[2].setText("Współ. użycia");
+        fields[0].setText("" + wspolczynnikG);
+        fields[1].setText("" + odchylenie);
+        fields[2].setText("" + wspolczynnikUM);
+        fields[0].addKeyListener((KeyListener) this);
+        fields[1].addKeyListener((KeyListener) this);
+        printMask();
     }
 
     @Override
     public void setMaskaValue(JFormattedTextField jFormattedTextField, int x, int y) {
-        x = x - nrMaski;
-        y = y - nrMaski;
+        x = x - numMask;
+        y = y - numMask;
         double value = -(x * x + y * y) / (2.0 * odchylenie * odchylenie);
         value = Math.round(wspolczynnikG * Math.pow(Math.E, value) * 100) / 100.0;
         jFormattedTextField.setText("" + value);
@@ -45,19 +45,19 @@ public class FiltrSplotUnsharpMask extends FiltrPanel implements KeyListener {
     public void keyReleased(KeyEvent ke) {
         Object evt = ke.getSource();
         String tmp;
-        if (evt == polaFileds[0]) {
-            tmp = polaFileds[0].getText();
+        if (evt == fields[0]) {
+            tmp = fields[0].getText();
             if (!tmp.equals("")) {
                 odchylenie = getNumber(tmp);
-                rysujMaske();
+                printMask();
             } else {
                 odchylenie = 1;
             }
-        } else if (evt == polaFileds[1]) {
-            tmp = polaFileds[1].getText();
+        } else if (evt == fields[1]) {
+            tmp = fields[1].getText();
             if (!tmp.equals("")) {
                 wspolczynnikG = getNumber(tmp);
-                rysujMaske();
+                printMask();
             } else {
                 wspolczynnikG = 1;
             }
@@ -66,10 +66,10 @@ public class FiltrSplotUnsharpMask extends FiltrPanel implements KeyListener {
 
     @Override
     protected void filtrujButton() {
-        polaFileds[0].setText("" + odchylenie);
-        polaFileds[1].setText("" + wspolczynnikG);
-        wspolczynnikUM = getNumber(polaFileds[2].getText());
-        polaFileds[2].setText("" + wspolczynnikUM);
+        fields[0].setText("" + odchylenie);
+        fields[1].setText("" + wspolczynnikG);
+        wspolczynnikUM = getNumber(fields[2].getText());
+        fields[2].setText("" + wspolczynnikUM);
         for (int x = 0; x < Image.image.getWidth(); x++) {
             for (int y = 0; y < Image.image.getHeight(); y++) {
                 obliczPixelWiersz(x, y);
@@ -87,19 +87,19 @@ public class FiltrSplotUnsharpMask extends FiltrPanel implements KeyListener {
         double g = 0;
         double b = 0;
         int m, n, rgb, r1, g1, b1;
-        for (int i = 0; i < rozmMaski; i++) {
-            for (int j = 0; j < rozmMaski; j++) {
-                m = odbicieLustrzane(x + i - nrMaski, 'x');
-                n = odbicieLustrzane(y + j - nrMaski, 'y');
+        for (int i = 0; i < sizeMask; i++) {
+            for (int j = 0; j < sizeMask; j++) {
+                m = odbicieLustrzane(x + i - numMask, 'x');
+                n = odbicieLustrzane(y + j - numMask, 'y');
 
-                r += red[m][n] * wartosciMaski[i][j];
-                g += green[m][n] * wartosciMaski[i][j];
-                b += blue[m][n] * wartosciMaski[i][j];
+                r += red[m][n] * valueMask[i][j];
+                g += green[m][n] * valueMask[i][j];
+                b += blue[m][n] * valueMask[i][j];
             }
         }
-        r /= sumaMaska;
-        g /= sumaMaska;
-        b /= sumaMaska;
+        r /= sumMask;
+        g /= sumMask;
+        b /= sumMask;
 
         r1 = (int) (wspolczynnikUM * (red[x][y] - ((int) r)));
         g1 = (int) (wspolczynnikUM * (green[x][y] - ((int) g)));
@@ -114,15 +114,15 @@ public class FiltrSplotUnsharpMask extends FiltrPanel implements KeyListener {
         double g = 0;
         double b = 0;
         int m;
-        for (int i = 0; i < rozmMaski; i++) {
-            m = odbicieLustrzane(x + i - nrMaski, 'x');
-            r += red[m][y] * wartosciMaski[i][nrMaski];
-            g += green[m][y] * wartosciMaski[i][nrMaski];
-            b += blue[m][y] * wartosciMaski[i][nrMaski];
+        for (int i = 0; i < sizeMask; i++) {
+            m = odbicieLustrzane(x + i - numMask, 'x');
+            r += red[m][y] * valueMask[i][numMask];
+            g += green[m][y] * valueMask[i][numMask];
+            b += blue[m][y] * valueMask[i][numMask];
         }
-        r /= sumaMaska;
-        g /= sumaMaska;
-        b /= sumaMaska;
+        r /= sumMask;
+        g /= sumMask;
+        b /= sumMask;
 
         redCopy[x][y] = r;
         greenCopy[x][y] = g;
@@ -160,15 +160,15 @@ public class FiltrSplotUnsharpMask extends FiltrPanel implements KeyListener {
         double g = 0;
         double b = 0;
         int m, rgb;
-        for (int i = 0; i < rozmMaski; i++) {
-            m = odbicieLustrzane(y + i - nrMaski, 'y');
-            r += redCopy[x][m] * wartosciMaski[i][nrMaski];
-            g += greenCopy[x][m] * wartosciMaski[i][nrMaski];
-            b += blueCopy[x][m] * wartosciMaski[i][nrMaski];
+        for (int i = 0; i < sizeMask; i++) {
+            m = odbicieLustrzane(y + i - numMask, 'y');
+            r += redCopy[x][m] * valueMask[i][numMask];
+            g += greenCopy[x][m] * valueMask[i][numMask];
+            b += blueCopy[x][m] * valueMask[i][numMask];
         }
-        r /= sumaMaska;
-        g /= sumaMaska;
-        b /= sumaMaska;
+        r /= sumMask;
+        g /= sumMask;
+        b /= sumMask;
 
         r = (wspolczynnikUM * (red[x][y] - r));
         g = (wspolczynnikUM * (green[x][y] - g));

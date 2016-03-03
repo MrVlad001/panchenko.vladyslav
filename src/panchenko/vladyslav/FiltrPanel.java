@@ -27,110 +27,110 @@ import javax.swing.event.ChangeListener;
 public class FiltrPanel extends JDialog implements ChangeListener, ActionListener, KeyListener {
 
     private final int margines = 15;
-    private final int wysokoscLabel = 20;
-    private int wysokoscDialog = 360;
-    private final int szerokoscDialog = 300;
-    private JSlider suwak = new JSlider();
-    private JLabel suwakLabels = new JLabel("Rozmiar maski");
-    private JLabel suwakValuesLabels = new JLabel();
-    private int wysokoscSuwakPanel;
-    private int wysokoscPolaPanel = 0;
-    protected int ilePol = 1;
-    protected JPanel polaPanel;
-    protected JLabel[] polaLabels;
-    protected JFormattedTextField[] polaFileds;
+    private final int heightLabel = 20;
+    private int heightDialog = 360;
+    private final int widthDialog = 300;
+    private JSlider slider = new JSlider();
+    private JLabel sliderLabels = new JLabel("Rozmiar maski");
+    private JLabel sliderValuesLabels = new JLabel();
+    private int heightSliderPanel;
+    private int heightFieldPanel = 0;
+    protected int countField = 1;
+    protected JPanel fieldPanel;
+    protected JLabel[] fieldLabels;
+    protected JFormattedTextField[] fields;
     protected int x1, y1, x2, y2;
-    private JPanel maskaBox = new JPanel();
-    private JScrollPane maskaScroll = new JScrollPane();
-    private JPanel maskaPanel = new JPanel();
-    private int wysokoscMaskaPanel = (szerokoscDialog - 7 * margines);
-    protected int nrMaski = 1;
-    protected int rozmMaski = 3;
-    protected double[][] wartosciMaski;
-    protected double[] wartosciMaski2;
-    protected double sumaMaska;
-    protected JFormattedTextField[][] maska = new JFormattedTextField[1][1];
+    private JPanel maskBox = new JPanel();
+    private JScrollPane maskScroll = new JScrollPane();
+    private JPanel maskPanel = new JPanel();
+    private int heightMaskPanel = (widthDialog - 7 * margines);
+    protected int numMask = 1;
+    protected int sizeMask = 3;
+    protected double[][] valueMask;
+    protected double[] valueMask2;
+    protected double sumMask;
+    protected JFormattedTextField[][] mask = new JFormattedTextField[1][1];
     private SavePanel savePanel;
-    private JButton filtrujButton = new JButton("Filtruj");
-    private int x1filtrujButton, y1filtrujButton, x2filtrujButton, y2filtrujButton;
+    private JButton filtreButton = new JButton("Filtruj");
+    private int x1filtreButton, y1filtreButton, x2filtreButton, y2filtreButton;
     protected int[][] red = new int[Image.image.getWidth()][Image.image.getHeight()];
     protected int[][] green = new int[Image.image.getWidth()][Image.image.getHeight()];
     protected int[][] blue = new int[Image.image.getWidth()][Image.image.getHeight()];
-    private int wymMaski;
-    protected boolean maskaNiePusta;
+    private int wymiarMask;
+    protected boolean notFullMask;
 
-    public FiltrPanel(JFrame parent, String title, int ilePol, int wymMaski) {
+    public FiltrPanel(JFrame parent, String title, int countField, int wymiarMask) {
         super(parent, title, true);
-        this.ilePol = ilePol;
-        this.wymMaski = wymMaski;
+        this.countField = countField;
+        this.wymiarMask = wymiarMask;
 
         x1 = 3 * margines;
-        x2 = wysokoscMaskaPanel / 2;
+        x2 = heightMaskPanel / 2;
         y1 = margines;
-        y2 = wysokoscLabel;
-        add(suwakLabels);
-        suwakLabels.setBounds(x1, y1, x2, y2);
-        suwakLabels.setHorizontalAlignment(JLabel.LEFT);
+        y2 = heightLabel;
+        add(sliderLabels);
+        sliderLabels.setBounds(x1, y1, x2, y2);
+        sliderLabels.setHorizontalAlignment(JLabel.LEFT);
 
         x1 += x2;
-        add(suwakValuesLabels);
-        suwakValuesLabels.setBounds(x1, y1, x2, y2);
-        suwakValuesLabels.setHorizontalAlignment(JLabel.RIGHT);
+        add(sliderValuesLabels);
+        sliderValuesLabels.setBounds(x1, y1, x2, y2);
+        sliderValuesLabels.setHorizontalAlignment(JLabel.RIGHT);
 
         x1 = 3 * margines;
-        y1 += margines + wysokoscLabel;
-        x2 = wysokoscMaskaPanel;
+        y1 += margines + heightLabel;
+        x2 = heightMaskPanel;
 
-        suwak.setMinimum(1);
-        suwak.setMaximum(20);
-        suwak.setValue(1);
-        suwakValuesLabels.setText("" + suwak.getValue());
-        add(suwak);
+        slider.setMinimum(1);
+        slider.setMaximum(20);
+        slider.setValue(1);
+        sliderValuesLabels.setText("" + slider.getValue());
+        add(slider);
 
-        suwak.setBounds(x1, y1, x2, y2);
-        suwak.setPaintTicks(true);
-        suwak.setMajorTickSpacing(1);
-        suwak.addChangeListener(this);
+        slider.setBounds(x1, y1, x2, y2);
+        slider.setPaintTicks(true);
+        slider.setMajorTickSpacing(1);
+        slider.addChangeListener(this);
 
-        wysokoscSuwakPanel = x1 + 2 * margines;
+        heightSliderPanel = x1 + 2 * margines;
 
-        if (ilePol > 0) {
-            polaPanel = new JPanel(new GridLayout(ilePol, 2, margines, margines));
-            polaLabels = new JLabel[ilePol];
-            polaFileds = new JFormattedTextField[ilePol];
-            if (ilePol > 1) {
-                wysokoscPolaPanel = (margines + wysokoscLabel) * ilePol;
+        if (countField > 0) {
+            fieldPanel = new JPanel(new GridLayout(countField, 2, margines, margines));
+            fieldLabels = new JLabel[countField];
+            fields = new JFormattedTextField[countField];
+            if (countField > 1) {
+                heightFieldPanel = (margines + heightLabel) * countField;
             } else {
-                wysokoscPolaPanel = wysokoscLabel;
+                heightFieldPanel = heightLabel;
             }
-            wysokoscDialog += wysokoscPolaPanel + margines + wysokoscSuwakPanel;
-            setSize(szerokoscDialog, wysokoscDialog);
+            heightDialog += heightFieldPanel + margines + heightSliderPanel;
+            setSize(widthDialog, heightDialog);
             setLayout(null);
 
-            polaPanel.setSize(wysokoscMaskaPanel, wysokoscPolaPanel);
-            polaPanel.setBounds(3 * margines, margines + wysokoscSuwakPanel, wysokoscMaskaPanel, wysokoscPolaPanel);
-            add(polaPanel);
+            fieldPanel.setSize(heightMaskPanel, heightFieldPanel);
+            fieldPanel.setBounds(3 * margines, margines + heightSliderPanel, heightMaskPanel, heightFieldPanel);
+            add(fieldPanel);
 
-            for (int i = 0; i < ilePol; i++) {
-                polaLabels[i] = new JLabel("Label " + i);
-                polaPanel.add(polaLabels[i]);
-                polaFileds[i] = new JFormattedTextField();
-                polaFileds[i].setHorizontalAlignment(JLabel.RIGHT);
-                polaPanel.add(polaFileds[i]);
+            for (int i = 0; i < countField; i++) {
+                fieldLabels[i] = new JLabel("Label " + i);
+                fieldPanel.add(fieldLabels[i]);
+                fields[i] = new JFormattedTextField();
+                fields[i].setHorizontalAlignment(JLabel.RIGHT);
+                fieldPanel.add(fields[i]);
             }
         }
-        y1filtrujButton = wysokoscDialog - 7 * margines - wysokoscLabel;
-        x2filtrujButton = wysokoscLabel * 4;
-        x1filtrujButton = (szerokoscDialog - x2filtrujButton - margines) / 2;
-        y2filtrujButton = wysokoscLabel;
+        y1filtreButton = heightDialog - 7 * margines - heightLabel;
+        x2filtreButton = heightLabel * 4;
+        x1filtreButton = (widthDialog - x2filtreButton - margines) / 2;
+        y2filtreButton = heightLabel;
 
-        add(filtrujButton);
-        filtrujButton.setBounds(x1filtrujButton, y1filtrujButton, x2filtrujButton, y2filtrujButton);
-        filtrujButton.addActionListener(this);
+        add(filtreButton);
+        filtreButton.setBounds(x1filtreButton, y1filtreButton, x2filtreButton, y2filtreButton);
+        filtreButton.addActionListener(this);
 
         savePanel = new SavePanel(this);
         add(savePanel);
-        savePanel.setBounds(x1filtrujButton - 80, y1filtrujButton + (margines + wysokoscLabel), x2filtrujButton + 160, wysokoscLabel);
+        savePanel.setBounds(x1filtreButton - 80, y1filtreButton + (margines + heightLabel), x2filtreButton + 160, heightLabel);
 
         addWindowListener(
                 new WindowAdapter() {
@@ -140,104 +140,104 @@ public class FiltrPanel extends JDialog implements ChangeListener, ActionListene
             }
         });
 
-        maska[0][0] = new JFormattedTextField();
+        mask[0][0] = new JFormattedTextField();
         wczytajDane();
-        rysujMaske();
+        printMask();
     }
 
     @Override
     public void stateChanged(ChangeEvent ce) {
         Object evt = ce.getSource();
-        if (evt == suwak) {
-            int suwakVal = suwak.getValue();
-            if (nrMaski != suwakVal) {
-                nrMaski = suwakVal;
-                rozmMaski = getRozmMaski(nrMaski);
-                suwakValuesLabels.setText("" + suwakVal);
-                rysujMaske();
+        if (evt == slider) {
+            int suwakVal = slider.getValue();
+            if (numMask != suwakVal) {
+                numMask = suwakVal;
+                sizeMask = getRozmMaski(numMask);
+                sliderValuesLabels.setText("" + suwakVal);
+                printMask();
                 this.repaint();
             }
         }
     }
 
-    protected final void rysujMaske() {
+    protected final void printMask() {
         int powiekszDialog, wysokoscScrolla, wysokoscMaskiTmp = 0;
-        int srodekMaski = nrMaski;//bo liczymy od zera
+        int srodekMaski = numMask;//bo liczymy od zera
         int powiekszOd = 2;
         int dodajScrollOd = 5;
-        int wysokoscKomorki = wysokoscMaskaPanel / getRozmMaski(powiekszOd);
-        remove(maskaPanel);
-        remove(maskaScroll);
-        remove(maskaBox);
-        maskaBox = new JPanel(new GridLayout(1, 1));
-        maskaPanel = new JPanel(new GridLayout(rozmMaski, rozmMaski));
+        int wysokoscKomorki = heightMaskPanel / getRozmMaski(powiekszOd);
+        remove(maskPanel);
+        remove(maskScroll);
+        remove(maskBox);
+        maskBox = new JPanel(new GridLayout(1, 1));
+        maskPanel = new JPanel(new GridLayout(sizeMask, sizeMask));
 
-        if (nrMaski <= powiekszOd) {
-            wysokoscScrolla = wysokoscMaskaPanel;
+        if (numMask <= powiekszOd) {
+            wysokoscScrolla = heightMaskPanel;
             powiekszDialog = 0;
-        } else if (nrMaski > powiekszOd && nrMaski <= dodajScrollOd) {
-            wysokoscScrolla = wysokoscKomorki * rozmMaski;
-            powiekszDialog = (rozmMaski - getRozmMaski(powiekszOd)) * wysokoscKomorki;
+        } else if (numMask > powiekszOd && numMask <= dodajScrollOd) {
+            wysokoscScrolla = wysokoscKomorki * sizeMask;
+            powiekszDialog = (sizeMask - getRozmMaski(powiekszOd)) * wysokoscKomorki;
         } else {
-            wysokoscMaskiTmp = wysokoscKomorki * rozmMaski;
+            wysokoscMaskiTmp = wysokoscKomorki * sizeMask;
             wysokoscScrolla = wysokoscKomorki * getRozmMaski(dodajScrollOd);
             powiekszDialog = wysokoscKomorki * (getRozmMaski(dodajScrollOd) - getRozmMaski(powiekszOd));
         }
 
-        setSize(szerokoscDialog + powiekszDialog, wysokoscDialog + powiekszDialog);
-        filtrujButton.setBounds(x1filtrujButton + (powiekszDialog / 2), y1filtrujButton + powiekszDialog, x2filtrujButton, y2filtrujButton);
-        savePanel.setBounds(x1filtrujButton - 80 + (powiekszDialog / 2), y1filtrujButton + (margines + wysokoscLabel) + powiekszDialog, x2filtrujButton + 160, wysokoscLabel);
+        setSize(widthDialog + powiekszDialog, heightDialog + powiekszDialog);
+        filtreButton.setBounds(x1filtreButton + (powiekszDialog / 2), y1filtreButton + powiekszDialog, x2filtreButton, y2filtreButton);
+        savePanel.setBounds(x1filtreButton - 80 + (powiekszDialog / 2), y1filtreButton + (margines + heightLabel) + powiekszDialog, x2filtreButton + 160, heightLabel);
 
         x1 = 3 * margines;
-        y1 = 2 * margines + wysokoscPolaPanel + wysokoscSuwakPanel;
+        y1 = 2 * margines + heightFieldPanel + heightSliderPanel;
 
-        maskaBox.setSize(wysokoscScrolla, wysokoscScrolla);
-        maskaBox.setBounds(x1, y1, wysokoscScrolla, wysokoscScrolla);
-        add(maskaBox);
-        maska = new JFormattedTextField[rozmMaski][rozmMaski];
+        maskBox.setSize(wysokoscScrolla, wysokoscScrolla);
+        maskBox.setBounds(x1, y1, wysokoscScrolla, wysokoscScrolla);
+        add(maskBox);
+        mask = new JFormattedTextField[sizeMask][sizeMask];
 
-        for (int i = 0; i < rozmMaski; i++) {
-            maska[i] = new JFormattedTextField[rozmMaski];
-            for (int y = 0; y < rozmMaski; y++) {
-                maska[i][y] = new JFormattedTextField();
-                maska[i][y].addKeyListener((KeyListener) this);
+        for (int i = 0; i < sizeMask; i++) {
+            mask[i] = new JFormattedTextField[sizeMask];
+            for (int y = 0; y < sizeMask; y++) {
+                mask[i][y] = new JFormattedTextField();
+                mask[i][y].addKeyListener((KeyListener) this);
 
                 if (i == y && i == srodekMaski) {
-                    maska[i][y].setBackground(Color.yellow);
+                    mask[i][y].setBackground(Color.yellow);
                 } else {
-                    maska[i][y].setBackground(Color.white);
+                    mask[i][y].setBackground(Color.white);
                 }
 
-                maska[i][y].setHorizontalAlignment(JLabel.RIGHT);
-                maskaPanel.add(maska[i][y]);
-                setMaskaValue(maska[i][y], i, y);
+                mask[i][y].setHorizontalAlignment(JLabel.RIGHT);
+                maskPanel.add(mask[i][y]);
+                setMaskaValue(mask[i][y], i, y);
             }
         }
 
         if (wysokoscMaskiTmp != 0) {
-            maskaScroll = new JScrollPane(maskaPanel);
-            maskaScroll.setPreferredSize(new Dimension(wysokoscScrolla, wysokoscScrolla));
-            maskaPanel.setPreferredSize(new Dimension(wysokoscMaskiTmp, wysokoscMaskiTmp));
-            maskaBox.add(maskaScroll);
+            maskScroll = new JScrollPane(maskPanel);
+            maskScroll.setPreferredSize(new Dimension(wysokoscScrolla, wysokoscScrolla));
+            maskPanel.setPreferredSize(new Dimension(wysokoscMaskiTmp, wysokoscMaskiTmp));
+            maskBox.add(maskScroll);
         } else {
-            maskaPanel.setPreferredSize(new Dimension(wysokoscMaskiTmp, wysokoscMaskiTmp));
-            maskaBox.add(maskaPanel);
+            maskPanel.setPreferredSize(new Dimension(wysokoscMaskiTmp, wysokoscMaskiTmp));
+            maskBox.add(maskPanel);
         }
 
-        maskaPanel.revalidate();
-        maskaScroll.revalidate();
-        maskaBox.revalidate();
+        maskPanel.revalidate();
+        maskScroll.revalidate();
+        maskBox.revalidate();
     }
 
     @Override
     public void actionPerformed(ActionEvent ae) {
         Object evt = ae.getSource();
-        if (evt == filtrujButton) {
+        if (evt == filtreButton) {
             Form.restoreImage();
-            wartosciMaski = new double[rozmMaski][rozmMaski];
-            if (wymMaski == 2) {
+            valueMask = new double[sizeMask][sizeMask];
+            if (wymiarMask == 2) {
                 setSumaMaski2D();
-            } else if (wymMaski == 1) {
+            } else if (wymiarMask == 1) {
                 setSumaMaski1D();
             } else {
                 sprawdzCzyMaskaNiepusta();
@@ -293,46 +293,46 @@ public class FiltrPanel extends JDialog implements ChangeListener, ActionListene
     }
 
     public void setSumaMaski1D() {
-        sumaMaska = 0;
-        for (int i = 0; i < rozmMaski; i++) {
-            wartosciMaski[i] = new double[rozmMaski];
-            wartosciMaski[i][nrMaski] = Double.parseDouble(maska[nrMaski][i].getText());
-            sumaMaska += wartosciMaski[i][nrMaski];
+        sumMask = 0;
+        for (int i = 0; i < sizeMask; i++) {
+            valueMask[i] = new double[sizeMask];
+            valueMask[i][numMask] = Double.parseDouble(mask[numMask][i].getText());
+            sumMask += valueMask[i][numMask];
         }
-        if (sumaMaska == 0) {
-            sumaMaska = 1;
+        if (sumMask == 0) {
+            sumMask = 1;
         }
     }
 
     public void setSumaMaski2D() {
-        sumaMaska = 0;
-        for (int i = 0; i < rozmMaski; i++) {
-            wartosciMaski[i] = new double[rozmMaski];
-            for (int j = 0; j < rozmMaski; j++) {
-                wartosciMaski[i][j] = Double.parseDouble(maska[j][i].getText().replace(",", "."));
-                sumaMaska += wartosciMaski[i][j];
+        sumMask = 0;
+        for (int i = 0; i < sizeMask; i++) {
+            valueMask[i] = new double[sizeMask];
+            for (int j = 0; j < sizeMask; j++) {
+                valueMask[i][j] = Double.parseDouble(mask[j][i].getText().replace(",", "."));
+                sumMask += valueMask[i][j];
             }
         }
-        if (sumaMaska == 0) {
-            sumaMaska = 1;
+        if (sumMask == 0) {
+            sumMask = 1;
         }
     }
 
     private void sprawdzCzyMaskaNiepusta() {
-        maskaNiePusta = false;
+        notFullMask = false;
         double tmp;
         String t;
-        for (int i = 0; i < rozmMaski; i++) {
-            wartosciMaski[i] = new double[rozmMaski];
-            for (int j = 0; j < rozmMaski; j++) {
-                t = maska[j][i].getText();
+        for (int i = 0; i < sizeMask; i++) {
+            valueMask[i] = new double[sizeMask];
+            for (int j = 0; j < sizeMask; j++) {
+                t = mask[j][i].getText();
                 if (!t.equals("")) {
-                    tmp = wartosciMaski[i][j] = Double.parseDouble(t.replace(",", "."));
+                    tmp = valueMask[i][j] = Double.parseDouble(t.replace(",", "."));
                 } else {
-                    tmp = wartosciMaski[i][j] = 0;
+                    tmp = valueMask[i][j] = 0;
                 }
-                if (!maskaNiePusta && tmp != 0) {
-                    maskaNiePusta = true;
+                if (!notFullMask && tmp != 0) {
+                    notFullMask = true;
                 }
             }
         }
