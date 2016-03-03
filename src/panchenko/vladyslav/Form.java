@@ -33,8 +33,8 @@ public final class Form extends JFrame implements ActionListener, ChangeListener
     private JMenuItem otworz = new JMenuItem("Open");
     private JMenuItem lena = new JMenuItem("Test");
     private JMenuItem wyjscie = new JMenuItem("Exit");
-    private JMenu kolorMenu = new JMenu("Kolor");
-    private JMenuItem jasKonGam = new JMenuItem("Jasność/Kontrast/Gamma");
+    private JMenu kolorMenu = new JMenu("Color");
+    private JMenuItem jasKonGam = new JMenuItem("Brightness / Contrast / Gamma");
     private JMenuItem histogramy = new JMenuItem("Histogramy");
     private JMenu konwersjaMenu = new JMenu("Konwersja");
     private JMenuItem konwersjaCMYK = new JMenuItem("RGB ↔ CMYK");
@@ -126,7 +126,7 @@ public final class Form extends JFrame implements ActionListener, ChangeListener
                     setSize(Form.imageOrigin.getWidth() + 16, Form.imageOrigin.getHeight() + 61);
                     this.repaint();
                 } catch (IOException e) {
-                    JOptionPane.showMessageDialog(null, "Odczyt pliku nie powiódł się :(", "Błąd", 0);
+                    JOptionPane.showMessageDialog(null, "Сan't read file", "Error", 0);
                 }
             }
         } else if (evt == lena) {
@@ -138,7 +138,7 @@ public final class Form extends JFrame implements ActionListener, ChangeListener
                 setSize(Form.imageOrigin.getWidth() + 16, Form.imageOrigin.getHeight() + 61);
                 this.repaint();
             } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "Odczyt pliku nie powiódł się :(", "Błąd", 0);
+                JOptionPane.showMessageDialog(null, "Сan't read file", "Error", 0);
         }
         } else if (evt == wyjscie) {
             dispose();
