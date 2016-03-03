@@ -28,8 +28,8 @@ public final class Histogram extends JPanel {
     @Override
     public void paint(Graphics g) {
         g.setColor(Color.white);
-        g.drawLine(margines, margines, histRozmiar - 1, margines);//pozioma
-        g.drawLine(margines, margines, margines, histRozmiar - 1); //pionowa
+        g.drawLine(margines, margines, histRozmiar - 1, margines);//horizontal
+        g.drawLine(margines, margines, margines, histRozmiar - 1); //vertical
         g.drawLine(histRozmiar - 1, margines, histRozmiar - 1, histRozmiar - 1);
         g.drawLine(margines, histRozmiar - 1, histRozmiar - 1, histRozmiar - 1);
 

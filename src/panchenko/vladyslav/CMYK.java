@@ -17,11 +17,11 @@ public class CMYK extends SlidersPanel {
     private double[][] black = new double[widthPicture][heightPicture];
 
     public CMYK(JFrame parent) {
-        super(parent, "Konwersja CMYK", 4);
-        sliderLabels[0].setText("CYJAN");
-        sliderLabels[1].setText("MAGENTA");
-        sliderLabels[2].setText("YELLOW");
-        sliderLabels[3].setText("BLACK");
+        super(parent, "Conversion CMYK", 4);
+        sliderLabels[0].setText("C");
+        sliderLabels[1].setText("M");
+        sliderLabels[2].setText("Y");
+        sliderLabels[3].setText("B");
 
         for (int i = 0; i < countSlider; i++) {
             slider[i].setMinimum(-100);
