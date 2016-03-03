@@ -7,34 +7,34 @@ import javax.swing.JFrame;
  *
  * @author Vladyslav
  */
-public class JasnoscKontrastGamma extends SuwakiPanel {
+public class JasnoscKontrastGamma extends SlidersPanel {
 
     private boolean wywolanoKonstruktor = false;
 
     public JasnoscKontrastGamma(JFrame parent) {
         super(parent, "Jasność/Kontrast/Gamma", 3);
-        suwakiLabels[0].setText("Jasność");
-        suwakiLabels[1].setText("Kontrast");
-        suwakiLabels[2].setText("Gamma");
+        sliderLabels[0].setText("Jasność");
+        sliderLabels[1].setText("Kontrast");
+        sliderLabels[2].setText("Gamma");
 
-        suwaki[0].setMinimum(-255);
-        suwaki[0].setMaximum(255);
-        suwaki[0].setValue(0);
+        slider[0].setMinimum(-255);
+        slider[0].setMaximum(255);
+        slider[0].setValue(0);
 
-        suwaki[1].setMinimum(-128);
-        suwaki[1].setMaximum(127);
-        suwaki[1].setValue(0);
+        slider[1].setMinimum(-128);
+        slider[1].setMaximum(127);
+        slider[1].setValue(0);
 
-        suwaki[2].setMinimum(-9);
-        suwaki[2].setMaximum(9);
-        suwaki[2].setValue(0);
+        slider[2].setMinimum(-9);
+        slider[2].setMaximum(9);
+        slider[2].setValue(0);
 
 //        setTabelaWartosciLUT();
         wywolanoKonstruktor = true;
     }
 
     @Override
-    public void suwakiAkcja() {
+    public void sliderAction() {
         if (wywolanoKonstruktor) {
             jasnosc();
             kontrast();
@@ -43,21 +43,21 @@ public class JasnoscKontrastGamma extends SuwakiPanel {
     }
 
     @Override
-    public void setSuwakiValuesLabels() {
+    public void setSliderValuesLabels() {
         double text;
         int temp;
-        for (int i = 0; i < ileSuwakow - 1; i++) {
-            text = (suwaki[i].getValue());
+        for (int i = 0; i < countSlider - 1; i++) {
+            text = (slider[i].getValue());
             temp = (int) text;
-            suwakiValuesLabels[i].setText("" + temp);
+            sliderValuesLabels[i].setText("" + temp);
         }
-        text = suwaki[2].getValue();
+        text = slider[2].getValue();
         text = wartoscSuwakaGamma(text);
-        suwakiValuesLabels[2].setText("" + text);
+        sliderValuesLabels[2].setText("" + text);
     }
 
     public void jasnosc() {
-        int dodajJasnosc = suwaki[0].getValue();
+        int dodajJasnosc = slider[0].getValue();
         if (dodajJasnosc != 0) {
             for (int x = 0; x < Obraz.image.getWidth(); x++) {
                 for (int y = 0; y < Obraz.image.getHeight(); y++) {
@@ -80,7 +80,7 @@ public class JasnoscKontrastGamma extends SuwakiPanel {
     }
 
     public void kontrast() {
-        int dodajKontrast = suwaki[1].getValue();
+        int dodajKontrast = slider[1].getValue();
         if (dodajKontrast != 0) {
             for (int x = 0; x < Obraz.image.getWidth(); x++) {
                 for (int y = 0; y < Obraz.image.getHeight(); y++) {
@@ -109,7 +109,7 @@ public class JasnoscKontrastGamma extends SuwakiPanel {
     }
 
     public void gamma() {
-        double dodajGamma = suwaki[2].getValue();
+        double dodajGamma = slider[2].getValue();
         if (dodajGamma != 0) {
             dodajGamma = wartoscSuwakaGamma(dodajGamma);
 

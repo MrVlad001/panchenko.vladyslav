@@ -7,41 +7,41 @@ import javax.swing.JFrame;
  *
  * @author Vladyslav
  */
-public class CMYK extends SuwakiPanel {
+public class CMYK extends SlidersPanel {
 
-    private int szerokoscObrazka = Obraz.image.getWidth();
-    private int wysokoscObrazka = Obraz.image.getHeight();
-    private double[][] cyjan = new double[szerokoscObrazka][wysokoscObrazka];
-    private double[][] magenta = new double[szerokoscObrazka][wysokoscObrazka];
-    private double[][] yellow = new double[szerokoscObrazka][wysokoscObrazka];
-    private double[][] black = new double[szerokoscObrazka][wysokoscObrazka];
+    private int widthPicture = Obraz.image.getWidth();
+    private int heightPicture = Obraz.image.getHeight();
+    private double[][] cyjan = new double[widthPicture][heightPicture];
+    private double[][] magenta = new double[widthPicture][heightPicture];
+    private double[][] yellow = new double[widthPicture][heightPicture];
+    private double[][] black = new double[widthPicture][heightPicture];
 
     public CMYK(JFrame parent) {
         super(parent, "Konwersja CMYK", 4);
-        suwakiLabels[0].setText("CYJAN");
-        suwakiLabels[1].setText("MAGENTA");
-        suwakiLabels[2].setText("YELLOW");
-        suwakiLabels[3].setText("BLACK");
+        sliderLabels[0].setText("CYJAN");
+        sliderLabels[1].setText("MAGENTA");
+        sliderLabels[2].setText("YELLOW");
+        sliderLabels[3].setText("BLACK");
 
-        for (int i = 0; i < ileSuwakow; i++) {
-            suwaki[i].setMinimum(-100);
-            suwaki[i].setMaximum(100);
-            suwaki[i].setValue(0);
+        for (int i = 0; i < countSlider; i++) {
+            slider[i].setMinimum(-100);
+            slider[i].setMaximum(100);
+            slider[i].setValue(0);
         }
     }
 
     @Override
-    public void suwakiAkcja() {
+    public void sliderAction() {
         konwertujDoCMYK();
         dodajDoCMYK();
     }
 
     @Override
-    public void setSuwakiValuesLabels() {
+    public void setSliderValuesLabels() {
         double text;
-        for (int i = 0; i < ileSuwakow; i++) {
-            text = (suwaki[i].getValue()) / 100.0;
-            suwakiValuesLabels[i].setText("" + text);
+        for (int i = 0; i < countSlider; i++) {
+            text = (slider[i].getValue()) / 100.0;
+            sliderValuesLabels[i].setText("" + text);
         }
     }
 
@@ -68,10 +68,10 @@ public class CMYK extends SuwakiPanel {
     }
 
     private void dodajDoCMYK() {
-        double dodajCyjan = suwaki[0].getValue() / 100.0;
-        double dodajMagenta = suwaki[1].getValue() / 100.0;
-        double dodajYellow = suwaki[2].getValue() / 100.0;
-        double dodajBlack = suwaki[3].getValue() / 100.0;
+        double dodajCyjan = slider[0].getValue() / 100.0;
+        double dodajMagenta = slider[1].getValue() / 100.0;
+        double dodajYellow = slider[2].getValue() / 100.0;
+        double dodajBlack = slider[3].getValue() / 100.0;
         double c, m, ye, k;
         int rgb;
         if (dodajCyjan != 0 || dodajMagenta != 0 || dodajYellow != 0 || dodajBlack != 0) {

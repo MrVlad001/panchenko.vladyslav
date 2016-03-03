@@ -152,13 +152,13 @@ public final class Form extends JFrame implements ActionListener, ChangeListener
             CMYK CMYKdialog = new CMYK(this);
             CMYKdialog.setVisible(true);
         } else if (evt == konwersjaHSL) {
-            KonwersjaHSL HSLdialog = new KonwersjaHSL(this);
+            HSL HSLdialog = new HSL(this);
             HSLdialog.setVisible(true);
         } else if (evt == konwersjaLab) {
-            KonwersjaLab LabDialog = new KonwersjaLab(this, 0);
+            Lab LabDialog = new Lab(this, 0);
             LabDialog.setVisible(true);
         } else if (evt == konwersjaLuv) {
-            KonwersjaLuv LuvDialog = new KonwersjaLuv(this);
+            Luv LuvDialog = new Luv(this);
             LuvDialog.setVisible(true);
         } else if (evt == splot) {
             FiltrSplot splocik = new FiltrSplot(this);

@@ -6,7 +6,7 @@ import java.awt.Color;
  *
  * @author Vladyslav
  */
-public class KonwersjaXYZ {
+public class XYZ {
 
     public static float refX = 0.9505f;
     public static float refY = 1.0f;
@@ -15,7 +15,7 @@ public class KonwersjaXYZ {
     public static float[][] mMatrix2;
     private float[] tabWartosci = new float[256];
 
-    public KonwersjaXYZ() {
+    public XYZ() {
         mMatrix = genMmatrix();
         mMatrix2 = genMmatrix2();
         genTabWartosci();

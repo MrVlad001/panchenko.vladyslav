@@ -6,7 +6,7 @@ import javax.swing.JFrame;
  *
  * @author Vladyslav
  */
-public final class KonwersjaLab extends SuwakiPanel {
+public final class Lab extends SlidersPanel {
 
     private float e = 0.008856f;
     private float k = 903.3f;
@@ -15,7 +15,7 @@ public final class KonwersjaLab extends SuwakiPanel {
     public float[][] aTab;
     public float[][] bTab;
     private float fx, fy, fz, xr, yr, zr, L, a, b;
-    private KonwersjaXYZ xyz = new KonwersjaXYZ();
+    private XYZ xyz = new XYZ();
     private int dodajL;
     private int dodajA;
     private int dodajB;
@@ -26,40 +26,40 @@ public final class KonwersjaLab extends SuwakiPanel {
      * @param parent
      * @param type - 0: dla konwersji Lab; 1: na potrzeby dekompresji obrazów
      */
-    public KonwersjaLab(JFrame parent, int type) {
+    public Lab(JFrame parent, int type) {
         super(parent, "Konwersja Lab", 3);
         if (type == 0) {
             lTab = new float[Obraz.image.getWidth()][Obraz.image.getHeight()];
             aTab = new float[Obraz.image.getWidth()][Obraz.image.getHeight()];
             bTab = new float[Obraz.image.getWidth()][Obraz.image.getHeight()];
 
-            suwakiLabels[0].setText("L");
-            suwakiLabels[1].setText("a");
-            suwakiLabels[2].setText("b");
+            sliderLabels[0].setText("L");
+            sliderLabels[1].setText("a");
+            sliderLabels[2].setText("b");
 
-            suwaki[0].setMinimum(-100);
-            suwaki[0].setMaximum(100);
-            suwaki[0].setValue(0);
-            for (int i = 1; i < ileSuwakow; i++) {
-                suwaki[i].setMinimum(-255);
-                suwaki[i].setMaximum(255);
-                suwaki[i].setValue(0);
+            slider[0].setMinimum(-100);
+            slider[0].setMaximum(100);
+            slider[0].setValue(0);
+            for (int i = 1; i < countSlider; i++) {
+                slider[i].setMinimum(-255);
+                slider[i].setMaximum(255);
+                slider[i].setValue(0);
             }
             konwertujDoLab();
             wywolanoKonstruktor = true;
-            suwakiAkcja();
+            sliderAction();
         } else {
             wywolanoKonstruktor = true;
         }
     }
 
     @Override
-    public void suwakiAkcja() {
+    public void sliderAction() {
         if (wywolanoKonstruktor) {
             int rgb;
-            dodajL = suwaki[0].getValue();
-            dodajA = suwaki[1].getValue();
-            dodajB = suwaki[2].getValue();
+            dodajL = slider[0].getValue();
+            dodajA = slider[1].getValue();
+            dodajB = slider[2].getValue();
 
             for (int x = 0; x < Obraz.image.getWidth(); x++) {
                 for (int y = 0; y < Obraz.image.getHeight(); y++) {
@@ -85,9 +85,9 @@ public final class KonwersjaLab extends SuwakiPanel {
                 rgb = Obraz.image.getRGB(x, y);
                 konwertujDoXYZ = xyz.konwertujDoXYZ(rgb);
 
-                xr = (konwertujDoXYZ[0][0] / KonwersjaXYZ.refX);
-                yr = (konwertujDoXYZ[0][1] / KonwersjaXYZ.refY);
-                zr = (konwertujDoXYZ[0][2] / KonwersjaXYZ.refZ);
+                xr = (konwertujDoXYZ[0][0] / XYZ.refX);
+                yr = (konwertujDoXYZ[0][1] / XYZ.refY);
+                zr = (konwertujDoXYZ[0][2] / XYZ.refZ);
 
                 if (xr > e) {
                     fx = (float) Math.pow(xr, (1 / 3.0));
@@ -145,9 +145,9 @@ public final class KonwersjaLab extends SuwakiPanel {
             zr = (116 * fz - 16) / k;
         }
 
-        xyzMatrix[0][0] = xr * KonwersjaXYZ.refX;
-        xyzMatrix[0][1] = yr * KonwersjaXYZ.refY;
-        xyzMatrix[0][2] = zr * KonwersjaXYZ.refZ;
+        xyzMatrix[0][0] = xr * XYZ.refX;
+        xyzMatrix[0][1] = yr * XYZ.refY;
+        xyzMatrix[0][2] = zr * XYZ.refZ;
         return xyzMatrix;
     }
 

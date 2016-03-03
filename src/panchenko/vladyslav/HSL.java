@@ -7,7 +7,7 @@ import javax.swing.JFrame;
  *
  * @author Vladyslav
  */
-public class KonwersjaHSL extends SuwakiPanel {
+public class HSL extends SlidersPanel {
 
     private int szerokoscObrazka = Obraz.image.getWidth();
     private int wysokoscObrazka = Obraz.image.getHeight();
@@ -15,35 +15,35 @@ public class KonwersjaHSL extends SuwakiPanel {
     private double[][] l = new double[szerokoscObrazka][wysokoscObrazka];
     private double[][] s = new double[szerokoscObrazka][wysokoscObrazka];
 
-    public KonwersjaHSL(JFrame parent) {
+    public HSL(JFrame parent) {
         super(parent, "Konwersja HSL", 3);
-        suwakiLabels[0].setText("barwa (H)");
-        suwakiLabels[1].setText("nasycenie (S)");
-        suwakiLabels[2].setText("jasność (L)");
+        sliderLabels[0].setText("barwa (H)");
+        sliderLabels[1].setText("nasycenie (S)");
+        sliderLabels[2].setText("jasność (L)");
 
-        suwaki[0].setMinimum(-359);
-        suwaki[0].setMaximum(359);
-        suwaki[0].setValue(0);
-        for (int i = 1; i < ileSuwakow; i++) {
-            suwaki[i].setMinimum(-100);
-            suwaki[i].setMaximum(100);
-            suwaki[i].setValue(0);
+        slider[0].setMinimum(-359);
+        slider[0].setMaximum(359);
+        slider[0].setValue(0);
+        for (int i = 1; i < countSlider; i++) {
+            slider[i].setMinimum(-100);
+            slider[i].setMaximum(100);
+            slider[i].setValue(0);
         }
     }
 
     @Override
-    public void suwakiAkcja() {
+    public void sliderAction() {
         konwertujDoHSL();
         dodajDoHSL();
     }
 
     @Override
-    public void setSuwakiValuesLabels() {
+    public void setSliderValuesLabels() {
         double text;
-        suwakiValuesLabels[0].setText("" + suwaki[0].getValue());
-        for (int i = 1; i < ileSuwakow; i++) {
-            text = (suwaki[i].getValue()) / 100.0;
-            suwakiValuesLabels[i].setText("" + text);
+        sliderValuesLabels[0].setText("" + slider[0].getValue());
+        for (int i = 1; i < countSlider; i++) {
+            text = (slider[i].getValue()) / 100.0;
+            sliderValuesLabels[i].setText("" + text);
         }
     }
 
@@ -91,9 +91,9 @@ public class KonwersjaHSL extends SuwakiPanel {
     }
 
     private void dodajDoHSL() {
-        double dodajH = suwaki[0].getValue();
-        double dodajL = suwaki[2].getValue() / 100.0;
-        double dodajS = suwaki[1].getValue() / 100.0;
+        double dodajH = slider[0].getValue();
+        double dodajL = slider[2].getValue() / 100.0;
+        double dodajS = slider[1].getValue() / 100.0;
         double h2, l2, s2;
         int rgb;
 

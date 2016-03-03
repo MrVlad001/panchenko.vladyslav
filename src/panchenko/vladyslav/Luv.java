@@ -6,7 +6,7 @@ import javax.swing.JFrame;
  *
  * @author Vladyslav
  */
-public final class KonwersjaLuv extends SuwakiPanel {
+public final class Luv extends SlidersPanel {
 
     private int szerokoscObrazka = Obraz.image.getWidth();
     private int wysokoscObrazka = Obraz.image.getHeight();
@@ -20,37 +20,37 @@ public final class KonwersjaLuv extends SuwakiPanel {
     private float[][] uTab = new float[szerokoscObrazka][wysokoscObrazka];
     private float[][] vTab = new float[szerokoscObrazka][wysokoscObrazka];
     private float X, Y, Z, ui, vi, L, u, v, tmpMianownik, tmpL;
-    private KonwersjaXYZ xyz = new KonwersjaXYZ();
+    private XYZ xyz = new XYZ();
     private int dodajL, dodajU, dodajV;
     private boolean wywolanoKonstruktor = false;
 
-    public KonwersjaLuv(JFrame parent) {
+    public Luv(JFrame parent) {
         super(parent, "Konwersja Lab", 3);
-        suwakiLabels[0].setText("L");
-        suwakiLabels[1].setText("u");
-        suwakiLabels[2].setText("v");
+        sliderLabels[0].setText("L");
+        sliderLabels[1].setText("u");
+        sliderLabels[2].setText("v");
 
-        suwaki[0].setMinimum(-100);
-        suwaki[0].setMaximum(100);
-        suwaki[0].setValue(0);
-        suwaki[1].setMinimum(-354);
-        suwaki[1].setMaximum(354);
-        suwaki[1].setValue(0);
-        suwaki[2].setMinimum(-262);
-        suwaki[2].setMaximum(262);
-        suwaki[2].setValue(0);
+        slider[0].setMinimum(-100);
+        slider[0].setMaximum(100);
+        slider[0].setValue(0);
+        slider[1].setMinimum(-354);
+        slider[1].setMaximum(354);
+        slider[1].setValue(0);
+        slider[2].setMinimum(-262);
+        slider[2].setMaximum(262);
+        slider[2].setValue(0);
         konwertujDoLuv();
         wywolanoKonstruktor = true;
-        suwakiAkcja();
+        sliderAction();
     }
 
     @Override
-    public void suwakiAkcja() {
+    public void sliderAction() {
         if (wywolanoKonstruktor) {
             int rgb;
-            dodajL = suwaki[0].getValue();
-            dodajU = suwaki[1].getValue();
-            dodajV = suwaki[2].getValue();
+            dodajL = slider[0].getValue();
+            dodajU = slider[1].getValue();
+            dodajV = slider[2].getValue();
 
             for (int x = 0; x < szerokoscObrazka; x++) {
                 for (int y = 0; y < wysokoscObrazka; y++) {
