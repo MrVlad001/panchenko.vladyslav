@@ -9,7 +9,7 @@ import javax.swing.JFrame;
  *
  * @author Vladyslav
  */
-public class Maximum extends FiltrPanel implements KeyListener {
+public class Maximum extends FilterPanel implements KeyListener {
 
     private int wypelnijValue = 1;
 
@@ -47,7 +47,7 @@ public class Maximum extends FiltrPanel implements KeyListener {
     }
 
     @Override
-    protected void filtrujButton() {
+    protected void filterButton() {
         fields[0].setText("");
         if (notFullMask) {
             int tmp = 0;
@@ -74,8 +74,8 @@ public class Maximum extends FiltrPanel implements KeyListener {
         for (int i = 0; i < sizeMask; i++) {
             for (int j = 0; j < sizeMask; j++) {
                 if (valueMask[i][j] != 0) {
-                    m = odbicieLustrzane(x + i - numMask, 'x');
-                    n = odbicieLustrzane(y + j - numMask, 'y');
+                    m = mirrorReflection(x + i - numMask, 'x');
+                    n = mirrorReflection(y + j - numMask, 'y');
                     r = red[m][n];
                     g = green[m][n];
                     b = blue[m][n];

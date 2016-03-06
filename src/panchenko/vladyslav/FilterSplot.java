@@ -9,12 +9,12 @@ import javax.swing.JFrame;
  *
  * @author Vladyslav
  */
-public class FiltrSplot extends FiltrPanel {
+public class FilterSplot extends FilterPanel {
 
     private double wypelnijValue = 0;
     private String wypelnijToPrint = "0,0";
 
-    public FiltrSplot(JFrame parent) {
+    public FilterSplot(JFrame parent) {
         super(parent, "Funkcja splotu", 1, 2);
         fieldLabels[0].setText("Wypełnij");
         fields[0].setText("");
@@ -54,11 +54,11 @@ public class FiltrSplot extends FiltrPanel {
     }
 
     @Override
-    protected void filtrujButton() {
+    protected void filterButton() {
         fields[0].setText("");
         for (int x = 0; x < Image.image.getWidth(); x++) {
             for (int y = 0; y < Image.image.getHeight(); y++) {
-                obliczPixel(x, y);
+                calculatePixel(x, y);
             }
         }
     }
@@ -67,7 +67,7 @@ public class FiltrSplot extends FiltrPanel {
         return (r << 16) + (g << 8) + b;
     }
     
-    public static int obetnij256(int color) {
+    public static int erase256(int color) {
         if (color > 255) {
             color = 255;
         } else if (color < 0) {
@@ -100,16 +100,16 @@ public class FiltrSplot extends FiltrPanel {
         }
         return result;
     }
-
-    private void obliczPixel(int x, int y) {
+    // oblicz pixel
+    private void calculatePixel(int x, int y) {
         double r = 0;
         double g = 0;
         double b = 0;
         int m, n, rgb;
         for (int i = 0; i < sizeMask; i++) {
             for (int j = 0; j < sizeMask; j++) {
-                m = odbicieLustrzane(x + i - numMask, 'x');
-                n = odbicieLustrzane(y + j - numMask, 'y');
+                m = mirrorReflection(x + i - numMask, 'x');
+                n = mirrorReflection(y + j - numMask, 'y');
 
                 r += red[m][n] * valueMask[i][j];
                 g += green[m][n] * valueMask[i][j];
@@ -120,7 +120,7 @@ public class FiltrSplot extends FiltrPanel {
         g /= sumMask;
         b /= sumMask;
 
-        rgb = jrgb(obetnij256((int) r), obetnij256((int) g), obetnij256((int) b));
+        rgb = jrgb(erase256((int) r), erase256((int) g), erase256((int) b));
         Image.image.setRGB(x, y, rgb);
     }
 }

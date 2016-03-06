@@ -9,20 +9,23 @@ import javax.swing.JFrame;
  *
  * @author Vladyslav
  */
-public class FiltrSplotGauss extends FiltrPanel implements KeyListener {
+public class FilterSplotUnsharpMask extends FilterPanel implements KeyListener {
 
-    private double wspolczynnik = 1;
+    private double wspolczynnikG = 1;
     private double odchylenie = 1;
+    private double wspolczynnikUM = 1;
     private double[][] redCopy = new double[Image.image.getWidth()][Image.image.getHeight()];
     private double[][] greenCopy = new double[Image.image.getWidth()][Image.image.getHeight()];
     private double[][] blueCopy = new double[Image.image.getWidth()][Image.image.getHeight()];
 
-    public FiltrSplotGauss(JFrame parent) {
-        super(parent, "Splot gaussowski", 2, 1);
+    public FilterSplotUnsharpMask(JFrame parent) {
+        super(parent, "Splot unsharpmask", 3, 1);
         fieldLabels[0].setText("Odchylenie st.");
         fieldLabels[1].setText("Współczynik");
-        fields[0].setText("" + wspolczynnik);
+        fieldLabels[2].setText("Współ. użycia");
+        fields[0].setText("" + wspolczynnikG);
         fields[1].setText("" + odchylenie);
+        fields[2].setText("" + wspolczynnikUM);
         fields[0].addKeyListener((KeyListener) this);
         fields[1].addKeyListener((KeyListener) this);
         printMask();
@@ -33,8 +36,7 @@ public class FiltrSplotGauss extends FiltrPanel implements KeyListener {
         x = x - numMask;
         y = y - numMask;
         double value = -(x * x + y * y) / (2.0 * odchylenie * odchylenie);
-        value = Math.round(wspolczynnik * Math.pow(Math.E, value) * 100) / 100.0;
-
+        value = Math.round(wspolczynnikG * Math.pow(Math.E, value) * 100) / 100.0;
         jFormattedTextField.setText("" + value);
         jFormattedTextField.setEditable(false);
     }
@@ -50,24 +52,24 @@ public class FiltrSplotGauss extends FiltrPanel implements KeyListener {
                 printMask();
             } else {
                 odchylenie = 1;
-                printMask();
             }
         } else if (evt == fields[1]) {
             tmp = fields[1].getText();
             if (!tmp.equals("")) {
-                wspolczynnik = getNumber(tmp);
+                wspolczynnikG = getNumber(tmp);
                 printMask();
             } else {
-                wspolczynnik = 1;
-                printMask();
+                wspolczynnikG = 1;
             }
         }
     }
 
     @Override
-    protected void filtrujButton() {
+    protected void filterButton() {
         fields[0].setText("" + odchylenie);
-        fields[1].setText("" + wspolczynnik);
+        fields[1].setText("" + wspolczynnikG);
+        wspolczynnikUM = getNumber(fields[2].getText());
+        fields[2].setText("" + wspolczynnikUM);
         for (int x = 0; x < Image.image.getWidth(); x++) {
             for (int y = 0; y < Image.image.getHeight(); y++) {
                 obliczPixelWiersz(x, y);
@@ -84,11 +86,11 @@ public class FiltrSplotGauss extends FiltrPanel implements KeyListener {
         double r = 0;
         double g = 0;
         double b = 0;
-        int m, n, rgb;
+        int m, n, rgb, r1, g1, b1;
         for (int i = 0; i < sizeMask; i++) {
             for (int j = 0; j < sizeMask; j++) {
-                m = odbicieLustrzane(x + i - numMask, 'x');
-                n = odbicieLustrzane(y + j - numMask, 'y');
+                m = mirrorReflection(x + i - numMask, 'x');
+                n = mirrorReflection(y + j - numMask, 'y');
 
                 r += red[m][n] * valueMask[i][j];
                 g += green[m][n] * valueMask[i][j];
@@ -99,7 +101,11 @@ public class FiltrSplotGauss extends FiltrPanel implements KeyListener {
         g /= sumMask;
         b /= sumMask;
 
-        rgb = jrgb(obetnij256((int) r), obetnij256((int) g), obetnij256((int) b));
+        r1 = (int) (wspolczynnikUM * (red[x][y] - ((int) r)));
+        g1 = (int) (wspolczynnikUM * (green[x][y] - ((int) g)));
+        b1 = (int) (wspolczynnikUM * (blue[x][y] - ((int) b)));
+
+        rgb = jrgb(obetnij256(red[x][y] + r1), obetnij256(green[x][y] + g1), obetnij256(blue[x][y] + b1));
         Image.image.setRGB(x, y, rgb);
     }
 
@@ -109,7 +115,7 @@ public class FiltrSplotGauss extends FiltrPanel implements KeyListener {
         double b = 0;
         int m;
         for (int i = 0; i < sizeMask; i++) {
-            m = odbicieLustrzane(x + i - numMask, 'x');
+            m = mirrorReflection(x + i - numMask, 'x');
             r += red[m][y] * valueMask[i][numMask];
             g += green[m][y] * valueMask[i][numMask];
             b += blue[m][y] * valueMask[i][numMask];
@@ -136,7 +142,7 @@ public class FiltrSplotGauss extends FiltrPanel implements KeyListener {
         return color;
     }
     
-      public static double getNumber(String text) {
+    public static double getNumber(String text) {
         double result = 0;
         if (!text.equals("")) {
             text = text.replace(",", ".");
@@ -148,14 +154,14 @@ public class FiltrSplotGauss extends FiltrPanel implements KeyListener {
         }
         return result;
     }
-    
+
     private void obliczPixelKolumna(int x, int y) {
         double r = 0;
         double g = 0;
         double b = 0;
         int m, rgb;
         for (int i = 0; i < sizeMask; i++) {
-            m = odbicieLustrzane(y + i - numMask, 'y');
+            m = mirrorReflection(y + i - numMask, 'y');
             r += redCopy[x][m] * valueMask[i][numMask];
             g += greenCopy[x][m] * valueMask[i][numMask];
             b += blueCopy[x][m] * valueMask[i][numMask];
@@ -164,10 +170,11 @@ public class FiltrSplotGauss extends FiltrPanel implements KeyListener {
         g /= sumMask;
         b /= sumMask;
 
-        rgb = jrgb(obetnij256((int) r), obetnij256((int) g), obetnij256((int) b));
+        r = (wspolczynnikUM * (red[x][y] - r));
+        g = (wspolczynnikUM * (green[x][y] - g));
+        b = (wspolczynnikUM * (blue[x][y] - b));
+
+        rgb = jrgb(obetnij256(red[x][y] + ((int) r)), obetnij256(green[x][y] + ((int) g)), obetnij256(blue[x][y] + ((int) b)));
         Image.image.setRGB(x, y, rgb);
     }
-    
-    
-    
 }

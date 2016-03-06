@@ -161,13 +161,13 @@ public final class Form extends JFrame implements ActionListener, ChangeListener
             Luv LuvDialog = new Luv(this);
             LuvDialog.setVisible(true);
         } else if (evt == splot) {
-            FiltrSplot splocik = new FiltrSplot(this);
+            FilterSplot splocik = new FilterSplot(this);
             splocik.setVisible(true);
         } else if (evt == gauss) {
-            FiltrSplotGauss splotGauss = new FiltrSplotGauss(this);
+            FilterSplotGauss splotGauss = new FilterSplotGauss(this);
             splotGauss.setVisible(true);
         } else if (evt == unsharpmask) {
-            FiltrSplotUnsharpMask splotUM = new FiltrSplotUnsharpMask(this);
+            FilterSplotUnsharpMask splotUM = new FilterSplotUnsharpMask(this);
             splotUM.setVisible(true);
         } else if (evt == min) {
             Minimum filtrMinimum = new Minimum(this);

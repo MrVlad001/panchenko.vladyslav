@@ -24,7 +24,7 @@ import javax.swing.event.ChangeListener;
  *
  * @author Vladyslav
  */
-public class FiltrPanel extends JDialog implements ChangeListener, ActionListener, KeyListener {
+public class FilterPanel extends JDialog implements ChangeListener, ActionListener, KeyListener {
 
     private final int margines = 15;
     private final int heightLabel = 20;
@@ -59,7 +59,7 @@ public class FiltrPanel extends JDialog implements ChangeListener, ActionListene
     private int wymiarMask;
     protected boolean notFullMask;
 
-    public FiltrPanel(JFrame parent, String title, int countField, int wymiarMask) {
+    public FilterPanel(JFrame parent, String title, int countField, int wymiarMask) {
         super(parent, title, true);
         this.countField = countField;
         this.wymiarMask = wymiarMask;
@@ -141,7 +141,7 @@ public class FiltrPanel extends JDialog implements ChangeListener, ActionListene
         });
 
         mask[0][0] = new JFormattedTextField();
-        wczytajDane();
+        readData();
         printMask();
     }
 
@@ -152,7 +152,7 @@ public class FiltrPanel extends JDialog implements ChangeListener, ActionListene
             int suwakVal = slider.getValue();
             if (numMask != suwakVal) {
                 numMask = suwakVal;
-                sizeMask = getRozmMaski(numMask);
+                sizeMask = getSizeMask(numMask);
                 sliderValuesLabels.setText("" + suwakVal);
                 printMask();
                 this.repaint();
@@ -165,7 +165,7 @@ public class FiltrPanel extends JDialog implements ChangeListener, ActionListene
         int srodekMaski = numMask;//bo liczymy od zera
         int powiekszOd = 2;
         int dodajScrollOd = 5;
-        int wysokoscKomorki = heightMaskPanel / getRozmMaski(powiekszOd);
+        int wysokoscKomorki = heightMaskPanel / getSizeMask(powiekszOd);
         remove(maskPanel);
         remove(maskScroll);
         remove(maskBox);
@@ -177,11 +177,11 @@ public class FiltrPanel extends JDialog implements ChangeListener, ActionListene
             powiekszDialog = 0;
         } else if (numMask > powiekszOd && numMask <= dodajScrollOd) {
             wysokoscScrolla = wysokoscKomorki * sizeMask;
-            powiekszDialog = (sizeMask - getRozmMaski(powiekszOd)) * wysokoscKomorki;
+            powiekszDialog = (sizeMask - getSizeMask(powiekszOd)) * wysokoscKomorki;
         } else {
             wysokoscMaskiTmp = wysokoscKomorki * sizeMask;
-            wysokoscScrolla = wysokoscKomorki * getRozmMaski(dodajScrollOd);
-            powiekszDialog = wysokoscKomorki * (getRozmMaski(dodajScrollOd) - getRozmMaski(powiekszOd));
+            wysokoscScrolla = wysokoscKomorki * getSizeMask(dodajScrollOd);
+            powiekszDialog = wysokoscKomorki * (getSizeMask(dodajScrollOd) - getSizeMask(powiekszOd));
         }
 
         setSize(widthDialog + powiekszDialog, heightDialog + powiekszDialog);
@@ -236,21 +236,21 @@ public class FiltrPanel extends JDialog implements ChangeListener, ActionListene
             Form.restoreImage();
             valueMask = new double[sizeMask][sizeMask];
             if (wymiarMask == 2) {
-                setSumaMaski2D();
+                setSumMask2D();
             } else if (wymiarMask == 1) {
-                setSumaMaski1D();
+                setSumMask1D();
             } else {
-                sprawdzCzyMaskaNiepusta();
+                checkIsMaskEmpty();
             }
-            filtrujButton();
+            filterButton();
             Form.refresh();
         }
     }
 
-    protected void filtrujButton() {
+    protected void filterButton() {
     }
 
-    private void wczytajDane() {
+    private void readData() {
         int rgb;
         for (int x = 0; x < Image.image.getWidth(); x++) {
             for (int y = 0; y < Image.image.getHeight(); y++) {
@@ -262,8 +262,8 @@ public class FiltrPanel extends JDialog implements ChangeListener, ActionListene
             }
         }
     }
-
-    public int odbicieLustrzane(int i, char typ) {
+    // odbicie lustralne
+    public int mirrorReflection(int i, char typ) {
         if (i < 0) {
             i = Math.abs(i);
         } else {
@@ -284,15 +284,15 @@ public class FiltrPanel extends JDialog implements ChangeListener, ActionListene
         jFormattedTextField.setText("0");
     }
 
-    public int getRozmMaski(int nrMaski) {
-        return nrMaski * 2 + 1;
+    public int getSizeMask(int numMask) {
+        return numMask * 2 + 1;
     }
 
-    public int getNrMaski(int rozmMaski) {
-        return (rozmMaski - 1) / 2;
+    public int getNumMask(int sizeMask) {
+        return (sizeMask - 1) / 2;
     }
 
-    public void setSumaMaski1D() {
+    public void setSumMask1D() {
         sumMask = 0;
         for (int i = 0; i < sizeMask; i++) {
             valueMask[i] = new double[sizeMask];
@@ -304,7 +304,7 @@ public class FiltrPanel extends JDialog implements ChangeListener, ActionListene
         }
     }
 
-    public void setSumaMaski2D() {
+    public void setSumMask2D() {
         sumMask = 0;
         for (int i = 0; i < sizeMask; i++) {
             valueMask[i] = new double[sizeMask];
@@ -318,7 +318,7 @@ public class FiltrPanel extends JDialog implements ChangeListener, ActionListene
         }
     }
 
-    private void sprawdzCzyMaskaNiepusta() {
+    private void checkIsMaskEmpty() {
         notFullMask = false;
         double tmp;
         String t;

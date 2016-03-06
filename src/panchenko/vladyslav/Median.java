@@ -9,7 +9,7 @@ import javax.swing.JFrame;
  *
  * @author Vladyslav
  */
-public class Median extends FiltrPanel implements KeyListener {
+public class Median extends FilterPanel implements KeyListener {
 
     private int wypelnijValue = 1;
     private int[] tabelaWartosciR = new int[256];
@@ -55,7 +55,7 @@ public class Median extends FiltrPanel implements KeyListener {
     }
 
     @Override
-    protected void filtrujButton() {
+    protected void filterButton() {
         fields[0].setText("");
         if (notFullMask) {
             int tmp;
@@ -101,8 +101,8 @@ public class Median extends FiltrPanel implements KeyListener {
 
         for (int i = 0; i < sizeMask; i++) {
             for (int j = 0; j < sizeMask; j++) {
-                m = odbicieLustrzane(x + i - numMask, 'x');
-                n = odbicieLustrzane(y + j - numMask, 'y');
+                m = mirrorReflection(x + i - numMask, 'x');
+                n = mirrorReflection(y + j - numMask, 'y');
                 rMaskaValue[i][j] = r = red[m][n];
                 gMaskaValue[i][j] = g = green[m][n];
                 bMaskaValue[i][j] = b = blue[m][n];
@@ -119,7 +119,7 @@ public class Median extends FiltrPanel implements KeyListener {
     private void obliczPixelOptimal(int x, int y) {
         int r, g, b, m, n, rgb;
         int i = sizeMask - 1;
-        n = odbicieLustrzane(y + i - numMask, 'y');
+        n = mirrorReflection(y + i - numMask, 'y');
 
         for (int j = 0; j < sizeMask; j++) {
             r = rMaskaValue[j][superZnacznik];
@@ -128,7 +128,7 @@ public class Median extends FiltrPanel implements KeyListener {
             tabelaWartosciR[r]--;
             tabelaWartosciG[g]--;
             tabelaWartosciB[b]--;
-            m = odbicieLustrzane(x + j - numMask, 'x');
+            m = mirrorReflection(x + j - numMask, 'x');
             rMaskaValue[j][superZnacznik] = r = red[m][n];
             gMaskaValue[j][superZnacznik] = g = green[m][n];
             bMaskaValue[j][superZnacznik] = b = blue[m][n];
@@ -149,8 +149,8 @@ public class Median extends FiltrPanel implements KeyListener {
         for (int i = 0; i < sizeMask; i++) {
             for (int j = 0; j < sizeMask; j++) {
                 if (valueMask[i][j] != 0) {
-                    m = odbicieLustrzane(x + i - numMask, 'x');
-                    n = odbicieLustrzane(y + j - numMask, 'y');
+                    m = mirrorReflection(x + i - numMask, 'x');
+                    n = mirrorReflection(y + j - numMask, 'y');
                     r = red[m][n];
                     g = green[m][n];
                     b = blue[m][n];
