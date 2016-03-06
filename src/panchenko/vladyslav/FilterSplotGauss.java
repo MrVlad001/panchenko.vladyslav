@@ -18,7 +18,7 @@ public class FilterSplotGauss extends FilterPanel implements KeyListener {
     private double[][] blueCopy = new double[Image.image.getWidth()][Image.image.getHeight()];
 
     public FilterSplotGauss(JFrame parent) {
-        super(parent, "Splot gaussowski", 2, 1);
+        super(parent, "Splot gaussowski", 2, 2);
         fieldLabels[0].setText("Odchylenie st.");
         fieldLabels[1].setText("Współczynik");
         fields[0].setText("" + wspolczynnik);
@@ -70,12 +70,7 @@ public class FilterSplotGauss extends FilterPanel implements KeyListener {
         fields[1].setText("" + wspolczynnik);
         for (int x = 0; x < Image.image.getWidth(); x++) {
             for (int y = 0; y < Image.image.getHeight(); y++) {
-                calculatePixelRow(x, y);
-            }
-        }
-        for (int x = 0; x < Image.image.getWidth(); x++) {
-            for (int y = 0; y < Image.image.getHeight(); y++) {
-                calculatePixelColumn(x, y);
+                calculatePixel(x, y);
             }
         }
     }
@@ -101,26 +96,6 @@ public class FilterSplotGauss extends FilterPanel implements KeyListener {
 
         rgb = jrgb(erase256((int) r), erase256((int) g), erase256((int) b));
         Image.image.setRGB(x, y, rgb);
-    }
-    // oblicz pixel wiersz
-    private void calculatePixelRow(int x, int y) {
-        double r = 0;
-        double g = 0;
-        double b = 0;
-        int m;
-        for (int i = 0; i < sizeMask; i++) {
-            m = mirrorReflection(x + i - numMask, 'x');
-            r += red[m][y] * valueMask[i][numMask];
-            g += green[m][y] * valueMask[i][numMask];
-            b += blue[m][y] * valueMask[i][numMask];
-        }
-        r /= sumMask;
-        g /= sumMask;
-        b /= sumMask;
-
-        redCopy[x][y] = r;
-        greenCopy[x][y] = g;
-        blueCopy[x][y] = b;
     }
     
     public static int jrgb(int r, int g, int b) {
@@ -148,23 +123,4 @@ public class FilterSplotGauss extends FilterPanel implements KeyListener {
         }
         return result;
     }
-    // oblicz pixel kolumna
-    private void calculatePixelColumn(int x, int y) {
-        double r = 0;
-        double g = 0;
-        double b = 0;
-        int m, rgb;
-        for (int i = 0; i < sizeMask; i++) {
-            m = mirrorReflection(y + i - numMask, 'y');
-            r += redCopy[x][m] * valueMask[i][numMask];
-            g += greenCopy[x][m] * valueMask[i][numMask];
-            b += blueCopy[x][m] * valueMask[i][numMask];
-        }
-        r /= sumMask;
-        g /= sumMask;
-        b /= sumMask;
-
-        rgb = jrgb(erase256((int) r), erase256((int) g), erase256((int) b));
-        Image.image.setRGB(x, y, rgb);
-    }   
 }

@@ -19,7 +19,7 @@ public class FilterSplotUnsharpMask extends FilterPanel implements KeyListener {
     private double[][] blueCopy = new double[Image.image.getWidth()][Image.image.getHeight()];
 
     public FilterSplotUnsharpMask(JFrame parent) {
-        super(parent, "Splot unsharpmask", 3, 1);
+        super(parent, "Splot unsharpmask", 3, 2);
         fieldLabels[0].setText("Odchylenie st.");
         fieldLabels[1].setText("Współczynik");
         fieldLabels[2].setText("Współ. użycia");
@@ -72,15 +72,11 @@ public class FilterSplotUnsharpMask extends FilterPanel implements KeyListener {
         fields[2].setText("" + wspolczynnikUM);
         for (int x = 0; x < Image.image.getWidth(); x++) {
             for (int y = 0; y < Image.image.getHeight(); y++) {
-                calculatePixelRow(x, y);
-            }
-        }
-        for (int x = 0; x < Image.image.getWidth(); x++) {
-            for (int y = 0; y < Image.image.getHeight(); y++) {
-                calculatePixelColumn(x, y);
+                calculatePixel(x, y);
             }
         }
     }
+    
     // oblicz pixel
     private void calculatePixel(int x, int y) {
         double r = 0;
@@ -108,26 +104,6 @@ public class FilterSplotUnsharpMask extends FilterPanel implements KeyListener {
         rgb = jrgb(erase256(red[x][y] + r1), erase256(green[x][y] + g1), erase256(blue[x][y] + b1));
         Image.image.setRGB(x, y, rgb);
     }
-    // oblicz pixel wiersz
-    private void calculatePixelRow(int x, int y) {
-        double r = 0;
-        double g = 0;
-        double b = 0;
-        int m;
-        for (int i = 0; i < sizeMask; i++) {
-            m = mirrorReflection(x + i - numMask, 'x');
-            r += red[m][y] * valueMask[i][numMask];
-            g += green[m][y] * valueMask[i][numMask];
-            b += blue[m][y] * valueMask[i][numMask];
-        }
-        r /= sumMask;
-        g /= sumMask;
-        b /= sumMask;
-
-        redCopy[x][y] = r;
-        greenCopy[x][y] = g;
-        blueCopy[x][y] = b;
-    }
     
     public static int jrgb(int r, int g, int b) {
         return (r << 16) + (g << 8) + b;
@@ -153,28 +129,5 @@ public class FilterSplotUnsharpMask extends FilterPanel implements KeyListener {
             }
         }
         return result;
-    }
-    // oblicz pixel kolumna
-    private void calculatePixelColumn(int x, int y) {
-        double r = 0;
-        double g = 0;
-        double b = 0;
-        int m, rgb;
-        for (int i = 0; i < sizeMask; i++) {
-            m = mirrorReflection(y + i - numMask, 'y');
-            r += redCopy[x][m] * valueMask[i][numMask];
-            g += greenCopy[x][m] * valueMask[i][numMask];
-            b += blueCopy[x][m] * valueMask[i][numMask];
-        }
-        r /= sumMask;
-        g /= sumMask;
-        b /= sumMask;
-
-        r = (wspolczynnikUM * (red[x][y] - r));
-        g = (wspolczynnikUM * (green[x][y] - g));
-        b = (wspolczynnikUM * (blue[x][y] - b));
-
-        rgb = jrgb(erase256(red[x][y] + ((int) r)), erase256(green[x][y] + ((int) g)), erase256(blue[x][y] + ((int) b)));
-        Image.image.setRGB(x, y, rgb);
     }
 }

@@ -238,8 +238,7 @@ public class FilterPanel extends JDialog implements ChangeListener, ActionListen
             valueMask = new double[sizeMask][sizeMask];
             if (wymiarMask == 2) {
                 setSumMask2D();
-            } else if (wymiarMask == 1) {
-                setSumMask1D();
+            
             } else {
                 checkIsMaskEmpty();
             }
@@ -291,18 +290,6 @@ public class FilterPanel extends JDialog implements ChangeListener, ActionListen
 
     public int getNumMask(int sizeMask) {
         return (sizeMask - 1) / 2;
-    }
-
-    public void setSumMask1D() {
-        sumMask = 0;
-        for (int i = 0; i < sizeMask; i++) {
-            valueMask[i] = new double[sizeMask];
-            valueMask[i][numMask] = Double.parseDouble(mask[numMask][i].getText());
-            sumMask += valueMask[i][numMask];
-        }
-        if (sumMask == 0) {
-            sumMask = 1;
-        }
     }
 
     public void setSumMask2D() {
