@@ -21,7 +21,7 @@ public class CMYK extends SlidersPanel {
         sliderLabels[0].setText("C");
         sliderLabels[1].setText("M");
         sliderLabels[2].setText("Y");
-        sliderLabels[3].setText("B");
+        sliderLabels[3].setText("K");
 
         for (int i = 0; i < countSlider; i++) {
             slider[i].setMinimum(-100);

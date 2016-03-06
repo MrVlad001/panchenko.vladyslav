@@ -160,6 +160,7 @@ public class FilterPanel extends JDialog implements ChangeListener, ActionListen
         }
     }
 
+    
     protected final void printMask() {
         int powiekszDialog, wysokoscScrolla, wysokoscMaskiTmp = 0;
         int srodekMaski = numMask;//bo liczymy od zera
