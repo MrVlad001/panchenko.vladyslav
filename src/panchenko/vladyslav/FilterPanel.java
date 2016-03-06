@@ -204,7 +204,7 @@ public class FilterPanel extends JDialog implements ChangeListener, ActionListen
                 mask[i][y].addKeyListener((KeyListener) this);
 
                 if (i == y && i == maskMiddle) {
-                    mask[i][y].setBackground(Color.yellow);
+                    mask[i][y].setBackground(Color.GREEN);
                 } else {
                     mask[i][y].setBackground(Color.white);
                 }
