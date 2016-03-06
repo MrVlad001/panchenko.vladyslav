@@ -10,16 +10,16 @@ import javax.swing.JPanel;
  */
 public class FourierDialog extends JDialog {
 
-    private JPanel panelek;
+    private JPanel panel;
     private Fourier tf = new Fourier();
 
     public FourierDialog(JFrame parent, int type) {
         super(parent, "Fourier", false);
         setNaglowek(type);
         setSize(Image.image.getWidth() + 16, Image.image.getHeight() + 38);
-        panelek = new ImageFourier();
+        panel = new ImageFourier();
         ImageFourier.image = Form.duplicateImage(Image.image);
-        add(panelek);
+        add(panel);
         tf.tf(type);
     }
 

@@ -41,7 +41,7 @@ public final class Form extends JFrame implements ActionListener, ChangeListener
     private JMenuItem HSLconversion = new JMenuItem("RGB ↔ HSL");
     private JMenuItem LabConversion = new JMenuItem("RGB ↔ L*a*b*");
     private JMenuItem LuvConversion = new JMenuItem("RGB ↔ L*u*v*");
-    private JMenu menuFiltr = new JMenu("Filtry");
+    private JMenu menuFilter = new JMenu("Filtry");
     private JMenuItem splot = new JMenuItem("Splot");
     private JMenuItem gauss = new JMenuItem("Splot Gaussa");
     private JMenuItem unsharpmask = new JMenuItem("Splot Unsharp Mask");
@@ -80,14 +80,14 @@ public final class Form extends JFrame implements ActionListener, ChangeListener
         conversionItems[3] = LuvConversion;
         addToMenu(menuConversion, conversionItems);
 
-        JMenuItem[] filtrItems = new JMenuItem[6];
-        filtrItems[0] = splot;
-        filtrItems[1] = gauss;
-        filtrItems[2] = unsharpmask;
-        filtrItems[3] = min;
-        filtrItems[4] = max;
-        filtrItems[5] = mediana;
-        addToMenu(menuFiltr, filtrItems);
+        JMenuItem[] filterItems = new JMenuItem[6];
+        filterItems[0] = splot;
+        filterItems[1] = gauss;
+        filterItems[2] = unsharpmask;
+        filterItems[3] = min;
+        filterItems[4] = max;
+        filterItems[5] = mediana;
+        addToMenu(menuFilter, filterItems);
 
         JMenuItem[] fourierItems = new JMenuItem[4];
         fourierItems[0] = fourierRealis;

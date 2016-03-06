@@ -9,11 +9,11 @@ import javax.swing.JFrame;
  */
 public class HSL extends SlidersPanel {
 
-    private int szerokoscObrazka = Image.image.getWidth();
-    private int wysokoscObrazka = Image.image.getHeight();
-    private double[][] h = new double[szerokoscObrazka][wysokoscObrazka];
-    private double[][] l = new double[szerokoscObrazka][wysokoscObrazka];
-    private double[][] s = new double[szerokoscObrazka][wysokoscObrazka];
+    private int widthImage = Image.image.getWidth();
+    private int heightImage = Image.image.getHeight();
+    private double[][] h = new double[widthImage][heightImage];
+    private double[][] l = new double[widthImage][heightImage];
+    private double[][] s = new double[widthImage][heightImage];
 
     public HSL(JFrame parent) {
         super(parent, "Konwersja HSL", 3);
@@ -33,8 +33,8 @@ public class HSL extends SlidersPanel {
 
     @Override
     public void sliderAction() {
-        konwertujDoHSL();
-        dodajDoHSL();
+        convertToHSL();
+        addToHSL();
     }
 
     @Override
@@ -47,7 +47,7 @@ public class HSL extends SlidersPanel {
         }
     }
 
-    private void konwertujDoHSL() {
+    private void convertToHSL() {
         Form.restoreImage();
         double rU, gU, bU, min, max, dM, l2;
         for (int x = 0; x < Image.image.getWidth(); x++) {
@@ -90,25 +90,25 @@ public class HSL extends SlidersPanel {
         }
     }
 
-    private void dodajDoHSL() {
-        double dodajH = slider[0].getValue();
-        double dodajL = slider[2].getValue() / 100.0;
-        double dodajS = slider[1].getValue() / 100.0;
+    private void addToHSL() {
+        double addH = slider[0].getValue();
+        double addL = slider[2].getValue() / 100.0;
+        double addS = slider[1].getValue() / 100.0;
         double h2, l2, s2;
         int rgb;
 
         for (int x = 0; x < Image.image.getWidth(); x++) {
             for (int y = 0; y < Image.image.getHeight(); y++) {
-                h2 = h[x][y] + dodajH;
-                l2 = l[x][y] + dodajL;
-                s2 = s[x][y] + dodajS;
+                h2 = h[x][y] + addH;
+                l2 = l[x][y] + addL;
+                s2 = s[x][y] + addS;
                 if (h2 < 0) {
                     h2 = 720 + h2;
                 }
                 h2 %= 360.0;
-                l2 = obetnij1(l2);
-                s2 = obetnij1(s2);
-                rgb = konwertujDoRGB(h2, l2, s2);
+                l2 = erase1(l2);
+                s2 = erase1(s2);
+                rgb = convertToRGB(h2, l2, s2);
                 Image.image.setRGB(x, y, rgb);
             }
         }
@@ -127,7 +127,7 @@ public class HSL extends SlidersPanel {
         return color;
     }
     
-     public static double obetnij1(double color) {
+     public static double erase1(double color) {
         if (color > 1) {
             color = 1.0;
         } else if (color < 0) {
@@ -136,7 +136,7 @@ public class HSL extends SlidersPanel {
         return color;
     }
     
-    public int konwertujDoRGB(double h2, double l2, double s2) {
+    public int convertToRGB(double h2, double l2, double s2) {
         double r, g, b;
         int r1, g1, b1;
 
