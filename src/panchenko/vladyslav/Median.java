@@ -12,14 +12,14 @@ import javax.swing.JFrame;
 public class Median extends FilterPanel implements KeyListener {
 
     private int wypelnijValue = 1;
-    private int[] tabelaWartosciR = new int[256];
-    private int[] tabelaWartosciG = new int[256];
-    private int[] tabelaWartosciB = new int[256];
-    private int srodkowaWartoscMaski = 0;
+    private int[] arrayR = new int[256];
+    private int[] arrayG = new int[256];
+    private int[] arrayB = new int[256];
+    private int middleValueMask = 0;
     private int[][] rMaskValue;
     private int[][] gMaskValue;
     private int[][] bMaskValue;
-    private int superZnacznik = 0;
+    private int flag = 0;
 
     public Median(JFrame parent) {
         super(parent, "Filtr mediana", 1, 0);
@@ -74,7 +74,7 @@ public class Median extends FilterPanel implements KeyListener {
                     sumMask += tmp;
                 }
             }
-            setStodkowaWartoscMaski();
+            setMiddleValueMask();
             if (sumMask == sizeMask * sizeMask) {
                 for (int x = 0; x < Image.image.getWidth(); x++) {
                     for (int y = 0; y < Image.image.getHeight(); y++) {
@@ -97,7 +97,7 @@ public class Median extends FilterPanel implements KeyListener {
 
     private void calculateFirstPixel(int x, int y) {
         int r, g, b, m, n, rgb;
-        zerujTabeleWartosci();
+        resetArray();
 
         for (int i = 0; i < sizeMask; i++) {
             for (int j = 0; j < sizeMask; j++) {
@@ -106,14 +106,14 @@ public class Median extends FilterPanel implements KeyListener {
                 rMaskValue[i][j] = r = red[m][n];
                 gMaskValue[i][j] = g = green[m][n];
                 bMaskValue[i][j] = b = blue[m][n];
-                tabelaWartosciR[r]++;
-                tabelaWartosciG[g]++;
-                tabelaWartosciB[b]++;
+                arrayR[r]++;
+                arrayG[g]++;
+                arrayB[b]++;
             }
         }
         rgb = median();
         Image.image.setRGB(x, y, rgb);
-        superZnacznik = 0;
+        flag = 0;
     }
 
     private void calculatePixelOptimal(int x, int y) {
@@ -122,29 +122,29 @@ public class Median extends FilterPanel implements KeyListener {
         n = mirrorReflection(y + i - numMask, 'y');
 
         for (int j = 0; j < sizeMask; j++) {
-            r = rMaskValue[j][superZnacznik];
-            g = gMaskValue[j][superZnacznik];
-            b = bMaskValue[j][superZnacznik];
-            tabelaWartosciR[r]--;
-            tabelaWartosciG[g]--;
-            tabelaWartosciB[b]--;
+            r = rMaskValue[j][flag];
+            g = gMaskValue[j][flag];
+            b = bMaskValue[j][flag];
+            arrayR[r]--;
+            arrayG[g]--;
+            arrayB[b]--;
             m = mirrorReflection(x + j - numMask, 'x');
-            rMaskValue[j][superZnacznik] = r = red[m][n];
-            gMaskValue[j][superZnacznik] = g = green[m][n];
-            bMaskValue[j][superZnacznik] = b = blue[m][n];
-            tabelaWartosciR[r]++;
-            tabelaWartosciG[g]++;
-            tabelaWartosciB[b]++;
+            rMaskValue[j][flag] = r = red[m][n];
+            gMaskValue[j][flag] = g = green[m][n];
+            bMaskValue[j][flag] = b = blue[m][n];
+            arrayR[r]++;
+            arrayG[g]++;
+            arrayB[b]++;
         }
         rgb = median();
         Image.image.setRGB(x, y, rgb);
-        superZnacznik++;
-        superZnacznik %= sizeMask;
+        flag++;
+        flag %= sizeMask;
     }
 
     private void calculatePixel(int x, int y) {
         int r, g, b, m, n, rgb;
-        zerujTabeleWartosci();
+        resetArray();
 
         for (int i = 0; i < sizeMask; i++) {
             for (int j = 0; j < sizeMask; j++) {
@@ -154,28 +154,28 @@ public class Median extends FilterPanel implements KeyListener {
                     r = red[m][n];
                     g = green[m][n];
                     b = blue[m][n];
-                    tabelaWartosciR[r]++;
-                    tabelaWartosciG[g]++;
-                    tabelaWartosciB[b]++;
+                    arrayR[r]++;
+                    arrayG[g]++;
+                    arrayB[b]++;
                 }
             }
         }
         rgb = median();
         Image.image.setRGB(x, y, rgb);
-        superZnacznik = 0;
+        flag = 0;
     }
 
     private int median() {
         int r, g, b, rgb, tmp = 0;
-        int rSrodWartTMP = srodkowaWartoscMaski;
-        int gSrodWartTMP = srodkowaWartoscMaski;
-        int bSrodWartTMP = srodkowaWartoscMaski;
+        int rSrodWartTMP = middleValueMask;
+        int gSrodWartTMP = middleValueMask;
+        int bSrodWartTMP = middleValueMask;
         r = g = b = -1;
 
         while (rSrodWartTMP > 0 || gSrodWartTMP > 0 || bSrodWartTMP > 0) {
-            rSrodWartTMP -= tabelaWartosciR[tmp];
-            gSrodWartTMP -= tabelaWartosciG[tmp];
-            bSrodWartTMP -= tabelaWartosciB[tmp];
+            rSrodWartTMP -= arrayR[tmp];
+            gSrodWartTMP -= arrayG[tmp];
+            bSrodWartTMP -= arrayB[tmp];
             if (rSrodWartTMP <= 0 && r == -1) {
                 r = tmp;
             }
@@ -190,20 +190,20 @@ public class Median extends FilterPanel implements KeyListener {
         rgb = jrgb(r, g, b);
         return rgb;
     }
-
-    private void zerujTabeleWartosci() {
-        for (int i = 0; i < tabelaWartosciR.length; i++) {
-            tabelaWartosciR[i] = 0;
-            tabelaWartosciG[i] = 0;
-            tabelaWartosciB[i] = 0;
+    // zerowanie tabel
+    private void resetArray() {
+        for (int i = 0; i < arrayR.length; i++) {
+            arrayR[i] = 0;
+            arrayG[i] = 0;
+            arrayB[i] = 0;
         }
     }
 
-    private void setStodkowaWartoscMaski() {
+    private void setMiddleValueMask() {
         if (sumMask % 2 == 1) {
-            srodkowaWartoscMaski = (int) Math.floor(sumMask / 2.0) + 1;
+            middleValueMask = (int) Math.floor(sumMask / 2.0) + 1;
         } else {
-            srodkowaWartoscMaski = (int) Math.floor(sumMask / 2.0);
+            middleValueMask = (int) Math.floor(sumMask / 2.0);
         }
 
     }

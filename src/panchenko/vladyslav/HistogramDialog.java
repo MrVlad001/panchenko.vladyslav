@@ -187,7 +187,7 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
         } else if (evt == skalujButton) {
             scan();
         }
-        odswiezHistogram();
+        refreshHistogram();
         add(histogramPanel);
     }
 
@@ -234,7 +234,7 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                     Image.image.setRGB(x, y, rgb);
                 }
             }
-            odswiezHistogram();
+            refreshHistogram();
         } else if (aktywnyHist == 1) {
             for (int x = 0; x < Image.image.getWidth(); x++) {
                 for (int y = 0; y < Image.image.getHeight(); y++) {
@@ -247,7 +247,7 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                     Image.image.setRGB(x, y, rgb);
                 }
             }
-            odswiezHistogram();
+            refreshHistogram();
         } else if (aktywnyHist == 2) {
             for (int x = 0; x < Image.image.getWidth(); x++) {
                 for (int y = 0; y < Image.image.getHeight(); y++) {
@@ -260,7 +260,7 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                     Image.image.setRGB(x, y, rgb);
                 }
             }
-            odswiezHistogram();
+            refreshHistogram();
         } else if (aktywnyHist == 3) {
             for (int x = 0; x < Image.image.getWidth(); x++) {
                 for (int y = 0; y < Image.image.getHeight(); y++) {
@@ -278,7 +278,7 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                     Image.image.setRGB(x, y, rgb);
                 }
             }
-            odswiezHistogram();
+            refreshHistogram();
         }
         Form.refresh();
     }
@@ -296,7 +296,7 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                     Image.image.setRGB(x, y, rgb);
                 }
             }
-            odswiezHistogram();
+            refreshHistogram();
         } else if (aktywnyHist == 1) {
             for (int x = 0; x < Image.image.getWidth(); x++) {
                 for (int y = 0; y < Image.image.getHeight(); y++) {
@@ -309,7 +309,7 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                     Image.image.setRGB(x, y, rgb);
                 }
             }
-            odswiezHistogram();
+            refreshHistogram();
         } else if (aktywnyHist == 2) {
             for (int x = 0; x < Image.image.getWidth(); x++) {
                 for (int y = 0; y < Image.image.getHeight(); y++) {
@@ -322,7 +322,7 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                     Image.image.setRGB(x, y, rgb);
                 }
             }
-            odswiezHistogram();
+            refreshHistogram();
         } else if (aktywnyHist == 3) {
             for (int x = 0; x < Image.image.getWidth(); x++) {
                 for (int y = 0; y < Image.image.getHeight(); y++) {
@@ -340,7 +340,7 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                     Image.image.setRGB(x, y, rgb);
                 }
             }
-            odswiezHistogram();
+            refreshHistogram();
         }
         Form.refresh();
     }
@@ -358,7 +358,7 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
         return color;
     }
 
-    public void odswiezHistogram() {
+    public void refreshHistogram() {
         Histogram.readData(aktywnyHist);
         histogramPanel.repaint();
         histogramPanel.revalidate();

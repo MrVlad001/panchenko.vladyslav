@@ -22,7 +22,7 @@ public final class Luv extends SlidersPanel {
     private float X, Y, Z, ui, vi, L, u, v, tmpMianownik, tmpL;
     private XYZ xyz = new XYZ();
     private int addL, addU, addV;
-    private boolean wywolanoKonstruktor = false;
+    private boolean constructorFlag = false;
 
     public Luv(JFrame parent) {
         super(parent, "Konwersja Lab", 3);
@@ -40,13 +40,13 @@ public final class Luv extends SlidersPanel {
         slider[2].setMaximum(262);
         slider[2].setValue(0);
         convertToLuv();
-        wywolanoKonstruktor = true;
+        constructorFlag = true;
         sliderAction();
     }
 
     @Override
     public void sliderAction() {
-        if (wywolanoKonstruktor) {
+        if (constructorFlag) {
             int rgb;
             addL = slider[0].getValue();
             addU = slider[1].getValue();
@@ -55,7 +55,7 @@ public final class Luv extends SlidersPanel {
             for (int x = 0; x < widthImage; x++) {
                 for (int y = 0; y < heightImage; y++) {
                     addToLuv(x, y);
-                    rgb = xyz.konwertujDoRGB(convertToXYZ());
+                    rgb = xyz.convertToRGB(convertToXYZ());
                     Image.image.setRGB(x, y, rgb);
                 }
             }
@@ -75,7 +75,7 @@ public final class Luv extends SlidersPanel {
         for (int x = 0; x < widthImage; x++) {
             for (int y = 0; y < heightImage; y++) {
                 rgb = Image.image.getRGB(x, y);
-                convertToXYZ = xyz.konwertujDoXYZ(rgb);
+                convertToXYZ = xyz.convertToXYZ(rgb);
 
                 X = convertToXYZ[0][0];
                 Y = convertToXYZ[0][1];

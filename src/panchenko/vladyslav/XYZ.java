@@ -21,7 +21,7 @@ public class XYZ {
         genArrValue();
     }
 
-    public float[][] konwertujDoXYZ(int rgb) {
+    public float[][] convertToXYZ(int rgb) {
         Color color = new Color(rgb, true);
         int r = color.getRed();
         int g = color.getGreen();
@@ -35,7 +35,7 @@ public class XYZ {
         return matrixMultiplication(rgbMatrix, mMatrix);
     }
 
-    public int konwertujDoRGB(float[][] xyzMatrix) {
+    public int convertToRGB(float[][] xyzMatrix) {
         float[][] rgbMatrix = matrixMultiplication(xyzMatrix, mMatrix2);
         float gamma = 1 / 2.2f;
         int r, g, b;

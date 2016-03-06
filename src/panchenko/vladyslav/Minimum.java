@@ -60,7 +60,7 @@ public class Minimum extends FilterPanel implements KeyListener {
             }
             for (int x = 0; x < Image.image.getWidth(); x++) {
                 for (int y = 0; y < Image.image.getHeight(); y++) {
-                    obliczPixel(x, y);
+                    calculatePixel(x, y);
                 }
             }
         } else {
@@ -81,7 +81,7 @@ public class Minimum extends FilterPanel implements KeyListener {
         return color;
     } 
      
-    private void obliczPixel(int x, int y) {
+    private void calculatePixel(int x, int y) {
         int r = 0, g = 0, b = 0, m, n, rgb, minR = 255, minG = 255, minB = 255;
         for (int i = 0; i < sizeMask; i++) {
             for (int j = 0; j < sizeMask; j++) {

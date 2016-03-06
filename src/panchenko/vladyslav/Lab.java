@@ -19,7 +19,7 @@ public final class Lab extends SlidersPanel {
     private int addL;
     private int addA;
     private int addB;
-    private boolean wywolanoKonstruktor = false;
+    private boolean constructorFlag = false;
 
     public Lab(JFrame parent, int type) {
         super(parent, "Konwersja Lab", 3);
@@ -41,16 +41,16 @@ public final class Lab extends SlidersPanel {
                 slider[i].setValue(0);
             }
             convertToLab();
-            wywolanoKonstruktor = true;
+            constructorFlag = true;
             sliderAction();
         } else {
-            wywolanoKonstruktor = true;
+            constructorFlag = true;
         }
     }
 
     @Override
     public void sliderAction() {
-        if (wywolanoKonstruktor) {
+        if (constructorFlag) {
             int rgb;
             addL = slider[0].getValue();
             addA = slider[1].getValue();
@@ -59,7 +59,7 @@ public final class Lab extends SlidersPanel {
             for (int x = 0; x < Image.image.getWidth(); x++) {
                 for (int y = 0; y < Image.image.getHeight(); y++) {
                     addToLab(x, y);
-                    rgb = xyz.konwertujDoRGB(convertToXYZ());
+                    rgb = xyz.convertToRGB(convertToXYZ());
                     Image.image.setRGB(x, y, rgb);
                 }
             }
@@ -78,7 +78,7 @@ public final class Lab extends SlidersPanel {
         for (int x = 0; x < Image.image.getWidth(); x++) {
             for (int y = 0; y < Image.image.getHeight(); y++) {
                 rgb = Image.image.getRGB(x, y);
-                convertToXYZ = xyz.konwertujDoXYZ(rgb);
+                convertToXYZ = xyz.convertToXYZ(rgb);
 
                 xr = (convertToXYZ[0][0] / XYZ.refX);
                 yr = (convertToXYZ[0][1] / XYZ.refY);
@@ -172,7 +172,7 @@ public final class Lab extends SlidersPanel {
         for (int x = 0; x < Image.image.getWidth(); x++) {
             for (int y = 0; y < Image.image.getHeight(); y++) {
                 addToLab(x, y);
-                rgb = xyz.konwertujDoRGB(convertToXYZ());
+                rgb = xyz.convertToRGB(convertToXYZ());
                 Image.image.setRGB(x, y, rgb);
             }
         }
