@@ -21,11 +21,6 @@ public final class Lab extends SlidersPanel {
     private int dodajB;
     private boolean wywolanoKonstruktor = false;
 
-    /**
-     *
-     * @param parent
-     * @param type - 0: dla konwersji Lab; 1: na potrzeby dekompresji obrazów
-     */
     public Lab(JFrame parent, int type) {
         super(parent, "Konwersja Lab", 3);
         if (type == 0) {
