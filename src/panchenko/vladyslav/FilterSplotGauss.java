@@ -29,7 +29,7 @@ public class FilterSplotGauss extends FilterPanel implements KeyListener {
     }
 
     @Override
-    public void setMaskaValue(JFormattedTextField jFormattedTextField, int x, int y) {
+    public void setMaskValue(JFormattedTextField jFormattedTextField, int x, int y) {
         x = x - numMask;
         y = y - numMask;
         double value = -(x * x + y * y) / (2.0 * odchylenie * odchylenie);
@@ -70,17 +70,17 @@ public class FilterSplotGauss extends FilterPanel implements KeyListener {
         fields[1].setText("" + wspolczynnik);
         for (int x = 0; x < Image.image.getWidth(); x++) {
             for (int y = 0; y < Image.image.getHeight(); y++) {
-                obliczPixelWiersz(x, y);
+                calculatePixelRow(x, y);
             }
         }
         for (int x = 0; x < Image.image.getWidth(); x++) {
             for (int y = 0; y < Image.image.getHeight(); y++) {
-                obliczPixelKolumna(x, y);
+                calculatePixelColumn(x, y);
             }
         }
     }
 
-    private void obliczPixel(int x, int y) {
+    private void calculatePixel(int x, int y) {
         double r = 0;
         double g = 0;
         double b = 0;
@@ -99,11 +99,11 @@ public class FilterSplotGauss extends FilterPanel implements KeyListener {
         g /= sumMask;
         b /= sumMask;
 
-        rgb = jrgb(obetnij256((int) r), obetnij256((int) g), obetnij256((int) b));
+        rgb = jrgb(erase256((int) r), erase256((int) g), erase256((int) b));
         Image.image.setRGB(x, y, rgb);
     }
-
-    private void obliczPixelWiersz(int x, int y) {
+    // oblicz pixel wiersz
+    private void calculatePixelRow(int x, int y) {
         double r = 0;
         double g = 0;
         double b = 0;
@@ -127,7 +127,7 @@ public class FilterSplotGauss extends FilterPanel implements KeyListener {
         return (r << 16) + (g << 8) + b;
     }
     
-    public static int obetnij256(int color) {
+    public static int erase256(int color) {
         if (color > 255) {
             color = 255;
         } else if (color < 0) {
@@ -148,8 +148,8 @@ public class FilterSplotGauss extends FilterPanel implements KeyListener {
         }
         return result;
     }
-    
-    private void obliczPixelKolumna(int x, int y) {
+    // oblicz pixel kolumna
+    private void calculatePixelColumn(int x, int y) {
         double r = 0;
         double g = 0;
         double b = 0;
@@ -164,10 +164,7 @@ public class FilterSplotGauss extends FilterPanel implements KeyListener {
         g /= sumMask;
         b /= sumMask;
 
-        rgb = jrgb(obetnij256((int) r), obetnij256((int) g), obetnij256((int) b));
+        rgb = jrgb(erase256((int) r), erase256((int) g), erase256((int) b));
         Image.image.setRGB(x, y, rgb);
-    }
-    
-    
-    
+    }   
 }

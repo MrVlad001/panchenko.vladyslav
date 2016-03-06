@@ -32,7 +32,7 @@ public class FilterSplotUnsharpMask extends FilterPanel implements KeyListener {
     }
 
     @Override
-    public void setMaskaValue(JFormattedTextField jFormattedTextField, int x, int y) {
+    public void setMaskValue(JFormattedTextField jFormattedTextField, int x, int y) {
         x = x - numMask;
         y = y - numMask;
         double value = -(x * x + y * y) / (2.0 * odchylenie * odchylenie);

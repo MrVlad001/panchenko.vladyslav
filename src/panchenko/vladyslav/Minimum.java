@@ -22,7 +22,7 @@ public class Minimum extends FilterPanel implements KeyListener {
     }
 
     @Override
-    public void setMaskaValue(JFormattedTextField jFormattedTextField, int x, int y) {
+    public void setMaskValue(JFormattedTextField jFormattedTextField, int x, int y) {
         jFormattedTextField.setText("" + wypelnijValue);
     }
 

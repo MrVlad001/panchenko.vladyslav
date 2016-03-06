@@ -51,8 +51,8 @@ public class FilterPanel extends JDialog implements ChangeListener, ActionListen
     protected double sumMask;
     protected JFormattedTextField[][] mask = new JFormattedTextField[1][1];
     private SavePanel savePanel;
-    private JButton filtreButton = new JButton("Filtruj");
-    private int x1filtreButton, y1filtreButton, x2filtreButton, y2filtreButton;
+    private JButton filterButton = new JButton("Filtruj");
+    private int x1filterButton, y1filterButton, x2filterButton, y2filterButton;
     protected int[][] red = new int[Image.image.getWidth()][Image.image.getHeight()];
     protected int[][] green = new int[Image.image.getWidth()][Image.image.getHeight()];
     protected int[][] blue = new int[Image.image.getWidth()][Image.image.getHeight()];
@@ -119,18 +119,18 @@ public class FilterPanel extends JDialog implements ChangeListener, ActionListen
                 fieldPanel.add(fields[i]);
             }
         }
-        y1filtreButton = heightDialog - 7 * margines - heightLabel;
-        x2filtreButton = heightLabel * 4;
-        x1filtreButton = (widthDialog - x2filtreButton - margines) / 2;
-        y2filtreButton = heightLabel;
+        y1filterButton = heightDialog - 7 * margines - heightLabel;
+        x2filterButton = heightLabel * 4;
+        x1filterButton = (widthDialog - x2filterButton - margines) / 2;
+        y2filterButton = heightLabel;
 
-        add(filtreButton);
-        filtreButton.setBounds(x1filtreButton, y1filtreButton, x2filtreButton, y2filtreButton);
-        filtreButton.addActionListener(this);
+        add(filterButton);
+        filterButton.setBounds(x1filterButton, y1filterButton, x2filterButton, y2filterButton);
+        filterButton.addActionListener(this);
 
         savePanel = new SavePanel(this);
         add(savePanel);
-        savePanel.setBounds(x1filtreButton - 80, y1filtreButton + (margines + heightLabel), x2filtreButton + 160, heightLabel);
+        savePanel.setBounds(x1filterButton - 80, y1filterButton + (margines + heightLabel), x2filterButton + 160, heightLabel);
 
         addWindowListener(
                 new WindowAdapter() {
@@ -149,11 +149,11 @@ public class FilterPanel extends JDialog implements ChangeListener, ActionListen
     public void stateChanged(ChangeEvent ce) {
         Object evt = ce.getSource();
         if (evt == slider) {
-            int suwakVal = slider.getValue();
-            if (numMask != suwakVal) {
-                numMask = suwakVal;
+            int sliderValue = slider.getValue();
+            if (numMask != sliderValue) {
+                numMask = sliderValue;
                 sizeMask = getSizeMask(numMask);
-                sliderValuesLabels.setText("" + suwakVal);
+                sliderValuesLabels.setText("" + sliderValue);
                 printMask();
                 this.repaint();
             }
@@ -161,38 +161,38 @@ public class FilterPanel extends JDialog implements ChangeListener, ActionListen
     }
 
     protected final void printMask() {
-        int powiekszDialog, wysokoscScrolla, wysokoscMaskiTmp = 0;
-        int srodekMaski = numMask;//bo liczymy od zera
-        int powiekszOd = 2;
-        int dodajScrollOd = 5;
-        int wysokoscKomorki = heightMaskPanel / getSizeMask(powiekszOd);
+        int increaseDialog, heightScroll, heightMaskTmp = 0;
+        int maskMiddle = numMask;// bo liczymy od zera
+        int increaseOd = 2; // powiekszyc od
+        int addScrollOd = 5;
+        int heightCell = heightMaskPanel / getSizeMask(increaseOd); // wysokosc komorki
         remove(maskPanel);
         remove(maskScroll);
         remove(maskBox);
         maskBox = new JPanel(new GridLayout(1, 1));
         maskPanel = new JPanel(new GridLayout(sizeMask, sizeMask));
 
-        if (numMask <= powiekszOd) {
-            wysokoscScrolla = heightMaskPanel;
-            powiekszDialog = 0;
-        } else if (numMask > powiekszOd && numMask <= dodajScrollOd) {
-            wysokoscScrolla = wysokoscKomorki * sizeMask;
-            powiekszDialog = (sizeMask - getSizeMask(powiekszOd)) * wysokoscKomorki;
+        if (numMask <= increaseOd) {
+            heightScroll = heightMaskPanel;
+            increaseDialog = 0;
+        } else if (numMask > increaseOd && numMask <= addScrollOd) {
+            heightScroll = heightCell * sizeMask;
+            increaseDialog = (sizeMask - getSizeMask(increaseOd)) * heightCell;
         } else {
-            wysokoscMaskiTmp = wysokoscKomorki * sizeMask;
-            wysokoscScrolla = wysokoscKomorki * getSizeMask(dodajScrollOd);
-            powiekszDialog = wysokoscKomorki * (getSizeMask(dodajScrollOd) - getSizeMask(powiekszOd));
+            heightMaskTmp = heightCell * sizeMask;
+            heightScroll = heightCell * getSizeMask(addScrollOd);
+            increaseDialog = heightCell * (getSizeMask(addScrollOd) - getSizeMask(increaseOd));
         }
 
-        setSize(widthDialog + powiekszDialog, heightDialog + powiekszDialog);
-        filtreButton.setBounds(x1filtreButton + (powiekszDialog / 2), y1filtreButton + powiekszDialog, x2filtreButton, y2filtreButton);
-        savePanel.setBounds(x1filtreButton - 80 + (powiekszDialog / 2), y1filtreButton + (margines + heightLabel) + powiekszDialog, x2filtreButton + 160, heightLabel);
+        setSize(widthDialog + increaseDialog, heightDialog + increaseDialog);
+        filterButton.setBounds(x1filterButton + (increaseDialog / 2), y1filterButton + increaseDialog, x2filterButton, y2filterButton);
+        savePanel.setBounds(x1filterButton - 80 + (increaseDialog / 2), y1filterButton + (margines + heightLabel) + increaseDialog, x2filterButton + 160, heightLabel);
 
         x1 = 3 * margines;
         y1 = 2 * margines + heightFieldPanel + heightSliderPanel;
 
-        maskBox.setSize(wysokoscScrolla, wysokoscScrolla);
-        maskBox.setBounds(x1, y1, wysokoscScrolla, wysokoscScrolla);
+        maskBox.setSize(heightScroll, heightScroll);
+        maskBox.setBounds(x1, y1, heightScroll, heightScroll);
         add(maskBox);
         mask = new JFormattedTextField[sizeMask][sizeMask];
 
@@ -202,7 +202,7 @@ public class FilterPanel extends JDialog implements ChangeListener, ActionListen
                 mask[i][y] = new JFormattedTextField();
                 mask[i][y].addKeyListener((KeyListener) this);
 
-                if (i == y && i == srodekMaski) {
+                if (i == y && i == maskMiddle) {
                     mask[i][y].setBackground(Color.yellow);
                 } else {
                     mask[i][y].setBackground(Color.white);
@@ -210,17 +210,17 @@ public class FilterPanel extends JDialog implements ChangeListener, ActionListen
 
                 mask[i][y].setHorizontalAlignment(JLabel.RIGHT);
                 maskPanel.add(mask[i][y]);
-                setMaskaValue(mask[i][y], i, y);
+                setMaskValue(mask[i][y], i, y);
             }
         }
 
-        if (wysokoscMaskiTmp != 0) {
+        if (heightMaskTmp != 0) {
             maskScroll = new JScrollPane(maskPanel);
-            maskScroll.setPreferredSize(new Dimension(wysokoscScrolla, wysokoscScrolla));
-            maskPanel.setPreferredSize(new Dimension(wysokoscMaskiTmp, wysokoscMaskiTmp));
+            maskScroll.setPreferredSize(new Dimension(heightScroll, heightScroll));
+            maskPanel.setPreferredSize(new Dimension(heightMaskTmp, heightMaskTmp));
             maskBox.add(maskScroll);
         } else {
-            maskPanel.setPreferredSize(new Dimension(wysokoscMaskiTmp, wysokoscMaskiTmp));
+            maskPanel.setPreferredSize(new Dimension(heightMaskTmp, heightMaskTmp));
             maskBox.add(maskPanel);
         }
 
@@ -232,7 +232,7 @@ public class FilterPanel extends JDialog implements ChangeListener, ActionListen
     @Override
     public void actionPerformed(ActionEvent ae) {
         Object evt = ae.getSource();
-        if (evt == filtreButton) {
+        if (evt == filterButton) {
             Form.restoreImage();
             valueMask = new double[sizeMask][sizeMask];
             if (wymiarMask == 2) {
@@ -280,7 +280,7 @@ public class FilterPanel extends JDialog implements ChangeListener, ActionListen
         return i;
     }
 
-    public void setMaskaValue(JFormattedTextField jFormattedTextField, int i, int y) {
+    public void setMaskValue(JFormattedTextField jFormattedTextField, int i, int y) {
         jFormattedTextField.setText("0");
     }
 

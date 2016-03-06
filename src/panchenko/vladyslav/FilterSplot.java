@@ -23,7 +23,7 @@ public class FilterSplot extends FilterPanel {
     }
 
     @Override
-    public void setMaskaValue(JFormattedTextField jFormattedTextField, int x, int y) {
+    public void setMaskValue(JFormattedTextField jFormattedTextField, int x, int y) {
         jFormattedTextField.setText(wypelnijToPrint);
     }
 
