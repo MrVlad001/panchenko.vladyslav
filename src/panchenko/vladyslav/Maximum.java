@@ -85,7 +85,7 @@ public class Maximum extends FilterPanel implements KeyListener {
                 }
             }
         }
-        rgb = jrgb(obetnij256(maxR), obetnij256(maxG), obetnij256(maxB));
+        rgb = jrgb(erase256(maxR), erase256(maxG), erase256(maxB));
         Image.image.setRGB(x, y, rgb);
     }
     
@@ -93,7 +93,7 @@ public class Maximum extends FilterPanel implements KeyListener {
         return (r << 16) + (g << 8) + b;
     }
     
-    public static int obetnij256(int color) {
+    public static int erase256(int color) {
         if (color > 255) {
             color = 255;
         } else if (color < 0) {

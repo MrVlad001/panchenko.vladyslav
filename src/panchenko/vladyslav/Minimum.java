@@ -72,7 +72,7 @@ public class Minimum extends FilterPanel implements KeyListener {
         return (r << 16) + (g << 8) + b;
     }
      
-    public static int obetnij256(int color) {
+    public static int erase256(int color) {
         if (color > 255) {
             color = 255;
         } else if (color < 0) {
@@ -97,7 +97,7 @@ public class Minimum extends FilterPanel implements KeyListener {
                 }
             }
         }
-        rgb = jrgb(obetnij256(minR), obetnij256(minG), obetnij256(minB));
+        rgb = jrgb(erase256(minR), erase256(minG), erase256(minB));
         Image.image.setRGB(x, y, rgb);
     }
     
