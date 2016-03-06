@@ -227,7 +227,7 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                 for (int y = 0; y < Image.image.getHeight(); y++) {
                     int rgb = Image.image.getRGB(x, y);
                     Color color = new Color(rgb, true);
-                    int r = obetnij256((int) (stala * daneKulminacyjne[color.getRed()]));
+                    int r = erase256((int) (stala * daneKulminacyjne[color.getRed()]));
                     int g = color.getGreen();
                     int b = color.getBlue();
                     rgb = jrgb(r, g, b);
@@ -241,7 +241,7 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                     int rgb = Image.image.getRGB(x, y);
                     Color color = new Color(rgb, true);
                     int r = color.getRed();
-                    int g = obetnij256((int) (stala * daneKulminacyjne[color.getGreen()]));
+                    int g = erase256((int) (stala * daneKulminacyjne[color.getGreen()]));
                     int b = color.getBlue();
                     rgb = jrgb(r, g, b);
                     Image.image.setRGB(x, y, rgb);
@@ -255,7 +255,7 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                     Color color = new Color(rgb, true);
                     int r = color.getRed();
                     int g = color.getGreen();
-                    int b = obetnij256((int) (stala * daneKulminacyjne[color.getBlue()]));
+                    int b = erase256((int) (stala * daneKulminacyjne[color.getBlue()]));
                     rgb = jrgb(r, g, b);
                     Image.image.setRGB(x, y, rgb);
                 }
@@ -269,11 +269,11 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                     int r = color.getRed();
                     int g = color.getGreen();
                     int b = color.getBlue();
-                    int gray = obetnij256((int) (Math.round(Histogram.konwertuj(r, g, b))));
+                    int gray = erase256((int) (Math.round(Histogram.konwertuj(r, g, b))));
                     double wspolczynnik = (stala * daneKulminacyjne[gray]) / gray;
-                    r = obetnij256((int) (wspolczynnik * r));
-                    g = obetnij256((int) (wspolczynnik * g));
-                    b = obetnij256((int) (wspolczynnik * b));
+                    r = erase256((int) (wspolczynnik * r));
+                    g = erase256((int) (wspolczynnik * g));
+                    b = erase256((int) (wspolczynnik * b));
                     rgb = jrgb(r, g, b);
                     Image.image.setRGB(x, y, rgb);
                 }
@@ -289,7 +289,7 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                 for (int y = 0; y < Image.image.getHeight(); y++) {
                     int rgb = Image.image.getRGB(x, y);
                     Color color = new Color(rgb, true);
-                    int r = obetnij256((int) ((color.getRed() - suwakiValues[0]) * (suwakiValues[3] - suwakiValues[2]) / (suwakiValues[1] - suwakiValues[0]) + suwakiValues[2]));
+                    int r = erase256((int) ((color.getRed() - suwakiValues[0]) * (suwakiValues[3] - suwakiValues[2]) / (suwakiValues[1] - suwakiValues[0]) + suwakiValues[2]));
                     int g = color.getGreen();
                     int b = color.getBlue();
                     rgb = jrgb(r, g, b);
@@ -303,7 +303,7 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                     int rgb = Image.image.getRGB(x, y);
                     Color color = new Color(rgb, true);
                     int r = color.getRed();
-                    int g = obetnij256((int) ((color.getGreen() - suwakiValues[0]) * (suwakiValues[3] - suwakiValues[2]) / (suwakiValues[1] - suwakiValues[0]) + suwakiValues[2]));
+                    int g = erase256((int) ((color.getGreen() - suwakiValues[0]) * (suwakiValues[3] - suwakiValues[2]) / (suwakiValues[1] - suwakiValues[0]) + suwakiValues[2]));
                     int b = color.getBlue();
                     rgb = jrgb(r, g, b);
                     Image.image.setRGB(x, y, rgb);
@@ -317,7 +317,7 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                     Color color = new Color(rgb, true);
                     int r = color.getRed();
                     int g = color.getGreen();
-                    int b = obetnij256((int) ((color.getBlue() - suwakiValues[0]) * (suwakiValues[3] - suwakiValues[2]) / (suwakiValues[1] - suwakiValues[0]) + suwakiValues[2]));
+                    int b = erase256((int) ((color.getBlue() - suwakiValues[0]) * (suwakiValues[3] - suwakiValues[2]) / (suwakiValues[1] - suwakiValues[0]) + suwakiValues[2]));
                     rgb = jrgb(r, g, b);
                     Image.image.setRGB(x, y, rgb);
                 }
@@ -333,9 +333,9 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                     int b = color.getBlue();
                     double gray = Histogram.konwertuj(r, g, b);
                     double wspolczynnik = ((gray - suwakiValues[0]) * (suwakiValues[3] - suwakiValues[2]) / (suwakiValues[1] - suwakiValues[0]) + suwakiValues[2]) / gray;
-                    r = obetnij256((int) (wspolczynnik * r));
-                    g = obetnij256((int) (wspolczynnik * g));
-                    b = obetnij256((int) (wspolczynnik * b));
+                    r = erase256((int) (wspolczynnik * r));
+                    g = erase256((int) (wspolczynnik * g));
+                    b = erase256((int) (wspolczynnik * b));
                     rgb = jrgb(r, g, b);
                     Image.image.setRGB(x, y, rgb);
                 }
@@ -349,7 +349,7 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
         return (r << 16) + (g << 8) + b;
     }
 
-    public static int obetnij256(int color) {
+    public static int erase256(int color) {
         if (color > 255) {
             color = 255;
         } else if (color < 0) {

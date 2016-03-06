@@ -105,7 +105,7 @@ public class FilterSplotUnsharpMask extends FilterPanel implements KeyListener {
         g1 = (int) (wspolczynnikUM * (green[x][y] - ((int) g)));
         b1 = (int) (wspolczynnikUM * (blue[x][y] - ((int) b)));
 
-        rgb = jrgb(obetnij256(red[x][y] + r1), obetnij256(green[x][y] + g1), obetnij256(blue[x][y] + b1));
+        rgb = jrgb(erase256(red[x][y] + r1), erase256(green[x][y] + g1), erase256(blue[x][y] + b1));
         Image.image.setRGB(x, y, rgb);
     }
     // oblicz pixel wiersz
@@ -133,7 +133,7 @@ public class FilterSplotUnsharpMask extends FilterPanel implements KeyListener {
         return (r << 16) + (g << 8) + b;
     }
     
-    public static int obetnij256(int color) {
+    public static int erase256(int color) {
         if (color > 255) {
             color = 255;
         } else if (color < 0) {
@@ -174,7 +174,7 @@ public class FilterSplotUnsharpMask extends FilterPanel implements KeyListener {
         g = (wspolczynnikUM * (green[x][y] - g));
         b = (wspolczynnikUM * (blue[x][y] - b));
 
-        rgb = jrgb(obetnij256(red[x][y] + ((int) r)), obetnij256(green[x][y] + ((int) g)), obetnij256(blue[x][y] + ((int) b)));
+        rgb = jrgb(erase256(red[x][y] + ((int) r)), erase256(green[x][y] + ((int) g)), erase256(blue[x][y] + ((int) b)));
         Image.image.setRGB(x, y, rgb);
     }
 }

@@ -69,9 +69,9 @@ public class JasnoscKontrastGamma extends SlidersPanel {
                     r += dodajJasnosc;
                     g += dodajJasnosc;
                     b += dodajJasnosc;
-                    r = obetnij256(r);
-                    g = obetnij256(g);
-                    b = obetnij256(b);
+                    r = erase256(r);
+                    g = erase256(g);
+                    b = erase256(b);
                     rgb = jrgb(r, g, b);
                     Image.image.setRGB(x, y, rgb);
                 }
@@ -98,9 +98,9 @@ public class JasnoscKontrastGamma extends SlidersPanel {
                         g = ((127.0 + dodajKontrast) / 127.0) * g - dodajKontrast;
                         b = ((127.0 + dodajKontrast) / 127.0) * b - dodajKontrast;
                     }
-                    int r2 = obetnij256((int) r);
-                    int g2 = obetnij256((int) g);
-                    int b2 = obetnij256((int) b);
+                    int r2 = erase256((int) r);
+                    int g2 = erase256((int) g);
+                    int b2 = erase256((int) b);
                     rgb = jrgb(r2, g2, b2);
                     Image.image.setRGB(x, y, rgb);
                 }
@@ -132,9 +132,9 @@ public class JasnoscKontrastGamma extends SlidersPanel {
                     gf = gf * 255;
                     bf = bf * 255;
 
-                    r = obetnij256((int) rf);
-                    g = obetnij256((int) gf);
-                    b = obetnij256((int) bf);
+                    r = erase256((int) rf);
+                    g = erase256((int) gf);
+                    b = erase256((int) bf);
                     rgb = jrgb(r, g, b);
                     Image.image.setRGB(x, y, rgb);
                 }
@@ -153,7 +153,7 @@ public class JasnoscKontrastGamma extends SlidersPanel {
         return dodajGamma;
     }
     
-    public static int obetnij256(int color) {
+    public static int erase256(int color) {
         if (color > 255) {
             color = 255;
         } else if (color < 0) {

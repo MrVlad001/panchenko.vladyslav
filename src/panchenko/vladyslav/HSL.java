@@ -118,7 +118,7 @@ public class HSL extends SlidersPanel {
         return (r << 16) + (g << 8) + b;
     }
     
-    public static int obetnij256(int color) {
+    public static int erase256(int color) {
         if (color > 255) {
             color = 255;
         } else if (color < 0) {
@@ -184,9 +184,9 @@ public class HSL extends SlidersPanel {
             g = Math.round(Crgb[1]);
             b = Math.round(Crgb[2]);
         }
-        r1 = obetnij256((int) r);
-        g1 = obetnij256((int) g);
-        b1 = obetnij256((int) b);
+        r1 = erase256((int) r);
+        g1 = erase256((int) g);
+        b1 = erase256((int) b);
 
         return jrgb(r1, g1, b1);
     }

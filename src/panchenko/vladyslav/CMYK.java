@@ -93,7 +93,7 @@ public class CMYK extends SlidersPanel {
         return (r << 16) + (g << 8) + b;
     }
     
-    public static int obetnij256(int color) {
+    public static int erase256(int color) {
         if (color > 255) {
             color = 255;
         } else if (color < 0) {
@@ -107,9 +107,9 @@ public class CMYK extends SlidersPanel {
         double g = (1 - (m * (1 - k) + k)) * 255.0;
         double b = (1 - (y * (1 - k) + k)) * 255.0;
 
-        int r1 = obetnij256((int)Math.round(r));
-        int g1 = obetnij256((int)Math.round(g));
-        int b1 = obetnij256((int)Math.round(b));
+        int r1 = erase256((int)Math.round(r));
+        int g1 = erase256((int)Math.round(g));
+        int b1 = erase256((int)Math.round(b));
         return jrgb(r1, g1, b1);
     }
 }
