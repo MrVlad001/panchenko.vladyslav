@@ -20,12 +20,12 @@ public class ImageFourier extends JPanel {
     public void paint(Graphics g) {
         g.drawImage(image, 0, 0, null);
     }
-
-    public static void wypelnij(int wartosc) {
+    // wypelnic
+    public static void writeData(int value) {
         int rgb;
         for (int x = 0; x < ImageFourier.image.getWidth(); x++) {
             for (int y = 0; y < ImageFourier.image.getHeight(); y++) {
-                rgb = jrgb(wartosc, wartosc, wartosc);
+                rgb = jrgb(value, value, value);
                 ImageFourier.image.setRGB(x, y, rgb);
             }
         }

@@ -60,16 +60,16 @@ public class Maximum extends FilterPanel implements KeyListener {
             }
             for (int x = 0; x < Image.image.getWidth(); x++) {
                 for (int y = 0; y < Image.image.getHeight(); y++) {
-                    obliczPixel(x, y);
+                    calculatePixel(x, y);
                 }
             }
         } else {
-            Image.wypelnij(255);
+            Image.writeData(255);
         }
     }
     
 
-    private void obliczPixel(int x, int y) {
+    private void calculatePixel(int x, int y) {
         int r = 0, g = 0, b = 0, m, n, rgb, maxR = 0, maxG = 0, maxB = 0;
         for (int i = 0; i < sizeMask; i++) {
             for (int j = 0; j < sizeMask; j++) {

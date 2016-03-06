@@ -8,20 +8,20 @@ import javax.swing.JFrame;
  */
 public final class Luv extends SlidersPanel {
 
-    private int szerokoscObrazka = Image.image.getWidth();
-    private int wysokoscObrazka = Image.image.getHeight();
+    private int widthImage = Image.image.getWidth();
+    private int heightImage = Image.image.getHeight();
     private float e = 0.008856f;
     private float k = 903.3f;
     private float ek = e * k;
 //    private float Yn = 1.0f;//Skoro wartość =1, to nie ma sensu przez to mnożyć
     private float un = 0.2009f;
     private float vn = 0.4610f;
-    private float[][] lTab = new float[szerokoscObrazka][wysokoscObrazka];
-    private float[][] uTab = new float[szerokoscObrazka][wysokoscObrazka];
-    private float[][] vTab = new float[szerokoscObrazka][wysokoscObrazka];
+    private float[][] lTab = new float[widthImage][heightImage];
+    private float[][] uTab = new float[widthImage][heightImage];
+    private float[][] vTab = new float[widthImage][heightImage];
     private float X, Y, Z, ui, vi, L, u, v, tmpMianownik, tmpL;
     private XYZ xyz = new XYZ();
-    private int dodajL, dodajU, dodajV;
+    private int addL, addU, addV;
     private boolean wywolanoKonstruktor = false;
 
     public Luv(JFrame parent) {
@@ -39,7 +39,7 @@ public final class Luv extends SlidersPanel {
         slider[2].setMinimum(-262);
         slider[2].setMaximum(262);
         slider[2].setValue(0);
-        konwertujDoLuv();
+        convertToLuv();
         wywolanoKonstruktor = true;
         sliderAction();
     }
@@ -48,38 +48,38 @@ public final class Luv extends SlidersPanel {
     public void sliderAction() {
         if (wywolanoKonstruktor) {
             int rgb;
-            dodajL = slider[0].getValue();
-            dodajU = slider[1].getValue();
-            dodajV = slider[2].getValue();
+            addL = slider[0].getValue();
+            addU = slider[1].getValue();
+            addV = slider[2].getValue();
 
-            for (int x = 0; x < szerokoscObrazka; x++) {
-                for (int y = 0; y < wysokoscObrazka; y++) {
-                    dodajDoLuv(x, y);
-                    rgb = xyz.konwertujDoRGB(konwertujDoXYZ());
+            for (int x = 0; x < widthImage; x++) {
+                for (int y = 0; y < heightImage; y++) {
+                    addToLuv(x, y);
+                    rgb = xyz.konwertujDoRGB(convertToXYZ());
                     Image.image.setRGB(x, y, rgb);
                 }
             }
         }
     }
 
-    private void dodajDoLuv(int x, int y) {
-        L = obetnijCustomFloat((lTab[x][y] + dodajL), 0, 100);
-        u = obetnijCustomFloat((uTab[x][y] + dodajU), -134, 220);
-        v = obetnijCustomFloat((vTab[x][y] + dodajV), -140, 122);
+    private void addToLuv(int x, int y) {
+        L = eraseCustomFloat((lTab[x][y] + addL), 0, 100);
+        u = eraseCustomFloat((uTab[x][y] + addU), -134, 220);
+        v = eraseCustomFloat((vTab[x][y] + addV), -140, 122);
     }
 
-    private void konwertujDoLuv() {
+    private void convertToLuv() {
         int rgb;
-        float[][] konwertujDoXYZ;
+        float[][] convertToXYZ;
         float tmpY;
-        for (int x = 0; x < szerokoscObrazka; x++) {
-            for (int y = 0; y < wysokoscObrazka; y++) {
+        for (int x = 0; x < widthImage; x++) {
+            for (int y = 0; y < heightImage; y++) {
                 rgb = Image.image.getRGB(x, y);
-                konwertujDoXYZ = xyz.konwertujDoXYZ(rgb);
+                convertToXYZ = xyz.konwertujDoXYZ(rgb);
 
-                X = konwertujDoXYZ[0][0];
-                Y = konwertujDoXYZ[0][1];
-                Z = konwertujDoXYZ[0][2];
+                X = convertToXYZ[0][0];
+                Y = convertToXYZ[0][1];
+                Z = convertToXYZ[0][2];
 
                 tmpMianownik = (float) (X + 15.0 * Y + 3.0 * Z);
                 ui = (float) (4.0 * X / tmpMianownik);
@@ -98,7 +98,7 @@ public final class Luv extends SlidersPanel {
         }
     }
     
-     public static float obetnijCustomFloat(float color, float limitDown, float limitUp) {
+     public static float eraseCustomFloat(float color, float limitDown, float limitUp) {
         if (color > limitUp) {
             color = limitUp;
         } else if (color < limitDown) {
@@ -107,7 +107,7 @@ public final class Luv extends SlidersPanel {
         return color;
     }
 
-    private float[][] konwertujDoXYZ() {
+    private float[][] convertToXYZ() {
         float[][] xyzMatrix = new float[1][3];
         xyzMatrix[0] = new float[3];
         tmpL = (float) (L * 13.0);

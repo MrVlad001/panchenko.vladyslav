@@ -16,9 +16,9 @@ public final class Lab extends SlidersPanel {
     public float[][] bTab;
     private float fx, fy, fz, xr, yr, zr, L, a, b;
     private XYZ xyz = new XYZ();
-    private int dodajL;
-    private int dodajA;
-    private int dodajB;
+    private int addL;
+    private int addA;
+    private int addB;
     private boolean wywolanoKonstruktor = false;
 
     /**
@@ -45,7 +45,7 @@ public final class Lab extends SlidersPanel {
                 slider[i].setMaximum(255);
                 slider[i].setValue(0);
             }
-            konwertujDoLab();
+            convertToLab();
             wywolanoKonstruktor = true;
             sliderAction();
         } else {
@@ -57,37 +57,37 @@ public final class Lab extends SlidersPanel {
     public void sliderAction() {
         if (wywolanoKonstruktor) {
             int rgb;
-            dodajL = slider[0].getValue();
-            dodajA = slider[1].getValue();
-            dodajB = slider[2].getValue();
+            addL = slider[0].getValue();
+            addA = slider[1].getValue();
+            addB = slider[2].getValue();
 
             for (int x = 0; x < Image.image.getWidth(); x++) {
                 for (int y = 0; y < Image.image.getHeight(); y++) {
-                    dodajDoLab(x, y);
-                    rgb = xyz.konwertujDoRGB(konwertujDoXYZ());
+                    addToLab(x, y);
+                    rgb = xyz.konwertujDoRGB(convertToXYZ());
                     Image.image.setRGB(x, y, rgb);
                 }
             }
         }
     }
 
-    private void dodajDoLab(int x, int y) {
-        L = obetnijCustomFloat((lTab[x][y] + dodajL), 0, 100);
-        a = obetnijDoByte(aTab[x][y] + dodajA);
-        b = obetnijDoByte(bTab[x][y] + dodajB);
+    private void addToLab(int x, int y) {
+        L = eraseCustomFloat((lTab[x][y] + addL), 0, 100);
+        a = eraseToByte(aTab[x][y] + addA);
+        b = eraseToByte(bTab[x][y] + addB);
     }
 
-    public void konwertujDoLab() {
+    public void convertToLab() {
         int rgb;
-        float[][] konwertujDoXYZ;
+        float[][] convertToXYZ;
         for (int x = 0; x < Image.image.getWidth(); x++) {
             for (int y = 0; y < Image.image.getHeight(); y++) {
                 rgb = Image.image.getRGB(x, y);
-                konwertujDoXYZ = xyz.konwertujDoXYZ(rgb);
+                convertToXYZ = xyz.konwertujDoXYZ(rgb);
 
-                xr = (konwertujDoXYZ[0][0] / XYZ.refX);
-                yr = (konwertujDoXYZ[0][1] / XYZ.refY);
-                zr = (konwertujDoXYZ[0][2] / XYZ.refZ);
+                xr = (convertToXYZ[0][0] / XYZ.refX);
+                yr = (convertToXYZ[0][1] / XYZ.refY);
+                zr = (convertToXYZ[0][2] / XYZ.refZ);
 
                 if (xr > e) {
                     fx = (float) Math.pow(xr, (1 / 3.0));
@@ -112,7 +112,7 @@ public final class Lab extends SlidersPanel {
         }
     }
     
-     public static float obetnijCustomFloat(float color, float limitDown, float limitUp) {
+     public static float eraseCustomFloat(float color, float limitDown, float limitUp) {
         if (color > limitUp) {
             color = limitUp;
         } else if (color < limitDown) {
@@ -121,7 +121,7 @@ public final class Lab extends SlidersPanel {
         return color;
     }
      
-    public static byte obetnijDoByte(double color) {
+    public static byte eraseToByte(double color) {
         byte limitUp = 127;
         byte limitDown = -128;
         if (color > limitUp) {
@@ -132,7 +132,7 @@ public final class Lab extends SlidersPanel {
         return (byte) color;
     } 
 
-    private float[][] konwertujDoXYZ() {
+    private float[][] convertToXYZ() {
         float[][] xyzMatrix = new float[1][3];
         xyzMatrix[0] = new float[3];
 
@@ -171,13 +171,13 @@ public final class Lab extends SlidersPanel {
         return xyzMatrix;
     }
 
-    public void konwertujDoRGB() {
+    public void convertToRGB() {
         int rgb;
-        dodajL = dodajA = dodajB = 0;
+        addL = addA = addB = 0;
         for (int x = 0; x < Image.image.getWidth(); x++) {
             for (int y = 0; y < Image.image.getHeight(); y++) {
-                dodajDoLab(x, y);
-                rgb = xyz.konwertujDoRGB(konwertujDoXYZ());
+                addToLab(x, y);
+                rgb = xyz.konwertujDoRGB(convertToXYZ());
                 Image.image.setRGB(x, y, rgb);
             }
         }

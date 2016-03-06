@@ -31,25 +31,25 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
     public static JLabel maxValueOfHistogram = new JLabel();
     private final int odstep = 40;
     public static final int margines = 35;
-    private final int szerokoscHistDialog = 505;
-    private final int wysokoscHistDialog = 600;
-    private JPanel suwakiPanel = new JPanel(new GridLayout(5, 2, margines / 6, margines / 6));
-    private JSlider[] suwaki = new JSlider[4];
-    private JLabel[] suwakiLabels = new JLabel[4];
-    private int x1 = Histogram.histRozmiar + margines;
-    private int x2 = szerokoscHistDialog - x1 - margines;
+    private final int widthHistDialog = 505;
+    private final int heightHistDialog = 600;
+    private JPanel sliderPanel = new JPanel(new GridLayout(5, 2, margines / 6, margines / 6));
+    private JSlider[] slider = new JSlider[4];
+    private JLabel[] sliderLabels = new JLabel[4];
+    private int x1 = Histogram.sizeHistagram2 + margines;
+    private int x2 = widthHistDialog - x1 - margines;
     private int y1 = margines;
     private int y2 = 20;
     private SavePanel savePanel;
-    private String[] suwakiText = new String[4];
-    private int[] suwakiValues = new int[4];
+    private String[] sliderText = new String[4];
+    private int[] sliderValues = new int[4];
     private int aktywnyHist = -1;
     private double[] daneKulminacyjne = new double[256];
     private double stala = 255.0 / (Image.image.getWidth() * Image.image.getHeight());
 
     public HistogramDialog(Frame frame) {
         super(frame, "Histogram", false);
-        setSize(szerokoscHistDialog, wysokoscHistDialog);
+        setSize(widthHistDialog, heightHistDialog);
         setLayout(null);
         
         sredniaLabel.setHorizontalAlignment(JLabel.LEFT);
@@ -100,53 +100,53 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
         maxValueOfHistogram.setBounds(0, margines - 11, margines, y2);
         add(maxValueOfHistogram);
         
-        suwakiText[0] = "a = ";
-        suwakiText[1] = "b = ";
-        suwakiText[2] = "c = ";
-        suwakiText[3] = "d = ";
-        suwakiValues[0] = 0;
-        suwakiValues[1] = 255;
-        suwakiValues[2] = 0;
-        suwakiValues[3] = 255;
+        sliderText[0] = "a = ";
+        sliderText[1] = "b = ";
+        sliderText[2] = "c = ";
+        sliderText[3] = "d = ";
+        sliderValues[0] = 0;
+        sliderValues[1] = 255;
+        sliderValues[2] = 0;
+        sliderValues[3] = 255;
         
         for (int i = 0; i < 2; i++) {
-            suwaki[i] = new JSlider(0, 255, suwakiValues[i]);
-            suwakiPanel.add(suwaki[i]);
-            suwaki[i].setPaintTicks(true);
-            suwaki[i].addChangeListener(this);
+            slider[i] = new JSlider(0, 255, sliderValues[i]);
+            sliderPanel.add(slider[i]);
+            slider[i].setPaintTicks(true);
+            slider[i].addChangeListener(this);
         }
         for (int i = 0; i < 2; i++) {
-            suwakiLabels[i] = new JLabel(suwakiText[i] + suwakiValues[i]);
-            suwakiPanel.add(suwakiLabels[i]);
-            suwakiLabels[i].setHorizontalAlignment(JLabel.CENTER);
-            suwakiLabels[i].setVerticalAlignment(JLabel.TOP);
+            sliderLabels[i] = new JLabel(sliderText[i] + sliderValues[i]);
+            sliderPanel.add(sliderLabels[i]);
+            sliderLabels[i].setHorizontalAlignment(JLabel.CENTER);
+            sliderLabels[i].setVerticalAlignment(JLabel.TOP);
         }
         for (int i = 2; i < 4; i++) {
-            suwaki[i] = new JSlider(0, 255, suwakiValues[i]);
-            suwakiPanel.add(suwaki[i]);
-            suwaki[i].setPaintTicks(true);
-            suwaki[i].addChangeListener(this);
+            slider[i] = new JSlider(0, 255, sliderValues[i]);
+            sliderPanel.add(slider[i]);
+            slider[i].setPaintTicks(true);
+            slider[i].addChangeListener(this);
         }
         for (int i = 2; i < 4; i++) {
-            suwakiLabels[i] = new JLabel(suwakiText[i] + suwakiValues[i]);
-            suwakiPanel.add(suwakiLabels[i]);
-            suwakiLabels[i].setHorizontalAlignment(JLabel.CENTER);
-            suwakiLabels[i].setVerticalAlignment(JLabel.TOP);
+            sliderLabels[i] = new JLabel(sliderText[i] + sliderValues[i]);
+            sliderPanel.add(sliderLabels[i]);
+            sliderLabels[i].setHorizontalAlignment(JLabel.CENTER);
+            sliderLabels[i].setVerticalAlignment(JLabel.TOP);
         }
-        suwaki[0].setMaximum(254);
-        suwaki[1].setMinimum(1);
-        suwakiPanel.add(skalujButton);
-        add(suwakiPanel);
-        suwakiPanel.setBounds(margines, Histogram.histRozmiar + margines / 2, Histogram.histRozmiar - margines, odstep * 4);
+        slider[0].setMaximum(254);
+        slider[1].setMinimum(1);
+        sliderPanel.add(skalujButton);
+        add(sliderPanel);
+        sliderPanel.setBounds(margines, Histogram.sizeHistagram2 + margines / 2, Histogram.sizeHistagram2 - margines, odstep * 4);
         TitledBorder ramka;
         Border loweredbevel = BorderFactory.createLoweredBevelBorder();
         ramka = BorderFactory.createTitledBorder(loweredbevel, "Skalowanie aktywnego histogramu");
         ramka.setTitlePosition(TitledBorder.ABOVE_TOP);
-        suwakiPanel.setBorder(ramka);
+        sliderPanel.setBorder(ramka);
         y1 += odstep / 2;
         savePanel = new SavePanel(this);
         add(savePanel);
-        savePanel.setBounds((szerokoscHistDialog - 300) / 2, y1, 300, y2);
+        savePanel.setBounds((widthHistDialog - 300) / 2, y1, 300, y2);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -183,9 +183,9 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
             skalujButton.setEnabled(true);
             wyrownajButton.setEnabled(true);
         } else if (evt == wyrownajButton) {
-            wyrownaj();
+            align();
         } else if (evt == skalujButton) {
-            skaluj();
+            scan();
         }
         odswiezHistogram();
         add(histogramPanel);
@@ -194,33 +194,33 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
     @Override
     public void stateChanged(ChangeEvent ce) {
         Object evt = ce.getSource();
-        if (evt == suwaki[0]) {
-            if (suwaki[0].getValue() >= suwaki[1].getValue()) {
-                suwaki[1].setValue(suwaki[0].getValue() + 1);
+        if (evt == slider[0]) {
+            if (slider[0].getValue() >= slider[1].getValue()) {
+                slider[1].setValue(slider[0].getValue() + 1);
             }
-        } else if (evt == suwaki[1]) {
-            if (suwaki[1].getValue() <= suwaki[0].getValue()) {
-                suwaki[0].setValue(suwaki[1].getValue() - 1);
+        } else if (evt == slider[1]) {
+            if (slider[1].getValue() <= slider[0].getValue()) {
+                slider[0].setValue(slider[1].getValue() - 1);
             }
-        } else if (evt == suwaki[2]) {
-            if (suwaki[2].getValue() > suwaki[3].getValue()) {
-                suwaki[3].setValue(suwaki[2].getValue());
+        } else if (evt == slider[2]) {
+            if (slider[2].getValue() > slider[3].getValue()) {
+                slider[3].setValue(slider[2].getValue());
             }
-        } else if (evt == suwaki[3]) {
-            if (suwaki[3].getValue() < suwaki[2].getValue()) {
-                suwaki[2].setValue(suwaki[3].getValue());
+        } else if (evt == slider[3]) {
+            if (slider[3].getValue() < slider[2].getValue()) {
+                slider[2].setValue(slider[3].getValue());
             }
         }
         for (int i = 0; i < 4; i++) {
-            suwakiValues[i] = suwaki[i].getValue();
-            suwakiLabels[i].setText(suwakiText[i] + suwakiValues[i]);
+            sliderValues[i] = slider[i].getValue();
+            sliderLabels[i].setText(sliderText[i] + sliderValues[i]);
         }
     }
-
-    private void wyrownaj() {
-        daneKulminacyjne[0] = Histogram.dane[0];
+    // wyrownac
+    private void align() {
+        daneKulminacyjne[0] = Histogram.data[0];
         for (int i = 1; i < 256; i++) {
-            daneKulminacyjne[i] = Histogram.dane[i] + daneKulminacyjne[i - 1];
+            daneKulminacyjne[i] = Histogram.data[i] + daneKulminacyjne[i - 1];
         }
         if (aktywnyHist == 0) {
             for (int x = 0; x < Image.image.getWidth(); x++) {
@@ -269,7 +269,7 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                     int r = color.getRed();
                     int g = color.getGreen();
                     int b = color.getBlue();
-                    int gray = erase256((int) (Math.round(Histogram.konwertuj(r, g, b))));
+                    int gray = erase256((int) (Math.round(Histogram.convert(r, g, b))));
                     double wspolczynnik = (stala * daneKulminacyjne[gray]) / gray;
                     r = erase256((int) (wspolczynnik * r));
                     g = erase256((int) (wspolczynnik * g));
@@ -283,13 +283,13 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
         Form.refresh();
     }
 
-    private void skaluj() {
+    private void scan() {
         if (aktywnyHist == 0) {
             for (int x = 0; x < Image.image.getWidth(); x++) {
                 for (int y = 0; y < Image.image.getHeight(); y++) {
                     int rgb = Image.image.getRGB(x, y);
                     Color color = new Color(rgb, true);
-                    int r = erase256((int) ((color.getRed() - suwakiValues[0]) * (suwakiValues[3] - suwakiValues[2]) / (suwakiValues[1] - suwakiValues[0]) + suwakiValues[2]));
+                    int r = erase256((int) ((color.getRed() - sliderValues[0]) * (sliderValues[3] - sliderValues[2]) / (sliderValues[1] - sliderValues[0]) + sliderValues[2]));
                     int g = color.getGreen();
                     int b = color.getBlue();
                     rgb = jrgb(r, g, b);
@@ -303,7 +303,7 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                     int rgb = Image.image.getRGB(x, y);
                     Color color = new Color(rgb, true);
                     int r = color.getRed();
-                    int g = erase256((int) ((color.getGreen() - suwakiValues[0]) * (suwakiValues[3] - suwakiValues[2]) / (suwakiValues[1] - suwakiValues[0]) + suwakiValues[2]));
+                    int g = erase256((int) ((color.getGreen() - sliderValues[0]) * (sliderValues[3] - sliderValues[2]) / (sliderValues[1] - sliderValues[0]) + sliderValues[2]));
                     int b = color.getBlue();
                     rgb = jrgb(r, g, b);
                     Image.image.setRGB(x, y, rgb);
@@ -317,7 +317,7 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                     Color color = new Color(rgb, true);
                     int r = color.getRed();
                     int g = color.getGreen();
-                    int b = erase256((int) ((color.getBlue() - suwakiValues[0]) * (suwakiValues[3] - suwakiValues[2]) / (suwakiValues[1] - suwakiValues[0]) + suwakiValues[2]));
+                    int b = erase256((int) ((color.getBlue() - sliderValues[0]) * (sliderValues[3] - sliderValues[2]) / (sliderValues[1] - sliderValues[0]) + sliderValues[2]));
                     rgb = jrgb(r, g, b);
                     Image.image.setRGB(x, y, rgb);
                 }
@@ -331,8 +331,8 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
                     int r = color.getRed();
                     int g = color.getGreen();
                     int b = color.getBlue();
-                    double gray = Histogram.konwertuj(r, g, b);
-                    double wspolczynnik = ((gray - suwakiValues[0]) * (suwakiValues[3] - suwakiValues[2]) / (suwakiValues[1] - suwakiValues[0]) + suwakiValues[2]) / gray;
+                    double gray = Histogram.convert(r, g, b);
+                    double wspolczynnik = ((gray - sliderValues[0]) * (sliderValues[3] - sliderValues[2]) / (sliderValues[1] - sliderValues[0]) + sliderValues[2]) / gray;
                     r = erase256((int) (wspolczynnik * r));
                     g = erase256((int) (wspolczynnik * g));
                     b = erase256((int) (wspolczynnik * b));
@@ -359,7 +359,7 @@ public class HistogramDialog extends JDialog implements ActionListener, ChangeLi
     }
 
     public void odswiezHistogram() {
-        Histogram.wczytajDane(aktywnyHist);
+        Histogram.readData(aktywnyHist);
         histogramPanel.repaint();
         histogramPanel.revalidate();
         Form.refresh();

@@ -16,9 +16,9 @@ public class Median extends FilterPanel implements KeyListener {
     private int[] tabelaWartosciG = new int[256];
     private int[] tabelaWartosciB = new int[256];
     private int srodkowaWartoscMaski = 0;
-    private int[][] rMaskaValue;
-    private int[][] gMaskaValue;
-    private int[][] bMaskaValue;
+    private int[][] rMaskValue;
+    private int[][] gMaskValue;
+    private int[][] bMaskValue;
     private int superZnacznik = 0;
 
     public Median(JFrame parent) {
@@ -59,14 +59,14 @@ public class Median extends FilterPanel implements KeyListener {
         fields[0].setText("");
         if (notFullMask) {
             int tmp;
-            rMaskaValue = new int[sizeMask][sizeMask];
-            gMaskaValue = new int[sizeMask][sizeMask];
-            bMaskaValue = new int[sizeMask][sizeMask];
+            rMaskValue = new int[sizeMask][sizeMask];
+            gMaskValue = new int[sizeMask][sizeMask];
+            bMaskValue = new int[sizeMask][sizeMask];
             sumMask = 0;
             for (int i = 0; i < sizeMask; i++) {
-                rMaskaValue[i] = new int[sizeMask];
-                gMaskaValue[i] = new int[sizeMask];
-                bMaskaValue[i] = new int[sizeMask];
+                rMaskValue[i] = new int[sizeMask];
+                gMaskValue[i] = new int[sizeMask];
+                bMaskValue[i] = new int[sizeMask];
                 for (int j = 0; j < sizeMask; j++) {
                     tmp = (int) limitNumber(valueMask[i][j], 0, 1, 0);
                     valueMask[i][j] = tmp;
@@ -79,23 +79,23 @@ public class Median extends FilterPanel implements KeyListener {
                 for (int x = 0; x < Image.image.getWidth(); x++) {
                     for (int y = 0; y < Image.image.getHeight(); y++) {
                         if (y == 0) {
-                            obliczPierwszyPixel(x, y);
+                            calculateFirstPixel(x, y);
                         } else {
-                            obliczPixelOptimal(x, y);
+                            calculatePixelOptimal(x, y);
                         }
                     }
                 }
             } else {
                 for (int x = 0; x < Image.image.getWidth(); x++) {
                     for (int y = 0; y < Image.image.getHeight(); y++) {
-                        obliczPixel(x, y);
+                        calculatePixel(x, y);
                     }
                 }
             }
         }
     }
 
-    private void obliczPierwszyPixel(int x, int y) {
+    private void calculateFirstPixel(int x, int y) {
         int r, g, b, m, n, rgb;
         zerujTabeleWartosci();
 
@@ -103,46 +103,46 @@ public class Median extends FilterPanel implements KeyListener {
             for (int j = 0; j < sizeMask; j++) {
                 m = mirrorReflection(x + i - numMask, 'x');
                 n = mirrorReflection(y + j - numMask, 'y');
-                rMaskaValue[i][j] = r = red[m][n];
-                gMaskaValue[i][j] = g = green[m][n];
-                bMaskaValue[i][j] = b = blue[m][n];
+                rMaskValue[i][j] = r = red[m][n];
+                gMaskValue[i][j] = g = green[m][n];
+                bMaskValue[i][j] = b = blue[m][n];
                 tabelaWartosciR[r]++;
                 tabelaWartosciG[g]++;
                 tabelaWartosciB[b]++;
             }
         }
-        rgb = mediana();
+        rgb = median();
         Image.image.setRGB(x, y, rgb);
         superZnacznik = 0;
     }
 
-    private void obliczPixelOptimal(int x, int y) {
+    private void calculatePixelOptimal(int x, int y) {
         int r, g, b, m, n, rgb;
         int i = sizeMask - 1;
         n = mirrorReflection(y + i - numMask, 'y');
 
         for (int j = 0; j < sizeMask; j++) {
-            r = rMaskaValue[j][superZnacznik];
-            g = gMaskaValue[j][superZnacznik];
-            b = bMaskaValue[j][superZnacznik];
+            r = rMaskValue[j][superZnacznik];
+            g = gMaskValue[j][superZnacznik];
+            b = bMaskValue[j][superZnacznik];
             tabelaWartosciR[r]--;
             tabelaWartosciG[g]--;
             tabelaWartosciB[b]--;
             m = mirrorReflection(x + j - numMask, 'x');
-            rMaskaValue[j][superZnacznik] = r = red[m][n];
-            gMaskaValue[j][superZnacznik] = g = green[m][n];
-            bMaskaValue[j][superZnacznik] = b = blue[m][n];
+            rMaskValue[j][superZnacznik] = r = red[m][n];
+            gMaskValue[j][superZnacznik] = g = green[m][n];
+            bMaskValue[j][superZnacznik] = b = blue[m][n];
             tabelaWartosciR[r]++;
             tabelaWartosciG[g]++;
             tabelaWartosciB[b]++;
         }
-        rgb = mediana();
+        rgb = median();
         Image.image.setRGB(x, y, rgb);
         superZnacznik++;
         superZnacznik %= sizeMask;
     }
 
-    private void obliczPixel(int x, int y) {
+    private void calculatePixel(int x, int y) {
         int r, g, b, m, n, rgb;
         zerujTabeleWartosci();
 
@@ -160,12 +160,12 @@ public class Median extends FilterPanel implements KeyListener {
                 }
             }
         }
-        rgb = mediana();
+        rgb = median();
         Image.image.setRGB(x, y, rgb);
         superZnacznik = 0;
     }
 
-    private int mediana() {
+    private int median() {
         int r, g, b, rgb, tmp = 0;
         int rSrodWartTMP = srodkowaWartoscMaski;
         int gSrodWartTMP = srodkowaWartoscMaski;

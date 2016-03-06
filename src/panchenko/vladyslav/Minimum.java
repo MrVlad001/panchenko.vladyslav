@@ -64,7 +64,7 @@ public class Minimum extends FilterPanel implements KeyListener {
                 }
             }
         } else {
-            Image.wypelnij(0);
+            Image.writeData(0);
         }
     }
     
