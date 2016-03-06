@@ -72,17 +72,17 @@ public class FilterSplotUnsharpMask extends FilterPanel implements KeyListener {
         fields[2].setText("" + wspolczynnikUM);
         for (int x = 0; x < Image.image.getWidth(); x++) {
             for (int y = 0; y < Image.image.getHeight(); y++) {
-                obliczPixelWiersz(x, y);
+                calculatePixelRow(x, y);
             }
         }
         for (int x = 0; x < Image.image.getWidth(); x++) {
             for (int y = 0; y < Image.image.getHeight(); y++) {
-                obliczPixelKolumna(x, y);
+                calculatePixelColumn(x, y);
             }
         }
     }
-
-    private void obliczPixel(int x, int y) {
+    // oblicz pixel
+    private void calculatePixel(int x, int y) {
         double r = 0;
         double g = 0;
         double b = 0;
@@ -108,8 +108,8 @@ public class FilterSplotUnsharpMask extends FilterPanel implements KeyListener {
         rgb = jrgb(obetnij256(red[x][y] + r1), obetnij256(green[x][y] + g1), obetnij256(blue[x][y] + b1));
         Image.image.setRGB(x, y, rgb);
     }
-
-    private void obliczPixelWiersz(int x, int y) {
+    // oblicz pixel wiersz
+    private void calculatePixelRow(int x, int y) {
         double r = 0;
         double g = 0;
         double b = 0;
@@ -154,8 +154,8 @@ public class FilterSplotUnsharpMask extends FilterPanel implements KeyListener {
         }
         return result;
     }
-
-    private void obliczPixelKolumna(int x, int y) {
+    // oblicz pixel kolumna
+    private void calculatePixelColumn(int x, int y) {
         double r = 0;
         double g = 0;
         double b = 0;
