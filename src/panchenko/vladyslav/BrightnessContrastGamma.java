@@ -7,14 +7,14 @@ import javax.swing.JFrame;
  *
  * @author Vladyslav
  */
-public class JasnoscKontrastGamma extends SlidersPanel {
+public class BrightnessContrastGamma extends SlidersPanel {
 
     private boolean wywolanoKonstruktor = false;
 
-    public JasnoscKontrastGamma(JFrame parent) {
-        super(parent, "Jasność/Kontrast/Gamma", 3);
-        sliderLabels[0].setText("Jasność");
-        sliderLabels[1].setText("Kontrast");
+    public BrightnessContrastGamma(JFrame parent) {
+        super(parent, "Brightness/Contrast/Gamma", 3);
+        sliderLabels[0].setText("Brightness");
+        sliderLabels[1].setText("Contrast");
         sliderLabels[2].setText("Gamma");
 
         slider[0].setMinimum(-255);
@@ -29,7 +29,6 @@ public class JasnoscKontrastGamma extends SlidersPanel {
         slider[2].setMaximum(9);
         slider[2].setValue(0);
 
-//        setTabelaWartosciLUT();
         wywolanoKonstruktor = true;
     }
 
@@ -166,8 +165,5 @@ public class JasnoscKontrastGamma extends SlidersPanel {
         return (r << 16) + (g << 8) + b;
     }
 
-    /**0
-    
-     */
    
 }

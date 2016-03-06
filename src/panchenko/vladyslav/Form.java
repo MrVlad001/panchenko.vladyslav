@@ -143,7 +143,7 @@ public final class Form extends JFrame implements ActionListener, ChangeListener
         } else if (evt == exit) {
             dispose();
         } else if (evt == BCG) {
-            JasnoscKontrastGamma jkg = new JasnoscKontrastGamma(this);
+            BrightnessContrastGamma jkg = new BrightnessContrastGamma(this);
             jkg.setVisible(true);
         } else if (evt == histogram) {
             HistogramDialog hist = new HistogramDialog(this);
